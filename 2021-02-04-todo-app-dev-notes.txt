@@ -1,0 +1,40 @@
+Dev log
+04/02/2021
+Start of the project, first commit.
+
+07/02/2021
+Definition of objectives
+
+NOTES
+PRIMARY GOALS
+Build a todo-app from scratch, using react, redux and firebase.
+
+What do you need to create the app?
+	1. Initialize project (done)
+
+	2. Design user cases, user stories, or something to establish the data flows and needed operations
+	3. App design (UI and functionalities)
+
+	4. Build backend (it is going to be mostly firebase configuration)
+	5. Build front-end (components)
+	6. Wire back and front ends
+	7. Test
+	8. First MVP release
+
+	9. Document
+
+2. APP DESIGN
+	2.1 User cases
+		There is going to be just one user (its name will be 'user', lol).
+		'User' will have 3 basic user cases
+
+		a) See to-do list: You call the firebase data and pass it to redux, you'll need to create a reducer, some actions and wire them to a data rendering component.
+		b) Create a to-do list item: You will need a form, validate it (i guess we will use react-final-form) and use it to update the firebase data, I dont' know if redux is needed right here.
+		c) Edit a to-do list item
+			First you'll need the item data (fetching data from firebase)
+			Then you'll need to show the data
+			And lastly (trough a form) you will make the updates to firebase
+			The delete item is going to be a similar operation
+
+	2.2 UI and functionalities design
+		See diagrams at notebook

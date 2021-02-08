@@ -3,7 +3,10 @@ Dev log
 Start of the project, first commit.
 
 07/02/2021
-Definition of objectives
+Definition of objectives.
+
+08/02/2021
+App design.
 
 NOTES
 PRIMARY GOALS
@@ -12,16 +15,16 @@ Build a todo-app from scratch, using react, redux and firebase.
 What do you need to create the app?
 	1. Initialize project (done)
 
-	2. Design user cases, user stories, or something to establish the data flows and needed operations
-	3. App design (UI and functionalities)
+	2.1 Design user cases, user stories, or something to establish the data flows and needed operations
+	2.2 App design (UI and functionalities)
 
-	4. Build backend (it is going to be mostly firebase configuration)
-	5. Build front-end (components)
-	6. Wire back and front ends
-	7. Test
-	8. First MVP release
+	3.1 Build backend (it is going to be mostly firebase configuration)
+	3.2 Build front-end (components)
+	3.3 Wire back and front ends
+	3.4 Test
+	3.5 First MVP release
 
-	9. Document
+	4 Project documentation
 
 2. APP DESIGN
 	2.1 User cases
@@ -37,4 +40,20 @@ What do you need to create the app?
 			The delete item is going to be a similar operation
 
 	2.2 UI and functionalities design
-		See diagrams at notebook
+		The app will have two 'models' (in terms of design, not necessarily in code): User and Task
+		
+		USER
+			The app will be able to make all CRUD operations to this 'model'
+			This 'model' is required to implement the Login functionality
+			I dont' know yet all the components this 'model' needs (I hope firebase will take care of most of them), but at least some sort 'Login' will be needed for this to work. 
+		
+		TASK
+			Again, the app will be able to make all CRUD operations to this 'model'
+			This will be the 'core' of the app (its a to-do app after all, lol)
+
+			- TaskList
+			- TaskCard
+			- TaskForm (for both 'new task' and 'edit task' user cases)
+
+3. APP DEVELOPMENT
+	3.1 BACKEND: Firstly you need to check Firebase and React integrations to create the login, and all the 'users' CRUD

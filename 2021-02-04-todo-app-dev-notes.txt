@@ -1,12 +1,16 @@
 Dev log
 04/02/2021
-Start of the project, first commit.
+Start of the project, first commit
 
 07/02/2021
-Definition of objectives.
+Definition of objectives
 
 08/02/2021
-App design.
+App design
+
+09/02/2021
+Research
+Add react-router
 
 NOTES
 PRIMARY GOALS
@@ -56,4 +60,21 @@ What do you need to create the app?
 			- TaskForm (for both 'new task' and 'edit task' user cases)
 
 3. APP DEVELOPMENT
-	3.1 BACKEND: Firstly you need to check Firebase and React integrations to create the login, and all the 'users' CRUD
+	3.1 BACKEND: Firstly you need to check Firebase and React integrations to create the login, and all the 'users' CRUD. We are going to use this tutorial https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial (lol). And, in order for this stuff to work you need to add react-router to the app and play a little with some testing components. So we will be working simultaneously with the 'backend' and the frontend.
+
+	3.2 FRONTEND: The stuff the user see and interact with.
+		3.2.1 Add react-router to the app (https://reactrouter.com/web/guides/quick-start)
+			
+			'yarn add react-router-dom'
+			
+			Then you can import the react-router components that deal with the routes and links.
+			e.g.
+
+				import {
+				  BrowserRouter as Router,
+				  Switch,
+				  Route,
+				  Link
+				} from "react-router-dom";
+
+		3.2.2

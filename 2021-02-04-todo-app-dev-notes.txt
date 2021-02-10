@@ -12,6 +12,9 @@ App design
 Research
 Add react-router
 
+10/02/2021
+Files structure, react-router testing
+
 NOTES
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
@@ -77,4 +80,9 @@ What do you need to create the app?
 				  Link
 				} from "react-router-dom";
 
-		3.2.2
+		3.2.2 Create file structure for the components, make sure to follow a legible structure e.g. src/components/ {all the components}; src/containers; etc.
+
+COOL LINKS:
+https://firebase.google.com/docs/web/setup
+https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
+https://reactrouter.com/web/guides/quick-start

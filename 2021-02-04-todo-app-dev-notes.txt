@@ -82,7 +82,12 @@ What do you need to create the app?
 
 		3.2.2 Create file structure for the components, make sure to follow a legible structure e.g. src/components/ {all the components}; src/containers; etc.
 
+		3.2.3 Add react-router and write the routes constants and <Navigation> component
+
+
 COOL LINKS:
 https://firebase.google.com/docs/web/setup
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://reactrouter.com/web/guides/quick-start
+
+https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

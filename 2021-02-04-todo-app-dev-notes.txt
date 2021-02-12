@@ -15,6 +15,12 @@ Add react-router
 10/02/2021
 Files structure, react-router testing
 
+11/02/2021
+Adding empty components and navigation
+
+12/02/2021
+Adding more empty components, adding firebase
+
 NOTES
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
@@ -65,6 +71,11 @@ What do you need to create the app?
 3. APP DEVELOPMENT
 	3.1 BACKEND: Firstly you need to check Firebase and React integrations to create the login, and all the 'users' CRUD. We are going to use this tutorial https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial (lol). And, in order for this stuff to work you need to add react-router to the app and play a little with some testing components. So we will be working simultaneously with the 'backend' and the frontend.
 
+		3.1.1 Creating Firebase backend
+
+			3.1.1.1 Create a firebase account and go to the console (https://console.firebase.google.com/)
+			3.1.1.2 Create project, get configuration object, be careful lol (https://firebase.google.com/docs/web/setup)
+
 	3.2 FRONTEND: The stuff the user see and interact with.
 		3.2.1 Add react-router to the app (https://reactrouter.com/web/guides/quick-start)
 			
@@ -83,6 +94,8 @@ What do you need to create the app?
 		3.2.2 Create file structure for the components, make sure to follow a legible structure e.g. src/components/ {all the components}; src/containers; etc.
 
 		3.2.3 Add react-router and write the routes constants and <Navigation> component
+
+		3.2.4 Add dummy components for route testing (we will be updating them later)
 
 
 COOL LINKS:

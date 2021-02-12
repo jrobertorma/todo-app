@@ -8,6 +8,10 @@ import {
 import * as ROUTES from '../../constants/routes';
 
 import SignIn from '../SignIn';
+import Landing from '../Landing';
+import Home from '../Home';
+import Account from '../Account';
+import Admin from '../Admin';
 
 function Navigation() {
     return (
@@ -38,16 +42,16 @@ function Navigation() {
                 <SignIn/>
             </Route>
             <Route exact path={ROUTES.LANDING}>
-                <SignIn/>
+                <Landing/>
             </Route>
             <Route exact path={ROUTES.HOME}>
-                <SignIn/>
+                <Home/>
             </Route>
             <Route exact path={ROUTES.ACCOUNT}>
-                <SignIn/>
+                <Account/>
             </Route>
             <Route exact path={ROUTES.ADMIN}>
-                <SignIn/>
+                <Admin/>
             </Route>
           </Switch>
         </div>

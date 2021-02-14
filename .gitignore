@@ -23,5 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /src/containers/App/firebase-config.js
+/src/components/Firebase/firebase.js
 
 .eslintcache

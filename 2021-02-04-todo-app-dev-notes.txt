@@ -88,10 +88,10 @@ What do you need to create the app?
 			3.1.2.1 Create a firebase account and go to the console (https://console.firebase.google.com/)
 			3.1.2.2 Create project, get configuration object, be careful lol (https://firebase.google.com/docs/web/setup)
 			3.1.2.3 Create configuration variables, we are going to use the .env.development.local file to store the api keys, note that this is only for development, you should store production secret keys on the backend (https://stackoverflow.com/questions/48699820/how-do-i-hide-api-key-in-create-react-app)
-			3.1.2.4 Add firebase support through react's context api
+			3.1.2.4 Add firebase support through react's context api (src\components\Firebase\context.js)
 			3.1.2.5 Add firebase auth api support to the firebase class (on src\components\Firebase\firebase.js see the notes at the end of this file)
 
-	3.2 FRONTEND: The stuff the user see and interact with.
+	3.2 FRONTEND: The stuff the user see and interacts with.
 		3.2.1 Add react-router to the app (https://reactrouter.com/web/guides/quick-start)
 			
 			'yarn add react-router-dom'
@@ -108,9 +108,13 @@ What do you need to create the app?
 
 		3.2.2 Create file structure for the components, make sure to follow a legible structure e.g. src/components/ {all the components}; src/containers; etc.
 
-		3.2.3 Add react-router and write the routes constants and <Navigation> component
+		3.2.3 Add react-router and write the routes constants and <Navigation> component (src\constants\routes.js and src\components\Navigation\index.js)
 
 		3.2.4 Add dummy components for route testing (we will be updating them later)
+
+		3.2.5 Create Auth Components
+
+			3.2.5.1 SignUp components
 
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -123,7 +127,7 @@ import 'firebase/auth'
 
 const config = {
  /*
- 	The firebase configuration object or the env vars calls (just for development stage)
+ 	The firebase configuration object or the env vars callings (just for development stage)
  */
 };
 

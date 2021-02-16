@@ -21,3 +21,10 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+/**
+ * The entry point of the app.
+ * 
+ * We wrap the App component on the FirebaseContext component (see src/components/Firebase/index.js)
+ * so we can use the firebase functions trough the app 
+ */

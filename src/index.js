@@ -26,5 +26,5 @@ reportWebVitals();
  * The entry point of the app.
  * 
  * We wrap the App component on the FirebaseContext component (see src/components/Firebase/index.js)
- * so we can use the firebase functions trough the app 
+ * so we can use the firebase functions througout the app 
  */

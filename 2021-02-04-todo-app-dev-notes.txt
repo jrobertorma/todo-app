@@ -30,6 +30,12 @@ Adding firebase config and using react context api to provide firebase to all ap
 15/02/2021
 Adding firebase auth api to src\components\Firebase\firebase.js (untracked by git, it has the firebase config)
 
+16/02/2021
+Research and comments
+
+17/02/2021
+
+
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
 

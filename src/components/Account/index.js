@@ -1,4 +1,4 @@
-const Account = () => {
+const AccountPage = () => {
     return ( 
         <div>
             YOYOYOYO, I'M ACCOUNT
@@ -6,4 +6,4 @@ const Account = () => {
      );
 }
  
-export default Account;
+export default AccountPage;

@@ -1,4 +1,4 @@
-const Landing = () => {
+const LandingPage = () => {
     return ( 
         <div>
             YOYOYO, I'M LANDINGGGG
@@ -6,4 +6,4 @@ const Landing = () => {
      );
 }
  
-export default Landing;
+export default LandingPage;

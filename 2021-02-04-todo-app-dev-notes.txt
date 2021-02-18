@@ -34,7 +34,10 @@ Adding firebase auth api to src\components\Firebase\firebase.js (untracked by gi
 Research and comments
 
 17/02/2021
+Adding signUp components
 
+18/02/2021
+Adding signUp components
 
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
@@ -121,6 +124,9 @@ What do you need to create the app?
 		3.2.5 Create Auth Components
 
 			3.2.5.1 SignUp components
+
+	3.3 CONNECT FRONTEND AND BACKEND
+		3.3.1 Here: 'Now the registration of a new user should work. However, I’d like to make one improvement on how we access the Firebase instance here.'
 
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

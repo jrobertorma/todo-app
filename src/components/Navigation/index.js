@@ -7,11 +7,13 @@ import {
 
 import * as ROUTES from '../../constants/routes';
 
-import SignIn from '../SignIn';
-import Landing from '../Landing';
-import Home from '../Home';
-import Account from '../Account';
-import Admin from '../Admin';
+import SignInPage from '../SignIn';
+import LandingPage from '../Landing';
+import HomePage from '../Home';
+import AccountPage from '../Account';
+import AdminPage from '../Admin';
+import SignUpPage from '../SignUp';
+import PasswordForgetPage from '../PasswordForget';
 
 function Navigation() {
     return (
@@ -39,19 +41,25 @@ function Navigation() {
   
           <Switch>
             <Route exact path={ROUTES.SIGN_IN}>
-                <SignIn/>
+                <SignInPage/>
             </Route>
             <Route exact path={ROUTES.LANDING}>
-                <Landing/>
+                <LandingPage/>
             </Route>
             <Route exact path={ROUTES.HOME}>
-                <Home/>
+                <HomePage/>
             </Route>
             <Route exact path={ROUTES.ACCOUNT}>
-                <Account/>
+                <AccountPage/>
             </Route>
             <Route exact path={ROUTES.ADMIN}>
-                <Admin/>
+                <AdminPage/>
+            </Route>
+            <Route exact path={ROUTES.SIGN_UP}>
+                <SignUpPage/>
+            </Route>
+            <Route exact path={ROUTES.PASSWORD_FORGET}>
+                <PasswordForgetPage/>
             </Route>
           </Switch>
         </div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
+import { FirebaseContext } from '../Firebase';
 
 const INITIAL_STATE = {
     username: '',
@@ -12,11 +13,15 @@ const INITIAL_STATE = {
 };
 
 const SignUpPage = () => {
-    <div>
-        <h1>SignUp</h1>
-        <SignUpForm />
-    </div>
-};
+    return ( 
+        <div>
+            <h1>SignUp</h1>
+            <FirebaseContext.Consumer>
+                {firebase => <SignUpForm firebase={firebase} />}
+            </FirebaseContext.Consumer>
+        </div>
+    );
+}
 
 class SignUpForm extends Component {
     constructor(props) {
@@ -26,7 +31,18 @@ class SignUpForm extends Component {
     }
 
     onSubmit = event => {
+        const { username, email, passwordOne } = this.state; //destructuring asignement
 
+        this.props.firebase
+            .doCreateUserWithEmailAndPassword(email, passwordOne)
+            .then(authUser => {
+                this.setState({ ...INITIAL_STATE });
+            })
+            .catch(error => {
+                this.setState({ error });
+            });
+    
+        event.preventDefault();
     };
 
     onChange = event => {
@@ -42,10 +58,16 @@ class SignUpForm extends Component {
             error,
         } = this.state; 
         /*
-        * we are using the 'Destructuring assignment' syntax here, it works like this:
+        * we are using the 'Destructuring assignment' syntax, it works like this:
         * const [a, b] = [1, 2, 3, 4, 5, 6];
         * console.log(a, b); // 1, 2
         */
+
+        const isInvalid =
+        passwordOne !== passwordTwo ||
+        passwordOne === '' ||
+        email === '' ||
+        username === '';
 
         return(
             <form onSubmit={this.onSubmit}>
@@ -81,7 +103,9 @@ class SignUpForm extends Component {
                     placeholder="Confirm Password"
                 />
                 
-                <button type="submit">Sign Up</button>
+                <button disabled={isInvalid} type="submit">
+                    Sign Up
+                </button>
 
                 {error && <p>{error.message}</p> /*conditional rendering*/}
             </form>

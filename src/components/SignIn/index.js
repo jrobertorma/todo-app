@@ -1,4 +1,4 @@
-const SingIn = () => {
+const SingInPage = () => {
     return(
         <div>
             YOYOYO I'M SIGNIN BRO
@@ -6,4 +6,4 @@ const SingIn = () => {
     );
 }
  
-export default SingIn;
+export default SingInPage;

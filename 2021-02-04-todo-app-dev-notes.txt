@@ -33,10 +33,7 @@ Adding firebase auth api to src\components\Firebase\firebase.js (untracked by gi
 16/02/2021
 Research and comments
 
-17/02/2021
-Adding signUp components
-
-18/02/2021
+17-19/02/2021
 Adding signUp components
 
 PRIMARY GOALS

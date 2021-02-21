@@ -130,7 +130,9 @@ What do you need to create the app?
 * * * * * * * * * * * * * * * N O T E S * * * * * * * * * * * * * * *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-src\components\Firebase\firebase.js
+These are the contents of 'src\components\Firebase\firebase.js', the config file, it is important to note that you shouldn't use this kind of 
+file on a production app, the best practice is to set the firebase connection through a backend (e.g. expreess).
+
 import app from "firebase/app";
 import 'firebase/auth'
 
@@ -165,9 +167,52 @@ class Firebase {
 
 export default Firebase;
 
+You also may want to add a firebase context to the app, so you don't need to create a firebase app instance for every component you need.
+There is more info at https://reactjs.org/docs/context.html#reactcreatecontext.
+
+We do that in the src\components\Firebase\context.js file as:
+
+	import React from 'react';
+
+	const FirebaseContext = React.createContext(null);
+
+	export const withFirebase = Component => props => (
+	    <FirebaseContext.Consumer>
+	      {firebase => <Component {...props} firebase={firebase} />}
+	    </FirebaseContext.Consumer>
+	);
+
+	export default FirebaseContext;
+
+We can use the firebase context like this:
+
+	const SignUpForm = withRouter(withFirebase(SignUpFormBase));
+
+The SignUpFormBase component has this code on its onSubmit event handler:
+
+	this.props.firebase
+        .doCreateUserWithEmailAndPassword(email, passwordOne)
+        .then(authUser => {
+            this.setState({ ...INITIAL_STATE });
+            this.props.history.push(ROUTES.HOME); /*redirect using history props 
+            (we can do this because we added withRouter to the SignUpForm component (line 122))*/
+        })
+        .catch(error => {
+            this.setState({ error });
+        });
+
+Here we are using the Auth API we defined at 'src\components\Firebase\firebase.js'. The call to doCreateUserWithEmailAndPassword triggers
+the firebase this.auth.createUserWithEmailAndPassword(email, password); function (you can see the docs at: https://firebase.google.com/docs/auth/web/firebaseui?authuser=1).
+
+
 COOL LINKS:
 https://firebase.google.com/docs/web/setup
+
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
+https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup
+
 https://reactrouter.com/web/guides/quick-start
 
-https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup
+https://reactjs.org/docs/context.html#reactcreatecontext.
+
+https://firebase.google.com/docs/auth/web/firebaseui?authuser=1

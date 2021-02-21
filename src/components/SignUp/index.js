@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
-import { FirebaseContext } from '../Firebase';
 import { withFirebase } from '../Firebase';
 
 const INITIAL_STATE = {
@@ -36,6 +35,8 @@ class SignUpFormBase extends Component {
             .doCreateUserWithEmailAndPassword(email, passwordOne)
             .then(authUser => {
                 this.setState({ ...INITIAL_STATE });
+                this.props.history.push(ROUTES.HOME); /*redirect using history props 
+                (we can do this because we added withRouter to the SignUpForm component (line 122))*/
             })
             .catch(error => {
                 this.setState({ error });
@@ -118,7 +119,7 @@ const SignUpLink = () => {
     </p>
 }
 
-const SignUpForm = withFirebase(SignUpFormBase);
+const SignUpForm = withRouter(withFirebase(SignUpFormBase)); //adding router history, to the component wrapped by firebase context
 
 export default SignUpPage;
 
@@ -127,4 +128,9 @@ export { SignUpForm, SignUpLink };
 /**
  * Page, Form, and Links for the user to SignUp, on the first version we are going to use just the react's core state management
  * maybe we will change to react-final-form and material-ui later.
+ * 
+ * Any component that goes in the withRouter() higher-order component gains access to all the properties of the router, so when 
+ * passing the enhanced SignUpFormBase component to the withRouter() higher-order component, it has access to the props of the router. 
+ * The relevant property from the router props is the history object, because it allows us to redirect a user to another page 
+ * by pushing a route to it.
  */

@@ -33,7 +33,7 @@ Adding firebase auth api to src\components\Firebase\firebase.js (untracked by gi
 16/02/2021
 Research and comments
 
-17-19/02/2021
+17-20/02/2021
 Adding signUp components
 
 PRIMARY GOALS
@@ -202,17 +202,35 @@ The SignUpFormBase component has this code on its onSubmit event handler:
         });
 
 Here we are using the Auth API we defined at 'src\components\Firebase\firebase.js'. The call to doCreateUserWithEmailAndPassword triggers
-the firebase this.auth.createUserWithEmailAndPassword(email, password); function (you can see the docs at: https://firebase.google.com/docs/auth/web/firebaseui?authuser=1).
+the firebase this.auth.createUserWithEmailAndPassword(email, password); function (you can see the docs for this kind of auth method at: https://firebase.google.com/docs/auth/web/password-auth, here you'll the functions we can use with firebase.auth() on 'src\components\Firebase\firebase.js').
 
+Other interesting stuff about SignUpFormBase
+
+I didn't bind the handlers and they still work!, and that is because we use arrow functions to define them 
+(see: https://medium.com/@joespinelli_6190/using-arrow-functions-to-avoid-binding-this-in-react-5d7402eec64)
+
+Also, as we are dealing with multiple input fields, the onChange handler makes use of the event.target.name var, 
+we can read at the docs on this matter:
+
+"When you need to handle multiple controlled input elements, you can add a name attribute to each element 
+and let the handler function choose what to do based on the value of event.target.name."
+
+The handler example is:
+
+handleInputChange(event) {
+	const target = event.target;
+	const value = target.type === 'checkbox' ? target.checked : target.value;
+	const name = target.name;
+
+	this.setState({
+  		[name]: value
+	});
+} 
+
+see https://reactjs.org/docs/forms.html#handling-multiple-inputs.
 
 COOL LINKS:
-https://firebase.google.com/docs/web/setup
-
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup
-
-https://reactrouter.com/web/guides/quick-start
-
-https://reactjs.org/docs/context.html#reactcreatecontext.
 
 https://firebase.google.com/docs/auth/web/firebaseui?authuser=1

@@ -15,6 +15,8 @@ import AdminPage from '../Admin';
 import SignUpPage from '../SignUp';
 import PasswordForgetPage from '../PasswordForget';
 
+import SignOutButton from '../SignOut'; 
+
 function Navigation() {
     return (
       <Router>
@@ -34,6 +36,9 @@ function Navigation() {
             </li>
             <li>
               <Link to={ROUTES.ADMIN}>Admin</Link>
+            </li>
+            <li>
+              <SignOutButton />
             </li>
           </ul>
   

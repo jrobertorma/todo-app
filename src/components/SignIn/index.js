@@ -55,7 +55,7 @@ class SignInFormBase extends Component {
         const isInvalid = password === '' || email === '';
 
         return(
-            <form>
+            <form onSubmit={this.onSubmit}>
                 <input 
                     name="email"
                     value={email}
@@ -84,3 +84,5 @@ class SignInFormBase extends Component {
 const SignInForm = withRouter(withFirebase(SignInFormBase));
 
 export default SingInPage;
+
+export { SignInForm };

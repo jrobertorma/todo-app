@@ -134,7 +134,7 @@ What do you need to create the app?
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 These are the contents of 'src\components\Firebase\firebase.js', the config file, it is important to note that you shouldn't use this kind of 
-file on a production app, the best practice is to set the firebase connection through a backend (e.g. expreess).
+file on a production app, the best practice is to set the firebase connection through a backend (e.g. express).
 
 import app from "firebase/app";
 import 'firebase/auth'
@@ -170,7 +170,7 @@ class Firebase {
 
 export default Firebase;
 
-You also may want to add a firebase context to the app, so you don't need to create a firebase app instance for every component you need.
+You also may want to add a firebase context to the app, so you don't need to create a firebase app instance for every component you use.
 There is more info at https://reactjs.org/docs/context.html#reactcreatecontext.
 
 We do that in the src\components\Firebase\context.js file as:
@@ -186,6 +186,8 @@ We do that in the src\components\Firebase\context.js file as:
 	);
 
 	export default FirebaseContext;
+
+	export { withFirebase };
 
 We can use the firebase context like this:
 

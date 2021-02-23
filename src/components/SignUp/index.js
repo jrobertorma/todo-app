@@ -114,9 +114,11 @@ class SignUpFormBase extends Component {
 }
 
 const SignUpLink = () => {
-    <p>
-        Don't have an account? <Link to={ROUTES.SIGN_UP}>SignUp</Link>
-    </p>
+    return ( 
+        <p>
+            Don't have an account? <Link to={ROUTES.SIGN_UP}>SignUp</Link>
+        </p>
+    );
 }
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase)); //adding router history, to the component wrapped by firebase context

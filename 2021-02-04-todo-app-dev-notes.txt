@@ -36,6 +36,9 @@ Research and comments
 17-20/02/2021
 Adding signUp components
 
+21-22/02/2021
+Adding signIn components
+
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
 
@@ -202,7 +205,7 @@ The SignUpFormBase component has this code on its onSubmit event handler:
         });
 
 Here we are using the Auth API we defined at 'src\components\Firebase\firebase.js'. The call to doCreateUserWithEmailAndPassword triggers
-the firebase this.auth.createUserWithEmailAndPassword(email, password); function (you can see the docs for this kind of auth method at: https://firebase.google.com/docs/auth/web/password-auth, here you'll the functions we can use with firebase.auth() on 'src\components\Firebase\firebase.js').
+the firebase this.auth.createUserWithEmailAndPassword(email, password); function (you can see the docs for this kind of auth method at: https://firebase.google.com/docs/auth/web/password-auth, here you'll find the functions we can use with firebase.auth() on 'src\components\Firebase\firebase.js').
 
 Other interesting stuff about SignUpFormBase
 
@@ -228,6 +231,8 @@ handleInputChange(event) {
 } 
 
 see https://reactjs.org/docs/forms.html#handling-multiple-inputs.
+
+
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

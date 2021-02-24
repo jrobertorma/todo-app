@@ -39,6 +39,12 @@ Adding signUp components
 21-22/02/2021
 Adding signIn components
 
+23/02/2021
+Adding signOut component
+
+24/02/2021
+Adding session handling
+
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
 
@@ -124,14 +130,18 @@ What do you need to create the app?
 		3.2.5 Create Auth Components
 
 			3.2.5.1 SignUp components
+			3.2.5.2 SignIn components
+			3.2.5.3 SignOut components
 
 	3.3 CONNECT FRONTEND AND BACKEND
-		3.3.1 Here: 'Now the registration of a new user should work. However, I’d like to make one improvement on how we access the Firebase instance here.'
-
+		3.3.1 Set firebase context
+		3.3.2 Add session handling
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * * * * * * * * * * * * * * * N O T E S * * * * * * * * * * * * * * *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+---------------------- FIREBASE ----------------------
 
 These are the contents of 'src\components\Firebase\firebase.js', the config file, it is important to note that you shouldn't use this kind of 
 file on a production app, the best practice is to set the firebase connection through a backend (e.g. express).
@@ -209,7 +219,7 @@ The SignUpFormBase component has this code on its onSubmit event handler:
 Here we are using the Auth API we defined at 'src\components\Firebase\firebase.js'. The call to doCreateUserWithEmailAndPassword triggers
 the firebase this.auth.createUserWithEmailAndPassword(email, password); function (you can see the docs for this kind of auth method at: https://firebase.google.com/docs/auth/web/password-auth, here you'll find the functions we can use with firebase.auth() on 'src\components\Firebase\firebase.js').
 
-Other interesting stuff about SignUpFormBase
+---------------------- OTHER INTERESTING STUFF ABOUT SignUpFormBase ----------------------
 
 I didn't bind the handlers and they still work!, and that is because we use arrow functions to define them 
 (see: https://medium.com/@joespinelli_6190/using-arrow-functions-to-avoid-binding-this-in-react-5d7402eec64)
@@ -234,7 +244,20 @@ handleInputChange(event) {
 
 see https://reactjs.org/docs/forms.html#handling-multiple-inputs.
 
+---------------------- SESSION HANDLING ----------------------
+Once we have the 'users loop' components (i.e. signin, login and logout), it is time to add session handling capabilities
+to the app.
 
+We need to let every component concerned on the session state, about the state of the loged in user.
+
+From the book: "Logic regarding the current authenticated user needs to be stored and made accessible to other components."
+
+Most developers use redux or mobx to achieve that.
+
+But, we're going to use the react global state management instead.
+
+So we need to track the authenticated user's state from the root component, and then pass it down to the children components 
+that are interested in the logged in user (e.g. the nav, so you don't show the sign out button to a non logged in user). 
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

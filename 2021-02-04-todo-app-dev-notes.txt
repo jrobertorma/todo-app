@@ -42,7 +42,7 @@ Adding signIn components
 23/02/2021
 Adding signOut component
 
-24/02/2021
+24-25/02/2021
 Adding session handling
 
 PRIMARY GOALS

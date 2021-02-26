@@ -6,9 +6,11 @@ import * as ROUTES from '../../constants/routes';
 import SignOutButton from '../SignOut'; 
 
 const Navigation = ( {authUser} ) => {
-  <div>
-    { authUser ? <NavigationAuth /> : <NavigationNonAuth /> }
-  </div>
+  return (
+    <div>
+      { authUser ? <NavigationAuth /> : <NavigationNonAuth /> }
+    </div>
+  );
 }
 
 const NavigationAuth = () => {

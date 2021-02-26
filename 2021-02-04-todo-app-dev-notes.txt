@@ -42,7 +42,7 @@ Adding signIn components
 23/02/2021
 Adding signOut component
 
-24-25/02/2021
+24-26/02/2021
 Adding session handling
 
 PRIMARY GOALS
@@ -248,7 +248,7 @@ see https://reactjs.org/docs/forms.html#handling-multiple-inputs.
 Once we have the 'users loop' components (i.e. signin, login and logout), it is time to add session handling capabilities
 to the app.
 
-We need to let every component concerned on the session state, about the state of the loged in user.
+We need to let every component concerned on the session state, to know about the state of the loged in user.
 
 From the book: "Logic regarding the current authenticated user needs to be stored and made accessible to other components."
 
@@ -258,6 +258,10 @@ But, we're going to use the react global state management instead.
 
 So we need to track the authenticated user's state from the root component, and then pass it down to the children components 
 that are interested in the logged in user (e.g. the nav, so you don't show the sign out button to a non logged in user). 
+
+"Firebase offers a listener function to get the authenticated user from Firebase" (onAuthStateChanged), we use it in the App component.
+
+The signOut button doesn't work, see what's happening.
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

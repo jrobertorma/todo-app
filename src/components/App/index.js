@@ -29,6 +29,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    //firebase observer
     this.listener = this.props.firebase.auth.onAuthStateChanged(
       (authUser) => {
         authUser

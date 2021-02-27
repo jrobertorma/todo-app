@@ -2,7 +2,7 @@ import React from "react";
 
 import { withFirebase } from "../Firebase";
 
-const SignOutButton = ( firebase ) => {
+const SignOutButton = ({ firebase }) => {
     return ( 
         <button type="button" onClick={firebase.doSignOut}>
             SignOut
@@ -17,4 +17,7 @@ export default withFirebase(SignOutButton);
  * wich is defined at src\components\Firebase\firebase.js (untracked by git, see the developer notes)
  * 
  * See how we export the component after we wrap it with the withFirebase context (see src\components\Firebase\index.js)
+ * 
+ * Vital fact: 'firebase' is a js var, so when you catch it as a function param, you should wrap it 
+ * between curly braces ( '{ }' ) 
  */

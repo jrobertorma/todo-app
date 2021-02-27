@@ -261,7 +261,18 @@ that are interested in the logged in user (e.g. the nav, so you don't show the s
 
 "Firebase offers a listener function to get the authenticated user from Firebase" (onAuthStateChanged), we use it in the App component.
 
-The signOut button doesn't work, see what's happening.
+See the src\components\App\index.js file.
+
+We export app as a parameter of 'withFirebase', so we can use firebase functions within the component.
+
+Next we use the componentDidMount function to add a listener to the firebase auth state (see the docs at: 
+https://firebase.google.com/docs/auth/web/manage-users), this is called an 'observer'.
+
+Inside the 'observer' function you can define what happens when a user is logged in and what happens when is not logged in.
+
+We change the value of the 'authUser' state and pass it to the 'Navigation' component.
+
+That component catches the 'authUser' value as a prop and then pass it as a condition to a ternary operator to render the logged or non loged navigation links. 
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

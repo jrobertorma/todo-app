@@ -20,6 +20,8 @@ import AdminPage from '../Admin';
 import SignUpPage from '../SignUp';
 import PasswordForgetPage from '../PasswordForget';
 
+import { AuthUserContext } from "../Session";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -44,36 +46,38 @@ class App extends Component {
   }
 
   render() { 
-    return ( 
-      <Router>
-        <div>
-          <Navigation authUser={this.state.authUser} />
-          <hr />
-          <Switch>
-            <Route exact path={ROUTES.LANDING}>
-                <LandingPage/>
-            </Route>
-            <Route exact path={ROUTES.SIGN_UP}>
-                <SignUpPage/>
-            </Route>
-            <Route exact path={ROUTES.SIGN_IN}>
-                <SignInPage/>
-            </Route>
-            <Route exact path={ROUTES.PASSWORD_FORGET}>
-                <PasswordForgetPage/>
-            </Route>
-            <Route exact path={ROUTES.HOME}>
-                <HomePage/>
-            </Route>
-            <Route exact path={ROUTES.ACCOUNT}>
-                <AccountPage/>
-            </Route>
-            <Route exact path={ROUTES.ADMIN}>
-                <AdminPage/>
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+    return (
+      <AuthUserContext.Provider value={this.state.authUser}>
+        <Router>
+          <div>
+            <Navigation />
+            <hr />
+            <Switch>
+              <Route exact path={ROUTES.LANDING}>
+                  <LandingPage/>
+              </Route>
+              <Route exact path={ROUTES.SIGN_UP}>
+                  <SignUpPage/>
+              </Route>
+              <Route exact path={ROUTES.SIGN_IN}>
+                  <SignInPage/>
+              </Route>
+              <Route exact path={ROUTES.PASSWORD_FORGET}>
+                  <PasswordForgetPage/>
+              </Route>
+              <Route exact path={ROUTES.HOME}>
+                  <HomePage/>
+              </Route>
+              <Route exact path={ROUTES.ACCOUNT}>
+                  <AccountPage/>
+              </Route>
+              <Route exact path={ROUTES.ADMIN}>
+                  <AdminPage/>
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </AuthUserContext.Provider>
     );
   }
 }

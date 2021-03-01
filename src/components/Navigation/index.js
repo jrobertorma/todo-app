@@ -52,3 +52,12 @@ const NavigationNonAuth = () => {
 }
 
 export default Navigation;
+
+/**
+ * This components are used as the nav bar. The react-router routes are defined at src\components\App\index.js, the App component also
+ * calls this one to implement the navigation.
+ * 
+ * See how we use the AuthUserContext as consumer to know the authUser state and then decide wich set of links to return (line 15).
+ * 
+ * That was defined at src\components\Session\withAuthentication.js, and added to this component on src\components\App\index.js.
+ */

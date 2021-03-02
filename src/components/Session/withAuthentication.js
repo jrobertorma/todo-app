@@ -64,4 +64,7 @@ export default withAuthentication;
  * 
  * Now we can call the 'AuthUserContext' context and use it to know the authUser state without needing to pass it trhough the component tree
  * (see src\components\Navigation\index.js to see how do you call the context). 
+ * 
+ * This pattern is called 'higher order component', wich basically means: 'a function that takes a component and returns a new component' 
+ * see https://reactjs.org/docs/higher-order-components.html form more info.
  */

@@ -42,8 +42,14 @@ Adding signIn components
 23/02/2021
 Adding signOut component
 
-24-26/02/2021
+24-28/02/2021
 Adding session handling
+
+01/03/2021
+Adding session handling
+
+02/03/2021
+Adding password management
 
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
@@ -136,6 +142,7 @@ What do you need to create the app?
 	3.3 CONNECT FRONTEND AND BACKEND
 		3.3.1 Set firebase context
 		3.3.2 Add session handling
+		3.3.3 Add password management
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * * * * * * * * * * * * * * * N O T E S * * * * * * * * * * * * * * *
@@ -272,7 +279,33 @@ Inside the 'observer' function you can define what happens when a user is logged
 
 We change the value of the 'authUser' state and pass it to the 'Navigation' component.
 
-That component catches the 'authUser' value as a prop and then pass it as a condition to a ternary operator to render the logged or non loged navigation links. 
+That component catches the 'authUser' value as a prop and then pass it as a condition to a ternary operator to render the logged or non loged navigation links.
+
+It may be tedious to pass all the authUser state to every component through all the 'component tree', just for a couple of them to actually use it.
+
+That is why we are going to use (again) the react context api to provide the session's state just to the components that use it.
+
+First we create the context that is going to store the state (src\components\Session\context.js).
+
+Then we create a withAuthentication class, that is going to manage the firebase auth state, this means that we will have to move all the authUser logic to this component from the App component (you know, all the 'observer' and 'onAuthStateChanged' stuff, see src\components\Session\withAuthentication.js).
+
+Then we add the auth 'observer' to the context
+
+	<AuthUserContext.Provider value={this.state.authUser}> //the context, we add the authUser as a prop to any component that calls withAuthentication
+        <Component {...this.props} />
+    </AuthUserContext.Provider>
+
+Now we can use the authUser state anywhere, e.g. in src\components\Navigation\index.js
+
+	<AuthUserContext.Consumer> //we call the context and then use its props
+		{ 
+	  		(authUser) =>  authUser ? <NavigationAuth /> : <NavigationNonAuth /> 
+		}
+	</AuthUserContext.Consumer>
+
+It is important to note that we need to allow the component tree to use the function, therefore we added it in the App component's export:
+
+	export default withAuthentication(App); //We can use withAuthentication in all the App's children
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

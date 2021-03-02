@@ -29,5 +29,7 @@ export default FirebaseContext;
               .catch(error => {
                   this.setState({ error });
               });
- * 
+ *
+ * This pattern is called 'higher order component', wich basically means: 'a function that takes a component and returns a new component' 
+ * see https://reactjs.org/docs/higher-order-components.html form more info.
  */

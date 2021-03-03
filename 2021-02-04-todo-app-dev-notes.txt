@@ -51,6 +51,9 @@ Adding session handling
 02/03/2021
 Adding password management
 
+03/03/2021
+Adding password forget component
+
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
 
@@ -306,6 +309,9 @@ Now we can use the authUser state anywhere, e.g. in src\components\Navigation\in
 It is important to note that we need to allow the component tree to use the function, therefore we added it in the App component's export:
 
 	export default withAuthentication(App); //We can use withAuthentication in all the App's children
+
+---------------------- PASSWORD MANAGEMENT ----------------------
+Now we can add the password management components. These are: passwordForget and changePassword.
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

@@ -25,12 +25,27 @@ class PasswordForgetFormBase extends Component {
         this.state = { ...INITIAL_STATE };
     }
 
-    onSubmit = () => {
+    onSubmit = (event) => {
+        const { email } = this.state;
 
+        this.props.withFirebase
+            .doPasswordReset(email)
+            .then(
+                () => {
+                    this.setState({ ...INITIAL_STATE });
+                }
+            )
+            .catch(
+                (error) => {
+                    this.setState({ error });
+                }
+            );
+
+        event.preventDefault();
     }
 
-    onChnage = () => {
-
+    onChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
     }
 
     render() {
@@ -67,3 +82,19 @@ export default PasswordForgetPage;
 const PasswordForgetForm = withFirebase(PasswordForgetFormBase);
 
 export { PasswordForgetForm, PasswordForgetLink };
+
+/**
+ * The passwordForget form.
+ * 
+ * We will be callin this components when we need to reset a password.
+ * 
+ * We export the base form with 'withFirebase(PasswordForgetFormBase);', so we cn call the firebase API.
+ * 
+ * And we do it at the PasswordForgetFormBase onSubmit event. We get the email from the state (this is a controlled component)
+ * , then use it as a parameter of the .doPasswordReset() firebase's function.
+ * 
+ * Then we reset the form ();
+ * 
+ * We also have a PasswordForgetLink component, we can call later from another component (see src/components/SignIn/index.js)
+ * 
+ */

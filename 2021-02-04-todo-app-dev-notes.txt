@@ -57,6 +57,9 @@ Adding password forget component
 04/03/2021
 Adding password forget component
 
+05/03/2021
+Adding change password component
+
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
 
@@ -316,12 +319,21 @@ It is important to note that we need to allow the component tree to use the func
 ---------------------- PASSWORD MANAGEMENT ----------------------
 Now we can add the password management components. These are: passwordForget and changePassword.
 
-In the passwordForget we use a form, similar to the SignUpForm component.
+In the passwordForget component we use a form, similar to the SignUpForm component.
 
-First we define a PasswordForgetFormBase statefull class component, that will be displaying the form, and will have the firebase API calls in its 
+First we define a PasswordForgetFormBase statefull class component, this component will be displaying the form, and will have the firebase API calls in its 
 handlers.
 
-Then we call it as argument of withFirebase(), and wrap it in a <div> as the PasswordForgetPage stateless function component.
+Then we call it as argument of withFirebase(), and wrap it in a <div> as the PasswordForgetPage stateless function component (see src\components\PasswordForget\index.js).
+
+We add a call to this component at the signInPage component (src\components\SignIn\index.js)
+
+Now yo should be able to use the 'Forgot password' in the SignIn component. 
+
+(It doesn't send the mail, you should see what's happening there)
+
+
+
 
 
 COOL LINKS:

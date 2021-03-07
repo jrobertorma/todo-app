@@ -1,7 +1,12 @@
+import {PasswordForgetForm} from '../PasswordForget';
+import PasswordChangeForm from '../PasswordChange';
+
 const AccountPage = () => {
     return ( 
         <div>
-            YOYOYOYO, I'M ACCOUNT
+            <h1>Account Page</h1>
+            <PasswordForgetForm />
+            <PasswordChangeForm />
         </div>
      );
 }

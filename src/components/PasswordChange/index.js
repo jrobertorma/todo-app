@@ -32,6 +32,8 @@ class PasswordChangeForm extends Component {
                     this.setState({ error });
                 }
             )
+
+        event.preventDefault();
     }
 
     onChange = (event) => {
@@ -72,3 +74,21 @@ class PasswordChangeForm extends Component {
 }
 
 export default withFirebase(PasswordChangeForm);
+
+/**
+ * This component will be called by the Account component, because it is part of the account functions (to change the user's password)
+ * 
+ * First we will need the firebase functions, so we export the container component as a withFirebase() argument.
+ * 
+ * Then we add an initial state for our form 'controlled component' (see the onChange event).
+ * 
+ * In the render function, we define the form and a simple validation to disable/enable the submit button.
+ * 
+ * We catch the onSubmit event activated by that button and call the firebase API defined at src\components\Firebase\firebase.js
+ * (see the dev notes, as this file is untracked by git).
+ * 
+ * We call the doPasswordUpdate function BTW.
+ * 
+ * doPasswordUpdate = password =>
+ *       this.auth.currentUser.updatePassword(password);
+ */

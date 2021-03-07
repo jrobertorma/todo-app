@@ -51,13 +51,10 @@ Adding session handling
 02/03/2021
 Adding password management
 
-03/03/2021
+03,04/03/2021
 Adding password forget component
 
-04/03/2021
-Adding password forget component
-
-05/03/2021
+05,06/03/2021
 Adding change password component
 
 PRIMARY GOALS

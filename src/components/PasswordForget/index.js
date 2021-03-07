@@ -98,5 +98,4 @@ export { PasswordForgetForm, PasswordForgetLink };
  * Then we reset the form ();
  * 
  * We also have a PasswordForgetLink component, we can call later from another component (see src/components/SignIn/index.js)
- * 
  */

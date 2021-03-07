@@ -17,12 +17,25 @@ class PasswordChangeForm extends Component {
         }; 
     }
 
-    onSubmit = () => {
+    onSubmit = (event) => {
+        const { passwordOne } = this.state;
 
+        this.props.firebase
+            .doPasswordUpdate(passwordOne)
+            .then(
+                () => {
+                    this.setState({ ...INITIAL_STATE });
+                }
+            )
+            .catch(
+                (error) => {
+                    this.setState({ error });
+                }
+            )
     }
 
-    onChange = () => {
-
+    onChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
     }
 
     render(){

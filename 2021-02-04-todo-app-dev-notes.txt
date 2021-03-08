@@ -149,6 +149,7 @@ What do you need to create the app?
 		3.3.1 Set firebase context
 		3.3.2 Add session handling
 		3.3.3 Add password management
+		3.3.4 Create protected routes 
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * * * * * * * * * * * * * * * N O T E S * * * * * * * * * * * * * * *
@@ -313,6 +314,8 @@ It is important to note that we need to allow the component tree to use the func
 
 	export default withAuthentication(App); //We can use withAuthentication in all the App's children
 
+This pattern is called 'Higher order component', we use it too in the 'withFirebase' creation (https://reactjs.org/docs/higher-order-components.html)
+
 ---------------------- PASSWORD MANAGEMENT ----------------------
 Now we can add the password management components. These are: passwordForget and changePassword.
 
@@ -329,7 +332,24 @@ Now yo should be able to use the 'Forgot password' in the SignIn component.
 
 (It doesn't send the mail, you should see what's happening there)
 
+Also there is the 'updatePassword' component, it behaves similarly to the other forms, we've done.
 
+Use witFirebase, use a controlled form, validate the fields, on the onSubmit call the doPasswordUpdate() firebase's function, and update the state.
+
+---------------------- ROUTE PROTECTION ----------------------
+So far, if you type the route name on the browser, you will be able to see every component, event those wich are only for authenticated users to see.
+
+We will fix that in this section.
+
+First, we need to define the way we're going to use to decide wich components to show depending on the user.
+
+It may be a 'broad-grained authorization' that just decides based on the state of the user (logged in or not).
+
+Or we have 'fine-grained authorization', where we could have role-based or permission-based authorization.
+
+We can implement the route protection in a way that allow us to be flexible between those auth patterns.
+
+Again, we are going to use a HOC (Higher Order Component) to provide the authorization bussiness logic to the other components (see src\components\Session\withAuthorization.js).
 
 
 

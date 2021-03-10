@@ -34,8 +34,20 @@ export default withAuthorization;
 /**
  * The withAuthorization HOC (higher order component).
  * 
- * it'll allow us to add the authorization bussiness logic to the other components.
+ * It'll allow us to add the authorization bussiness logic to the other components.
  * 
- * See how it catches a component as a prop, and then returns a new component wrapped between another one that passes all the props we need
+ * This case is a little different because withAuthorization gets a function with a component as a parameter as the function parameter.
  * 
+ * e.g withAuthorization( someFunction( someComponent ) )
+ * 
+ * The componentDidMount is the part of the component that implements the route protection.
+ * It creates an 'observer' (see the comments in src\components\Session\withAuthentication.js), and checks if a user is logged in or not.
+ * Then it calls the function that we previously passed as a paramenter and executes it with the authUser state as an argument (someFunction
+ * in our example).
+ * 
+ * If the function throws an error (for instance, because the authUser state is null), componentDidMount will redirect to ROUTES.SIGN_IN
+ * (remember we use withRouter, so we can call the navigation history prop, see line 29).
+ * 
+ * If authUser passes the function, the componentDidMount will do nothing and the render function will be called, wich means the component
+ * we passed early, will be rendered (someComponent in the example).
  */

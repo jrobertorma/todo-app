@@ -337,7 +337,7 @@ Also there is the 'updatePassword' component, it behaves similarly to the other 
 Use witFirebase, use a controlled form, validate the fields, on the onSubmit call the doPasswordUpdate() firebase's function, and update the state.
 
 ---------------------- ROUTE PROTECTION ----------------------
-So far, if you type the route name on the browser, you will be able to see every component, event those wich are only for authenticated users to see.
+So far, if you type the route name on the browser, you will be able to see every component, even those wich are only for authenticated users to see.
 
 We will fix that in this section.
 

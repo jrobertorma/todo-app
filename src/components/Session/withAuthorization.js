@@ -5,6 +5,8 @@ import { withFirebase } from '../Firebase';
 
 import * as ROUTES from '../../constants/routes';
 
+import AuthUserContext from './context';
+
 const withAuthorization = (condition) => (Component) => {
     class WithAuthorization extends React.Component {
         componentDidMount(){
@@ -22,7 +24,13 @@ const withAuthorization = (condition) => (Component) => {
         }
 
         render() {
-            return <Component {...this.props} />
+            return (
+              <AuthUserContext.Consumer>
+                  {
+                      authUser => condition(authUser) ? <Component {...this.props} /> : null
+                  }
+              </AuthUserContext.Consumer>  
+            )
         }
     }
 
@@ -38,7 +46,7 @@ export default withAuthorization;
  * 
  * This case is a little different because withAuthorization gets a function with a component as a parameter as the function parameter.
  * 
- * e.g withAuthorization( someFunction( someComponent ) )
+ * e.g withAuthorization( someFunction ) ( someComponent )
  * 
  * The componentDidMount is the part of the component that implements the route protection.
  * It creates an 'observer' (see the comments in src\components\Session\withAuthentication.js), and checks if a user is logged in or not.

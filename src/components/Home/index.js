@@ -11,7 +11,7 @@ const HomePage = () => {
      );
 }
 
-const condition = (authUser) => !!authUser; //(false false) expression, returns the 'truthiness' of its argument
+const condition = (authUser) => !!authUser; //'!!expression', returns the 'truthiness' of expression
  
 export default withAuthorization(condition)(HomePage);
 
@@ -23,7 +23,9 @@ export default withAuthorization(condition)(HomePage);
  * 
  * This is a kind of obscure way to do a type conversion.
  * 
- * The 'false false' thing (it is not an operator per se) returns true or false depending on the 'truthiness' of the expression.
+ * The 'false false' thing (it is not an operator per se) returns true or false depending on the 'truthiness' of the expression
+ * without needing to convert it to a logically evaluable var type.
+ * 
  * e.g.
  * 
  * !!"" === false // empty string is falsy

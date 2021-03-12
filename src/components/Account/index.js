@@ -1,5 +1,6 @@
 import {PasswordForgetForm} from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
+import { withAuthorization } from '../Session';
 
 const AccountPage = () => {
     return ( 
@@ -10,5 +11,7 @@ const AccountPage = () => {
         </div>
      );
 }
- 
-export default AccountPage;
+
+const condition = authUser => !!authUser; // '!!expression', returns the 'truthiness' of expression
+
+export default withAuthorization (condition)(AccountPage);

@@ -19,7 +19,7 @@ export default withAuthorization(condition)(HomePage);
  * The HomePage component (really? lol)
  * 
  * The most atypical thing about this component is the way we create the 'condition' function.
- * It receives an authUser state and returns !!authUser (false false? state).
+ * It receives an authUser state and returns !!authUser (false false state).
  * 
  * This is a kind of obscure way to do a type conversion.
  * 

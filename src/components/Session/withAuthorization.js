@@ -56,6 +56,6 @@ export default withAuthorization;
  * If the function throws an error (for instance, because the authUser state is null), componentDidMount will redirect to ROUTES.SIGN_IN
  * (remember we use withRouter, so we can call the navigation history prop, see line 29).
  * 
- * If authUser passes the function, the componentDidMount will do nothing and the render function will be called, wich means the component
- * we passed early, will be rendered (someComponent in the example).
+ * If authUser passes the function, the componentDidMount will do nothing and the render function will be called. Where we call the 
+ * context defined at src\components\Session\context.js and src\components\Session\context.js.
  */

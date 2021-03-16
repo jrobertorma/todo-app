@@ -63,9 +63,11 @@ Adding route protection
 15/03/2021
 Migrating to new hardware (T.T)
 
-Be sure to have the '.env.development.local' file, I cloned the repo using git cli, and it partially worked but it keep throwing a 400 error on the API
-I even created a new firebase project and added it to the env vars but didn't worked, it is somehow related to the project keys, but I am not sure how (lol)
-so before clonning have a copy of the env vars file, here it is the snippet, it goes on the project's root folder.
+Be sure to have the '.env.development.local' file, I cloned the repo using git cli, and it partially worked but it keep throwing a 400 error on the API. 
+
+I even created a new firebase project and added it to the env vars but didn't work, it is somehow related to the project keys, but I am not sure how (lol). 
+
+So before cloning have a copy of the env vars file, here it is the snippet, it goes on the project's root folder.
 
 REACT_APP_API_KEY=""
 REACT_APP_AUTH_DOMAIN=""
@@ -377,6 +379,8 @@ Again, we are going to use a HOC (Higher Order Component) to provide the authori
 It creates an 'observer' (https://firebase.google.com/docs/auth/web/manage-users) that checks the authUser state.
 
 Then with a function (it is expected as a parameter) the HOC resolves if there is a logged user or not, and redirects to another component or renders the authorized component based on the function's response.
+
+At the render method we call the AuthUserContext to be able to know the user state and return the Component (received as a parameter) or 'null'. 
 
 https://stackoverflow.com/questions/784929/what-is-the-not-not-operator-in-javascript
 

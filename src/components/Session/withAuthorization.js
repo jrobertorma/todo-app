@@ -50,12 +50,18 @@ export default withAuthorization;
  * 
  * The componentDidMount is the part of the component that implements the route protection.
  * It creates an 'observer' (see the comments in src\components\Session\withAuthentication.js), and checks if a user is logged in or not.
- * Then it calls the function that we previously passed as a paramenter and executes it with the authUser state as an argument (someFunction
- * in our example).
+ * Then it calls the function that we previously passed as a paramenter and executes it with the authUser state as an argument 
+ * (someFunction in our example).
  * 
  * If the function throws an error (for instance, because the authUser state is null), componentDidMount will redirect to ROUTES.SIGN_IN
- * (remember we use withRouter, so we can call the navigation history prop, see line 29).
+ * (remember we use withRouter, so we can call the navigation history prop, see line 37).
  * 
  * If authUser passes the function, the componentDidMount will do nothing and the render function will be called. Where we call the 
- * context defined at src\components\Session\context.js and src\components\Session\context.js.
+ * AuthUserContext defined at src\components\Session\context.js.
+ * 
+ * Now the return function is able to know the user state and return the Component (received as a parameter) or 'null' (line 30).
+ * 
+ * This protext the component of being exposed if the redirection takes too much time or something else happens.
+ * 
+ * Basically means: 'If the user is not logged in, I'm going to return 'null' instead of the component someone passed me'. 
  */

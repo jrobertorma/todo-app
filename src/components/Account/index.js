@@ -1,6 +1,10 @@
-import {PasswordForgetForm} from '../PasswordForget';
-import PasswordChangeForm from '../PasswordChange';
+import React from 'react';
+
 import { AuthUserContext, withAuthorization } from '../Session';
+
+import { PasswordForgetForm } from '../PasswordForget';
+import PasswordChangeForm from '../PasswordChange';
+
 
 const AccountPage = () => {
     return ( 
@@ -8,7 +12,7 @@ const AccountPage = () => {
             {
                 (authUser) => {
                     <div>
-                        <h1>Account Page</h1>
+                        <h1>Account: {authUser.email}</h1>
                         <PasswordForgetForm />
                         <PasswordChangeForm />
                     </div>
@@ -21,3 +25,7 @@ const AccountPage = () => {
 const condition = authUser => !!authUser; // '!!expression', returns the 'truthiness' of expression
 
 export default withAuthorization (condition)(AccountPage);
+
+/**
+ * COMPONENTS ARE NOT RENDERED YOU ARE WORKING HERE LOL <--------------->
+ */

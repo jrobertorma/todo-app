@@ -59,7 +59,8 @@ export default withAuthorization;
  * If authUser passes the function, the componentDidMount will do nothing and the render function will be called. Where we call the 
  * AuthUserContext defined at src\components\Session\context.js.
  * 
- * Now the return function is able to know the user state and return the Component (received as a parameter) or 'null' (line 30).
+ * Now the return function is able to know the user state and return the Component (received as a parameter) or 'null' (line 30), note
+ * how we also pass every prop to the wrapped component with {...this.props}, wich means it will be capable of use the 'authUser' object.
  * 
  * This protext the component of being exposed if the redirection takes too much time or something else happens.
  * 

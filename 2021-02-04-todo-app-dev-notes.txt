@@ -386,6 +386,50 @@ https://stackoverflow.com/questions/784929/what-is-the-not-not-operator-in-javas
 
 Now, by calling the withAuthorization HOC, any component can be defined as a protected route.
 
+Note that you have to provide a 'condtion' function such as:
+
+	const condition = authUser => !!authUser; // '!!expression', returns the 'truthiness' of 'expression'
+
+And addit to the HOC call like this:
+
+	export default withAuthorization (condition)(AccountPage); //see src\components\Account\index.js
+
+You can add a new protected route following that pattern, and even implement a more 'fine-grained' authorization rule, by changing the 'condition' function
+logic, for instance to look for the user role.
+
+---------------------- REALTIME DATABASE ----------------------
+Firebase authentication API stores the users data and manages all of it's sensible information such as passwords and email addresses.
+
+Right now, if we want for instance, a list of all the users we won't be able to do it, because Firebase authentication API does not allow us to.
+
+And that is good, our users are protected. But we still may need to access the users data. If we want to add other 'entities' associated with the user (e.g. A note, a message, a book borrow history, etc) we need to access the users.
+
+And we use Firebase realtime database in order to do that (it is not the same as the auth API).
+
+We add this lines to the src\components\Firebase\firebase.js file (untracked by git, see the first note of this file)
+
+	import 'firebase/database'; //NEW
+
+	...
+
+	class Firebase {
+	    constructor() {
+	        app.initializeApp(config);
+	        this.auth = app.auth();
+	        this.db = app.database(); //NEW
+	    }
+
+	...
+
+		// *** User API ***
+
+	    user = uid = this.db.ref(`users/${uid}`);
+
+	    users = () => this.db.ref('users');
+	}
+
+	export default Firebase;
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

@@ -34,9 +34,19 @@ class SignUpFormBase extends Component {
         this.props.firebase
             .doCreateUserWithEmailAndPassword(email, passwordOne)
             .then(authUser => {
+                //Create the user in the db too
+                return this.props.firebase
+                    .user(authUser.user.uid)
+                    .set({
+                        username,
+                        email,
+                    });
+            })
+            .then(() => {
                 this.setState({ ...INITIAL_STATE });
                 this.props.history.push(ROUTES.HOME); /*redirect using history props 
                 (we can do this because we added withRouter to the SignUpForm component (line 122))*/
+            
             })
             .catch(error => {
                 this.setState({ error });
@@ -135,4 +145,7 @@ export { SignUpForm, SignUpLink };
  * passing the enhanced SignUpFormBase component to the withRouter() higher-order component, it has access to the props of the router. 
  * The relevant property from the router props is the history object, because it allows us to redirect a user to another page 
  * by pushing a route to it.
+ * 
+ * Also see how the event calls the firebase functions at line 38 and calls the user() method to create a new user with the same id as
+ * the authAPI user created three lines before, then the set() method can be used to add information to the user on the db.
  */

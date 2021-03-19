@@ -421,7 +421,7 @@ We add this lines to the src\components\Firebase\firebase.js file (untracked by 
 
 	...
 
-		// *** User API ***
+		// *** User API *** NEW
 
 	    user = uid = this.db.ref(`users/${uid}`);
 
@@ -429,6 +429,16 @@ We add this lines to the src\components\Firebase\firebase.js file (untracked by 
 	}
 
 	export default Firebase;
+
+As you may see, Firebase follows the REST phylosophy, where every entity (such as user, book, note, etc.) is associated with a URI (uniform resource identifier). In Firebase, the RESTful URI becomes a simple path, and the HTTP methods become Firebase’s API.
+
+---------------------- USERS AND REALTIME DATABASE ----------------------
+Now that we have linked our realtime database, we can add stuff to it. We wanted to manage users from the app, so we need to map the authUsers to the realtime database.
+
+Wich means that we have to create a 'user' entity in the database when we create a user of firebase auth API. We can add a call to the db API after we create the user at src\components\SignUp\index.js
+
+  
+
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

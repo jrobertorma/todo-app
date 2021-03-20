@@ -437,7 +437,23 @@ Now that we have linked our realtime database, we can add stuff to it. We wanted
 
 Wich means that we have to create a 'user' entity in the database when we create a user of firebase auth API. We can add a call to the db API after we create the user at src\components\SignUp\index.js
 
-  
+	this.props.firebase
+    .user(authUser.user.uid)
+    .set({
+        username,
+        email,
+    });
+
+To test the database indeed stores the users data we can create a component to show all the registered users.
+
+That component should be accessible only to administrators, so we add it's route to the protected routes (NavigtionAuth at src/components/Navigation/index.js).
+
+Then we can call the realtime database in the component.
+
+src\components\Admin\index.js
+
+
+
 
 
 COOL LINKS:

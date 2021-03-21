@@ -13,39 +13,29 @@ class AdminPage extends Component {
     }
 
     componentDidMount() {
-        this.setState({ loading:true });
+        this.setState({ loading: true });
 
         //Calling firebase database and passing it to the state
         this.props.firebase.users().on('value', snapshot => {
-            const usersObject = snapshot.val(); //the response of database API, a collection of 'user' objects
-
-            /*we create a new array to store the 'users' object items, remember that map((key) => //todo)
-            creates a new array using the callback that takes as parameter where key is the item of the object we will be maping*/
-            const usersList = Object.keys(usersObject)
-                .map( (key) => ({
-                    ...usersObject[key],
-                    uid:key
-                }))
-
             this.setState({
-                users: usersList,
-                loading: false
+                users: snapshot.val(), //the response of database API, a collection of 'user' objects
+                loading: false,
             });
         });
     }
 
     componentWillUnmount() {
-        this.props.firebase.users().off();
+        this.props.firebase.users().off(); //closing the connection
     }
     
     render() { 
-        const { users, loading } = this.state;
+        const { users, loading } = this.state; //'Destructuring assignment' syntax
 
         return ( 
             <div>
                 <h1>Admin</h1>
 
-                {loading && <div>Loading ...</div>}
+                {loading && <div>Loading ...</div> /*conditional rendering: 'logicExpression && TODO if logicExpression returns true'*/}
 
                 <UserList users={users} />
 
@@ -55,21 +45,32 @@ class AdminPage extends Component {
 }
 
 const UserList = ({ users }) => {
+    
+    //Converting the users object stored in the state to an array
+    const usersListArray = Object.keys(users).map( ( key ) => ({
+        ...users[key],
+        uid:key,
+    }));
+
     return ( 
         <ul>
-            {users.map( ( user ) => (
-                <li key={user.uid}>
-                    <span>
-                        <strong>ID:</strong> {user.uid}
-                    </span>
-                    <span>
-                        <stron>E-Mail:</stron> {user.email}
-                    </span>
-                    <span>
-                        <stron>Username:</stron> {user.username}
-                    </span>
-                </li>
-            ))}
+            {   //Mapping the users array to create one list item for each user and its data 
+                usersListArray.map( ( user ) => {
+                    return(
+                        <li key={user.uid}>
+                            <span>
+                                <strong>ID: </strong> {user.uid}
+                            </span>
+                            <span>
+                                <strong>E-Mail: </strong> {user.email}
+                            </span>
+                            <span>
+                                <strong>Username: </strong> {user.username}
+                            </span>
+                        </li>
+                    );
+                })
+            }
         </ul>
     );
 }
@@ -79,12 +80,18 @@ export default withFirebase(AdminPage);
 /**
  * The administrators component
  * 
- * Thew will be able to see all the registered users. We are calling it at line 18, where we call the 'users' reference
+ * They will be able to see all the registered users. We are calling it at line 18, where we call the 'users' reference
  * and attatch a listener. That is the on() method that triggers every time something has changed. It receives a type value and
  * a callback ('value' in this case and the setState call with snapshot as a parameter to update the users state).
  * 
  * see the docs at: https://firebase.google.com/docs/database/web/read-and-write
  * 
- * Since the users are objects rather than lists when they are retrieved from the Firebase database, you have to restructure them 
- * as lists (arrays), which makes it easier to display them later:
+ * Since the users are objects when they are retrieved from the Firebase database, you have to restructure them 
+ * as lists (arrays), which makes it easier to display them later.
+ * 
+ * This was a little bit different from the book. Instead of convert the users object to an array and store it in the state at 
+ * the componentDidMount() function, we are storing the raw object returned by firebase directly (line 21).
+ * 
+ * Then we catch it as a param in the UserList component (line 40), and parse it at lines 50-53 to be able to run a map()
+ * over the parsed array and create every list item through the loop.
  */

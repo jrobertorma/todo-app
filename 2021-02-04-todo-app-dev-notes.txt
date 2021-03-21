@@ -452,10 +452,6 @@ Then we can call the realtime database in the component.
 
 src\components\Admin\index.js
 
-
-
-
-
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

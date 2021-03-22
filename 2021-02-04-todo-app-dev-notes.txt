@@ -214,6 +214,12 @@ class Firebase {
 
         doPasswordUpdate = password =>
           this.auth.currentUser.updatePassword(password);
+
+        // *** User API ***
+
+	    user = uid => this.db.ref(`users/${uid}`);
+
+	    users = () => this.db.ref('users');
     }
 }
 
@@ -446,11 +452,62 @@ Wich means that we have to create a 'user' entity in the database when we create
 
 To test the database indeed stores the users data we can create a component to show all the registered users.
 
-That component should be accessible only to administrators, so we add it's route to the protected routes (NavigtionAuth at src/components/Navigation/index.js).
+That component should be accessible only to administrators, so we'll add it's route to the protected routes (NavigtionAuth at src/components/Navigation/index.js).
 
 Then we can call the realtime database in the component.
 
-src\components\Admin\index.js
+---------------------- READING FROM REALTIME DATABASE ----------------------
+
+All of this happens mostly in the src\components\Admin\index.js file.
+
+The principal component is withFirebase(AdminPage), see how we call it as the withFirebase() argument, now we can call the firebase functions defined at src\components\Firebase\firebase.js (untracked by git, see its notes in this file).
+
+In the docs we find HOW TO READ AND WRITE in the db (we wrote already at the SignUp component BTW).
+
+https://firebase.google.com/docs/database/web/read-and-write, 
+
+FIRST you need an instance of firebase.database.Reference, we have that covered calling the context and the reference.
+
+	var database = firebase.database();
+
+In our app we do that this way:
+
+	this.props.firebase.users() //we can call this.props.firebase because the withFirebase(AdminPage) export
+
+This is a call to the 'users()' Firebase class method. We defined it at the users API (note how it is a ).
+
+	users = () => this.db.ref('users'); //'this.db.ref' is analog to firebase.database() and 'firebase.database.Reference'
+
+SECOND, to read data at a path and listen for changes, use the on() or once() methods of firebase.database.Reference to observe events. 
+
+We will use the on() method because it keeps listening for changes in the db, once() as its name suggest, gets the data only once.
+
+	The on() method listens for data changes at a particular location, this is the primary way to read data from a Database. 
+
+	It gets two parameters: 'value' refers to the event we are listening to, it can be 'value', 'child_added', 'child_removed', etc. (See https://firebase.google.com/docs/reference/js/firebase.database.Reference#on for the full list). 
+
+	The second parameter is a callback function that will be triggered for the initial data and again whenever the data changes. We use off() to stop receiving updates.
+
+	e.g.
+
+		var starCountRef = firebase.database().ref('posts/' + postId + '/starCount');
+		starCountRef.on('value', (snapshot) => {
+		  const data = snapshot.val();
+		  updateStarCount(postElement, data);
+		});
+
+	In our code we do this (componentDidMount is the best place to make API calls):
+
+		this.props.firebase.users().on('value', snapshot => {
+            this.setState({
+                users: snapshot.val(), //the response of database API, a collection of 'user' objects
+                loading: false,
+            });
+        });
+
+    Later at the componentWillUnmount() statement we call the off() method
+
+        this.props.firebase.users().off();
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

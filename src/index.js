@@ -26,5 +26,9 @@ reportWebVitals();
  * The entry point of the app.
  * 
  * We wrap the App component on the FirebaseContext component (see src/components/Firebase/index.js)
- * so we can use the firebase functions througout the app 
+ * so we can use the firebase functions througout the app.
+ * 
+ * Note how we set the FirebaseContext.Provider as a new instance of the Firebase() class, i.e. the firebase
+ * object defined at src\components\Firebase\firebase.js, it contains the config object and the methods we are
+ * going to use trhough the app to interact with the firebase backend.
  */

@@ -462,7 +462,7 @@ All of this happens mostly in the src\components\Admin\index.js file.
 
 The principal component is withFirebase(AdminPage), see how we call it as the withFirebase() argument, now we can call the firebase functions defined at src\components\Firebase\firebase.js (untracked by git, see its notes in this file).
 
-In the docs we find HOW TO READ AND WRITE in the db (we wrote already at the SignUp component BTW).
+In the docs we find HOW TO READ AND WRITE in the db (we already wrote at the SignUp component BTW).
 
 https://firebase.google.com/docs/database/web/read-and-write, 
 
@@ -474,7 +474,7 @@ In our app we do that this way:
 
 	this.props.firebase.users() //we can call this.props.firebase because the withFirebase(AdminPage) export
 
-This is a call to the 'users()' Firebase class method. We defined it at the users API (note how it is a ).
+This is a call to the 'users()' method of the Firebase class. We defined it at the users API (notice how this method is defined at the src\components\Firebase\firebase.js file).
 
 	users = () => this.db.ref('users'); //'this.db.ref' is analog to firebase.database() and 'firebase.database.Reference'
 
@@ -484,9 +484,9 @@ We will use the on() method because it keeps listening for changes in the db, on
 
 	The on() method listens for data changes at a particular location, this is the primary way to read data from a Database. 
 
-	It gets two parameters: 'value' refers to the event we are listening to, it can be 'value', 'child_added', 'child_removed', etc. (See https://firebase.google.com/docs/reference/js/firebase.database.Reference#on for the full list). 
+	It gets two parameters: 'value', wich refers to the event we are listening to, it can be 'value', 'child_added', 'child_removed', etc. (See https://firebase.google.com/docs/reference/js/firebase.database.Reference#on for the full list). 
 
-	The second parameter is a callback function that will be triggered for the initial data and again whenever the data changes. We use off() to stop receiving updates.
+	And the second parameter is a callback function that will be triggered for the initial data and again whenever the data changes. We use off() to stop receiving updates.
 
 	e.g.
 
@@ -508,6 +508,54 @@ We will use the on() method because it keeps listening for changes in the db, on
     Later at the componentWillUnmount() statement we call the off() method
 
         this.props.firebase.users().off();
+
+Now we can output the users data that is stored at the state. It is important to note that we stored it as the raw object returned by the firebase on() method. We need to build a dinamic component to show the data.
+
+First we convert the object into an array
+
+//Converting the users object stored in the state to an array
+    const usersListArray = Object.keys(users).map( ( key ) => ({
+        ...users[key],
+        uid:key,
+    }));
+
+Object.keys returns an array of a given object's own enumerable property names, wich means we are getting the 'keys' of the object (duh, lol) e.g.
+
+	const object1 = {
+	  a: 'somestring',
+	  b: 42,
+	  c: false
+	};
+
+	console.log(Object.keys(object1)); // expected output: Array ["a", "b", "c"]
+
+Now we run a map() function through the keys array, map returns a new array based on a loop that goes through every item of an array and does something (specified by a callback function) to that item (not always).
+
+in this case we are passing every key of the users object to the callback wich returns a copy of the object item (notice the spread operator, i.e. ...users[key]) and a property uid
+	
+	...users[key], // copy of the object item with the key value
+	uid: key //we add the key value as a new prop
+
+e.g
+
+	const object1 = {
+	  a: {prop1: "one",prop2:"aaa"},
+	  b: {prop1: "two",prop2:"bbb"},
+	  c: {prop1: "three",prop2:"ccc"}
+	};
+
+	//Object.keys(object1), expected output: Array ["a", "b", "c"]
+	objectArray = Object.keys(object1).map( ( key ) => ({ 
+		...object1[key],
+		uid:key,
+	}));
+
+	console.log(objectArray); 
+	//expected output: Array [ {prop1: "one", prop2: "aaa", uid: "a"}, 
+							   {prop1: "two", prop2: "bbb", uid: "b"}, 
+							   {prop1: "three", prop2: "ccc", uid: "c"} ]
+
+Now we have a new array containing the user object. We can use a map at the render function of a component to loop through this array and show the users data.
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

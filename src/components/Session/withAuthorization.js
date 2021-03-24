@@ -10,6 +10,7 @@ import AuthUserContext from './context';
 const withAuthorization = (condition) => (Component) => {
     class WithAuthorization extends React.Component {
         componentDidMount(){
+            //firebase observer, keeps the authUser state on check
             this.listener = this.props.firebase.auth.onAuthStateChanged(
                 (authUser) => {
                     if(!condition(authUser)){

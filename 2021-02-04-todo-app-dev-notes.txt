@@ -555,7 +555,25 @@ e.g
 							   {prop1: "two", prop2: "bbb", uid: "b"}, 
 							   {prop1: "three", prop2: "ccc", uid: "c"} ]
 
-Now we have a new array containing the user object. We can use a map at the render function of a component to loop through this array and show the users data.
+Now we have a new array containing the user object. We can use map() at the render function of a component to loop through this array and show the users data.
+
+---------------------- USER ROLES AND PERMISSIONS ----------------------
+It is common to want to assign user roles and allow users do stuff in your app based on them.
+
+Firebase can manage user roles with its API. If we use it, it will difficult to migrate to other stacks if wee need to (e.g. traditional db server and backends).
+
+A more flexible approach is to store the user roles in the user entities of the firebase realtime database. This way, you’ll have an easier time migrating away from Firebase.
+
+We can do this in three stages:
+	
+	Assign roles to new users (a prop in the user entity)
+		We added a new prop to the src\components\SignUp\index.js to know the 'role' of the new user, this includes state, fields, and handlers.
+	Merge the authenticated user and database user so they can be authorized with their roles in the authorization higher-order component.
+		Now we add role support to the database user object that is created when creating an AuthAPI user
+	Showcase a role authorization for one of our routes (e.g. only allowed for admin users).
+
+
+
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

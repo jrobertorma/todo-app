@@ -10,7 +10,7 @@ const INITIAL_STATE = {
     email: '',
     passwordOne: '',
     passwordTwo: '',
-    isAdmin: false,
+    isAdmin: false, //role management
     error: null,
 };
 
@@ -32,10 +32,10 @@ class SignUpFormBase extends Component {
 
     onSubmit = event => {
         const { username, email, passwordOne, isAdmin } = this.state; //destructuring asignement
-        const roles = {};
+        const roles = {}; //initializing role object
 
         if (isAdmin) {
-            roles[ROLES.ADMIN] = ROLES.ADMIN;
+            roles[ROLES.ADMIN] = ROLES.ADMIN; //adding the admin role value to the 'roles' object
         }
 
         this.props.firebase
@@ -47,6 +47,7 @@ class SignUpFormBase extends Component {
                     .set({
                         username,
                         email,
+                        roles,
                     });
             })
             .then(() => {

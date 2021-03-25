@@ -9,12 +9,35 @@ import AuthUserContext from './context';
 
 const withAuthorization = (condition) => (Component) => {
     class WithAuthorization extends React.Component {
-        componentDidMount(){
+        componentDidMount() {
             //firebase observer, keeps the authUser state on check
             this.listener = this.props.firebase.auth.onAuthStateChanged(
                 (authUser) => {
-                    if(!condition(authUser)){
-                        this.props.history.push(ROUTES.SIGN_IN);
+                    if(authUser) {
+                        this.props.firebase
+                            .user(authUser.uid)
+                            .once('value')
+                            .then(snapshot => {
+                                const dbUser = snapshot.val();
+
+                                //default empty roles
+                                if (!dbUser.roles) {
+                                    dbUser.roles = {};
+                                }
+
+                                //merge auth and db user
+                                authUser = {
+                                    uid: authUser.uid,
+                                    email: authUser.email,
+                                    ...dbUser,
+                                };
+
+                                if (!condition(authUser)) {
+                                    this.props.history.push(ROUTES.SIGN_IN)
+                                }
+                            });
+                    } else {
+                        this.props.history.push(ROUTES.SIGN_IN)
                     }
                 },
             );
@@ -55,15 +78,15 @@ export default withAuthorization;
  * (someFunction in our example).
  * 
  * If the function throws an error (for instance, because the authUser state is null), componentDidMount will redirect to ROUTES.SIGN_IN
- * (remember we use withRouter, so we can call the navigation history prop, see line 37).
+ * (remember we use withRouter, so we can call the navigation history prop, see line 38).
  * 
  * If authUser passes the function, the componentDidMount will do nothing and the render function will be called. Where we call the 
  * AuthUserContext defined at src\components\Session\context.js.
  * 
- * Now the return function is able to know the user state and return the Component (received as a parameter) or 'null' (line 30), note
+ * Now the return function is able to know the user state and return the Component (received as a parameter) or 'null' (line 31), notice
  * how we also pass every prop to the wrapped component with {...this.props}, wich means it will be capable of use the 'authUser' object.
  * 
- * This protext the component of being exposed if the redirection takes too much time or something else happens.
+ * This protect the component of being exposed if the redirection takes too much time or something else happens.
  * 
- * Basically means: 'If the user is not logged in, I'm going to return 'null' instead of the component someone passed me'. 
+ * All of this basically means: 'If the user is not logged in, I'm going to return 'null' instead of the component someone passed me'. 
  */

@@ -63,6 +63,18 @@ Adding route protection
 15/03/2021
 Migrating to new hardware (T.T)
 
+16-18/03/2021
+Adding route protection
+
+19/03/2021
+Adding realtime database
+
+21-23/03/2021
+Adding realtime database CRUD components
+
+24-26/03/2021
+Adding roles support to users in db
+
 Be sure to have the '.env.development.local' file, I cloned the repo using git cli, and it partially worked but it keep throwing a 400 error on the API. 
 
 I even created a new firebase project and added it to the env vars but didn't work, it is somehow related to the project keys, but I am not sure how (lol). 

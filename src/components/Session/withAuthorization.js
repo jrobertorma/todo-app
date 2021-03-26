@@ -18,25 +18,29 @@ const withAuthorization = (condition) => (Component) => {
                             .user(authUser.uid)
                             .once('value')
                             .then(snapshot => {
+                                //we used the auth data on the firebaseAuth API to retrieve the user data stored in the db 
                                 const dbUser = snapshot.val();
 
-                                //default empty roles
+                                //If the user doesn't have any roles, create default empty roles
                                 if (!dbUser.roles) {
                                     dbUser.roles = {};
                                 }
 
-                                //merge auth and db user
+                                //merge auth and db user, we called authUser from the listener, and now we are adding the db data
+                                //to that state 
                                 authUser = {
                                     uid: authUser.uid,
                                     email: authUser.email,
                                     ...dbUser,
                                 };
 
+                                //if the condition function returns false we redirect
                                 if (!condition(authUser)) {
                                     this.props.history.push(ROUTES.SIGN_IN)
                                 }
                             });
                     } else {
+                        //if the user is not logged in we redirect
                         this.props.history.push(ROUTES.SIGN_IN)
                     }
                 },
@@ -74,19 +78,23 @@ export default withAuthorization;
  * 
  * The componentDidMount is the part of the component that implements the route protection.
  * It creates an 'observer' (see the comments in src\components\Session\withAuthentication.js), and checks if a user is logged in or not.
- * Then it calls the function that we previously passed as a paramenter and executes it with the authUser state as an argument 
- * (someFunction in our example).
  * 
- * If the function throws an error (for instance, because the authUser state is null), componentDidMount will redirect to ROUTES.SIGN_IN
- * (remember we use withRouter, so we can call the navigation history prop, see line 38).
+ * Then uses the logged user uid to fetch its aditional data from the db (line 22), if there isn't any role data it will create an empty 
+ * object to store it later (line 26) and will merge the authUser data with the db data (line 31). 
+ * 
+ * Then it calls the function that we previously passed as a paramenter and executes it with the authUser state as an argument 
+ * (someFunction in our example). If the function throws an error (for instance, because the authUser state is null), componentDidMount 
+ * will redirect to ROUTES.SIGN_IN (remember we use withRouter, so we can call the navigation history prop, see line 39).
  * 
  * If authUser passes the function, the componentDidMount will do nothing and the render function will be called. Where we call the 
  * AuthUserContext defined at src\components\Session\context.js.
  * 
- * Now the return function is able to know the user state and return the Component (received as a parameter) or 'null' (line 31), notice
+ * Now the return function is able to know the user state and return the Component (received as a parameter) or 'null' (line 58), notice
  * how we also pass every prop to the wrapped component with {...this.props}, wich means it will be capable of use the 'authUser' object.
  * 
  * This protect the component of being exposed if the redirection takes too much time or something else happens.
  * 
- * All of this basically means: 'If the user is not logged in, I'm going to return 'null' instead of the component someone passed me'. 
+ * All of this basically means: 'If the user is not logged in, I'm going to return 'null' instead of the component someone passed me 
+ * (and will merge the authUser state with the db data for that user, remember firebase manages its users but we added more data for our 
+ * evil purposes lol, see src\components\SignUp\index.js at line 44)'. 
  */

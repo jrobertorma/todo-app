@@ -16,13 +16,35 @@ const withAuthentication = Component => {
         componentDidMount() {
             //firebase observer
             this.listener = this.props.firebase.auth.onAuthStateChanged(
-              (authUser) => {
-                authUser
-                ? this.setState({ authUser })
-                : this.setState({ authUser: null })
-              }
+                (authUser) => {
+                    if(authUser) {
+                        this.props.firebase
+                            .user(authUser.uid)
+                            .once('value')
+                            .then(snapshot => {
+                                const dbUser = snapshot.val();
+
+                                //if the user (in the db) doesn't have roles, set empty roles
+                                if(!dbUser.roles){
+                                    dbUser.roles = {};
+                                }
+
+                                //merge auth and db user
+                                authUser = {
+                                    uid: authUser.uid,
+                                    email: authUser.email,
+                                    ...dbUser
+                                }
+
+                                //set the state to pass to children components
+                                this.setState({ authUser });
+                            })
+                    } else {
+                        this.setState({ authUser: null });
+                    }
+                }
             );
-          }
+        }
         
         componentWillUnmount() {
             this.listener();
@@ -66,5 +88,5 @@ export default withAuthentication;
  * (see src\components\Navigation\index.js to see how do you call the context). 
  * 
  * This pattern is called 'higher order component', wich basically means: 'a function that takes a component and returns a new component' 
- * see https://reactjs.org/docs/higher-order-components.html form more info.
+ * see https://reactjs.org/docs/higher-order-components.html for more about this.
  */

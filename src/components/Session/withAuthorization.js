@@ -10,40 +10,14 @@ import AuthUserContext from './context';
 const withAuthorization = (condition) => (Component) => {
     class WithAuthorization extends React.Component {
         componentDidMount() {
-            //firebase observer, keeps the authUser state on check
-            this.listener = this.props.firebase.auth.onAuthStateChanged(
-                (authUser) => {
-                    if(authUser) {
-                        this.props.firebase
-                            .user(authUser.uid)
-                            .once('value')
-                            .then(snapshot => {
-                                //we used the auth data on the firebaseAuth API to retrieve the user data stored in the db 
-                                const dbUser = snapshot.val();
-
-                                //If the user doesn't have any roles, create default empty roles
-                                if (!dbUser.roles) {
-                                    dbUser.roles = {};
-                                }
-
-                                //merge auth and db user, we called authUser from the listener, and now we are adding the db data
-                                //to that state 
-                                authUser = {
-                                    uid: authUser.uid,
-                                    email: authUser.email,
-                                    ...dbUser,
-                                };
-
-                                //if the condition function returns false we redirect
-                                if (!condition(authUser)) {
-                                    this.props.history.push(ROUTES.SIGN_IN)
-                                }
-                            });
-                    } else {
-                        //if the user is not logged in we redirect
-                        this.props.history.push(ROUTES.SIGN_IN)
+            //onAuthUserListener is defined at src\components\Firebase\firebase.js
+            this.listener = this.props.firebase.onAuthUserListener(
+                authUser => {
+                    if(!condition(authUser)) {
+                        this.props.history.push(ROUTES.SIGN_IN);
                     }
                 },
+                () => this.props.history.push(ROUTES.SIGN_IN),
             );
         }
 

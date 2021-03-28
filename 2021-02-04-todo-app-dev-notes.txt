@@ -580,8 +580,83 @@ We can do this in three stages:
 	
 	Assign roles to new users (a prop in the user entity)
 		We added a new prop to the src\components\SignUp\index.js to know the 'role' of the new user, this includes state, fields, and handlers.
+	
 	Merge the authenticated user and database user so they can be authorized with their roles in the authorization higher-order component.
 		Now we add role support to the database user object that is created when creating an AuthAPI user
+
+		We have to merge the auth and db in the withAuthorization (to handle redirections) and withAuthentication (to handle the user's state) components.
+
+		To do that we create the onAuthUserListener function in the src\components\Firebase\firebase.js file (untracked by git, see the FIREBASE section of this notes)
+
+		// *** Merge Auth and DB User API ***
+
+	    onAuthUserListener = (next, fallback) => {
+	        this.auth.onAuthStateChanged( (authUser) => {
+	            if (authUser) {
+	                this.user(authUser.uid)
+	                    .once('value')
+	                    .then(
+	                        snapshot => {
+	                            const dbUser = snapshot.val();
+
+	                            // default empty roles
+	                            if (!dbUser.roles) {
+	                                dbUser.roles = {};
+	                            }
+
+	                            // merge auth and db user
+	                            authUser = {
+	                                uid: authUser.uid,
+	                                email: authUser.email,
+	                                ...dbUser,
+	                            };
+
+	                            next(authUser);
+	                        });
+	            } else {
+	                fallback();
+	            }
+	        });
+	    }
+
+	    notice how it expects two functions as parameters: next() and fallback(), they are 
+		both callbacks (in form of arrow functions).
+
+		It creates an observer to know if the user is logged in or not, and if it is logged in, we ask the db for the logged in user data
+		and merge it with the authUser object on the state and pass it to the next() function.
+		 
+		If the user is not logged in it calls fallback() instead.
+
+		Now we can call this function to know what to do in the withAuthorization (to handle redirections) and withAuthentication (to handle the user's state) components.
+
+		withAuthorization.js
+
+			componentDidMount() {
+				//onAuthUserListener is defined at src\components\Firebase\firebase.js
+			    this.listener = this.props.firebase.onAuthUserListener(
+			        authUser => {
+			            if(!condition(authUser)) {
+			                this.props.history.push(ROUTES.SIGN_IN);
+			            }
+			        },
+			        () => this.props.history.push(ROUTES.SIGN_IN),
+			    );
+			}
+
+		withAuthentication.js
+
+			componentDidMount() {
+	            //onAuthUserListener is defined at src\components\Firebase\firebase.js
+	            this.listener = this.props.firebase.onAuthUserListener(
+	                authUser => {
+	                    this.setState({ authUser });
+	                },
+	                () => {
+	                    this.setState({ authUser: null });
+	                },
+	            )
+	        }
+
 	Showcase a role authorization for one of our routes (e.g. only allowed for admin users).
 
 

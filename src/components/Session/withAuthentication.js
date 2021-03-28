@@ -66,7 +66,7 @@ export default withAuthentication;
 
 /**
  * Since we are not going to use a state management library (on the first version at least), the user's sessions will be stored in the react
- * state of the App component.
+ * state of the App component. This HOC handles the local state of the user, withAuthorization handles redirection.
  * 
  * We pass it as a prop to the <Navigation> component, and then we can add some conditional rendering depending on
  * the authUser state (line 32)

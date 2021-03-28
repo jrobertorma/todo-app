@@ -72,6 +72,8 @@ export default withAuthorization;
  * 
  * It'll allow us to add the authorization bussiness logic to the other components.
  * 
+ * This HOC handles redirections, withAuthentication handles the local state of the user.
+ * 
  * This case is a little different because withAuthorization gets a function with a component as a parameter as the function parameter.
  * 
  * e.g withAuthorization( someFunction ) ( someComponent )

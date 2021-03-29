@@ -7,7 +7,7 @@ import * as ROUTES from '../../constants/routes';
 
 import AuthUserContext from './context';
 
-const withAuthorization = (condition) => (Component) => {
+const withAuthorization = condition => Component => {
     class WithAuthorization extends React.Component {
         componentDidMount() {
             //onAuthUserListener is defined at src\components\Firebase\firebase.js
@@ -21,9 +21,10 @@ const withAuthorization = (condition) => (Component) => {
             );
         }
 
-        componentWillUnmount(){
-            this.listener();
-        }
+        //The app breaks if uncommented, check in later stages
+        // componentWillUnmount(){
+        //     this.listener();
+        // }
 
         render() {
             return (

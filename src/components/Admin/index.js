@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
 
+import { withAuthorization } from '../Session';
+import * as ROLES from '../../constants/roles';
+
 class AdminPage extends Component {
     constructor(props) {
         super(props);
@@ -34,6 +37,9 @@ class AdminPage extends Component {
         return ( 
             <div>
                 <h1>Admin</h1>
+                <p>
+                    The Admin Page is accessible by every signed in admin user.
+                </p>
 
                 {loading && <div>Loading ...</div> /*conditional rendering: 'logicExpression && TODO if logicExpression returns true'*/}
 
@@ -74,24 +80,32 @@ const UserList = ({ users }) => {
         </ul>
     );
 }
- 
-export default withFirebase(AdminPage);
+
+//if there is an authUser value we check for the truthiness of the value in the provided authUser.roles[ROLES.ADMIN]
+const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];
+
+/* 
+* withAuthorization gets two functions as parameters, the first must return a logical value (true or false),
+* the second one is the component to render in case the condition is passed, in this case is a HOC call with AdminPage 
+* as param
+*/
+export default withAuthorization ( condition )( withFirebase( AdminPage ) );
 
 /**
  * The administrators component
  * 
  * They will be able to see all the registered users. We are calling it at line 18, where we call the 'users' reference
- * and attatch a listener. That is the on() method that triggers every time something has changed. It receives a type value and
- * a callback ('value' in this case and the setState call with snapshot as a parameter to update the users state).
+ * and attatch a listener. That is the on() method wich triggers every time something changes. It receives a type value and
+ * a callback ('value' in this case, and the setState call with snapshot as a parameter to update the users state).
  * 
  * see the docs at: https://firebase.google.com/docs/database/web/read-and-write
  * 
- * Since the users are objects when they are retrieved from the Firebase database, you have to restructure them 
+ * Since the users are objects when they are retrieved from the Firebase database, we have to restructure them 
  * as lists (arrays), which makes it easier to display them later.
  * 
- * This was a little bit different from the book. Instead of convert the users object to an array and store it in the state at 
- * the componentDidMount() function, we are storing the raw object returned by firebase directly (line 21).
+ * This was a little bit different from the book. Instead of converting the users object to an array and store it in the state at 
+ * the componentDidMount() function, we are storing the raw object returned by firebase directly (line 24).
  * 
- * Then we catch it as a param in the UserList component (line 40), and parse it at lines 50-53 to be able to run a map()
+ * Then we catch it as a param in the UserList component (line 46), and parse it at lines 55-59 to be able to run a map()
  * over the parsed array and create every list item through the loop.
  */

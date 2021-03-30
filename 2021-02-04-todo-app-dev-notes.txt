@@ -660,8 +660,6 @@ We can do this in three stages:
 	Showcase a role authorization for one of our routes (e.g. only allowed for admin users).
 
 
-
-
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

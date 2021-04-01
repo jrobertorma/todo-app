@@ -63,18 +63,6 @@ Adding route protection
 15/03/2021
 Migrating to new hardware (T.T)
 
-16-18/03/2021
-Adding route protection
-
-19/03/2021
-Adding realtime database
-
-21-23/03/2021
-Adding realtime database CRUD components
-
-24-26/03/2021
-Adding roles support to users in db
-
 Be sure to have the '.env.development.local' file, I cloned the repo using git cli, and it partially worked but it keep throwing a 400 error on the API. 
 
 I even created a new firebase project and added it to the env vars but didn't work, it is somehow related to the project keys, but I am not sure how (lol). 
@@ -93,6 +81,18 @@ REACT_APP_MEASUREMENTID=""
 Then you can call them on the src\components\Firebase\firebase.js file, on the firebase config section.
 
 Or just paste the config object you copied from your firebase console src\components\Firebase\firebase.js lol.
+
+16-18/03/2021
+Adding route protection
+
+19/03/2021
+Adding realtime database
+
+21-23/03/2021
+Adding realtime database CRUD components
+
+24-31/03/2021
+Adding roles support to users in db
 
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
@@ -657,7 +657,56 @@ We can do this in three stages:
 	            )
 	        }
 
+	        We also update the user state in the context
+
+	        <AuthUserContext.Provider value={this.state.authUser}>
+                <Component {...this.props} />
+            </AuthUserContext.Provider>
+
+
 	Showcase a role authorization for one of our routes (e.g. only allowed for admin users).
+		Now we can access the 'enriched' user object in any component invoked with the withAuthentication() HOC.
+		'App' being one of them, wich uses react-router to render the components based on the nav input.
+
+		The route we probably want to protect is the 'Admin' route, wich calls src\components\Admin\index.js.
+
+		This component fetches the firebase users stored in the db (remember we create a 'copy' of every user created through the signUp component), and renders the data in a list.
+
+		We only need to call the AuthUserContext (defined at withAuthentication) to know the logged user data, including its roles and render the nav component based on them.
+
+		//Calling the AuthUserContext
+		<AuthUserContext.Consumer>
+	        { //deciding wich set of links will be rendered
+	          //notice how we pass the authUser object to NavigationAuth in case someone is logged in 
+	          (authUser) =>  authUser ? <NavigationAuth authUser={authUser}/> : <NavigationNonAuth /> 
+	        }
+	    </AuthUserContext.Consumer>
+
+	    //Now we get a parameter (authUser)
+	    const NavigationAuth = ({ authUser }) => {
+		  return ( 
+		    <ul>
+		      <li>
+		        <Link to={ROUTES.LANDING}>Landing</Link>
+		      </li>
+		      <li>
+		        <Link to={ROUTES.HOME}>Home</Link>
+		      </li>
+		      <li>
+		        <Link to={ROUTES.ACCOUNT}>Account</Link>
+		      </li>
+		        //and we see if there is a roles prop with the value of the constant (ROLES.ADMIN)
+		        //and in case there is we render the link
+		        { !!authUser.roles[ROLES.ADMIN] && (<li><Link to={ROUTES.ADMIN}>Admin</Link></li>) }
+		        
+		      <li>
+		        <SignOutButton />
+		      </li>
+		    </ul>
+		  );
+		}
+
+
 
 
 COOL LINKS:

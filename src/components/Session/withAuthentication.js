@@ -9,17 +9,19 @@ const withAuthentication = Component => {
             super(props);
 
             this.state = {
-                authUser: null,
-            }
+                authUser: JSON.parse(localStorage.getItem('authUser')),
+            };
         }
 
         componentDidMount() {
             //onAuthUserListener is defined at src\components\Firebase\firebase.js
             this.listener = this.props.firebase.onAuthUserListener(
                 authUser => {
+                    localStorage.setItem('authUser', JSON.stringify(authUser));
                     this.setState({ authUser });
                 },
                 () => {
+                    localStorage.removeItem('authUser');
                     this.setState({ authUser: null });
                 },
             )
@@ -60,10 +62,13 @@ export default withAuthentication;
  * "If a user signs out, the authUser object becomes null, so the authUser property in the local state is set to null and all components 
  * depending on it adjust their behavior (e.g. display different options like the Navigation component)."
  * 
- * Note how we added 'AuthUserContext' and set the authUser state as it's provider (lines 34 and 36).
+ * Notice how we added 'AuthUserContext' and set the authUser state as it's provider (lines 36 and 38).
+ * 
+ * Also notice we pass one localStorage call to each of the functions so when creating the state, we also store the user data 
+ * in the browser (lines 20 and 24).
  * 
  * Now we can call the 'AuthUserContext' context and use it to know the authUser state without needing to pass it through the component tree
- * (see src\components\Navigation\index.js to see how do you call the context). 
+ * (go to src\components\Navigation\index.js to see how do you call the context). 
  * 
  * This pattern is called 'higher order component', wich basically means: 'a function that takes a component and returns a new component' 
  * see https://reactjs.org/docs/higher-order-components.html for more about this.

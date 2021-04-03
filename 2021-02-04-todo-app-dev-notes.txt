@@ -94,11 +94,14 @@ Adding realtime database CRUD components
 24-31/03/2021
 Adding roles support to users in db
 
+01/04/2021
+Adding browser's local storage support
+
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
 
 What do you need to create the app?
-	1. Initialize project (done)
+	1. Initialize project
 
 	2.1 Design user cases, user stories, or something to establish the data flows and needed operations
 	2.2 App design (UI and functionalities)
@@ -186,7 +189,10 @@ What do you need to create the app?
 		3.3.1 Set firebase context
 		3.3.2 Add session handling
 		3.3.3 Add password management
-		3.3.4 Create protected routes 
+		3.3.4 Create protected routes
+		3.3.5 Adding realtime database support, when creating a new user also create a correspondent user object in the db
+		3.3.6 Merging user state (from the auth API) with the user object (from the db)
+		3.3.7 Using the merged user data to implement role based route protection
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * * * * * * * * * * * * * * * N O T E S * * * * * * * * * * * * * * *
@@ -665,6 +671,7 @@ We can do this in three stages:
 
 
 	Showcase a role authorization for one of our routes (e.g. only allowed for admin users).
+
 		Now we can access the 'enriched' user object in any component invoked with the withAuthentication() HOC.
 		'App' being one of them, wich uses react-router to render the components based on the nav input.
 
@@ -706,6 +713,28 @@ We can do this in three stages:
 		  );
 		}
 
+---------------------- ABOUT SOCIAL LOGIN ----------------------
+We can add 'social login' as a sign up method to our app. Sometimes the user doesn't want to create a new account to use the app. With social login the user just needs to make some clicks to create an account on the app. This removes 'friction' to new users.
+
+First we have to allow the desired social method in the firebase console, there are a lot of them, we can start with 'Google', so the user can create an account using it's Google account.
+
+You go to the console (https://console.firebase.google.com) and go to the auth section, then sign-in methods, and activate 'Google'.
+
+Afterward, we are able to implement the social login in the code.
+
+	First we add the google auth handler to our 'interface' between react and firebase. i.e. the src\components\Firebase\firebase.js component (see its notes at the start of the notes). We define doSignInWithGoogle() function
+
+		//social login
+	    doSignInWithGoogle = () => {
+	        this.auth.signInWithPopup(this.googleProvider);
+	    }
+
+	googleProvider was defined at the constructor
+
+		//adding google social login
+        this.googleProvider = new app.auth.GoogleAuthProvider();
+
+	Then we can call it in our SignIn component (src\components\SignIn\index.js)
 
 
 
@@ -714,3 +743,4 @@ https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup
 
 https://firebase.google.com/docs/auth/web/firebaseui?authuser=1
+https://firebase.google.com/docs/auth/web/auth-state-persistence

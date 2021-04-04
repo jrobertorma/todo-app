@@ -91,13 +91,16 @@ class SignInGoogleBase extends Component {
         this.state = { error: null }
     }
 
+    //calling the doSignInWithGoogle() function defined at firebase.js
     onSubmit = (event) => {
         this.props.firebase
             .doSignInWithGoogle()
+            //creates the user and redirects
             .then(socialAuthUser => {
                 this.setState({ error: null });
                 this.props.history.push(ROUTES.HOME);
             })
+            //if there are any error
             .catch(error => {
                 this.setState({ error });
             })

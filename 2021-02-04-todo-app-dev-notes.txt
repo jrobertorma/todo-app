@@ -736,6 +736,42 @@ Afterward, we are able to implement the social login in the code.
 
 	Then we can call it in our SignIn component (src\components\SignIn\index.js)
 
+		class SignInGoogleBase extends Component {
+		    constructor(props){
+		        super(props);
+
+		        this.state = { error: null }
+		    }
+
+		    //calling the doSignInWithGoogle() function defined at firebase.js
+		    onSubmit = (event) => {
+		        this.props.firebase
+		            .doSignInWithGoogle()
+		            //creates the user and redirects
+		            .then(socialAuthUser => {
+		                this.setState({ error: null });
+		                this.props.history.push(ROUTES.HOME);
+		            })
+		            //if there are any error
+		            .catch(error => {
+		                this.setState({ error });
+		            })
+		        
+		        event.preventDefault();
+		    };
+
+		    render() {
+		        const { error } = this.state;
+
+		        return (
+		            <form onSubmit={this.onSubmit}>
+		                <button type="submit">Sign In with Google</button>
+
+		                {error && <p>{error.message}</p>}
+		            </form>
+		        );
+		    }
+		}
 
 
 COOL LINKS:

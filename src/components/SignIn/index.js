@@ -88,23 +88,35 @@ class SignInGoogleBase extends Component {
     constructor(props){
         super(props);
 
-        this.state = { error: null }
+        this.state = { error: null };
     }
 
     //calling the doSignInWithGoogle() function defined at firebase.js
     onSubmit = (event) => {
         this.props.firebase
             .doSignInWithGoogle()
-            //creates the user and redirects
-            .then(socialAuthUser => {
-                this.setState({ error: null });
-                this.props.history.push(ROUTES.HOME);
+            .then( socialAuthUser => {
+                //add user to the db too
+                this.props.firebase
+                    .user(socialAuthUser.user.uid)
+                    .set({
+                        username: socialAuthUser.user.displayName,
+                        email: socialAuthUser.user.email,
+                        roles: [],
+                    })
+                    .then(() => {
+                        this.setState({ error: null });
+                        this.props.history.push(ROUTES.HOME);
+                    })
+                    //if there are any error
+                    .catch(error => {
+                        this.setState({ error }); window.alert("uno");
+                    })
             })
-            //if there are any error
             .catch(error => {
-                this.setState({ error });
+                this.setState({ error }); window.alert("dos");
             })
-        
+            
         event.preventDefault();
     };
 

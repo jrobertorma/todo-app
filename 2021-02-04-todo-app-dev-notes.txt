@@ -716,7 +716,7 @@ We can do this in three stages:
 ---------------------- ABOUT SOCIAL LOGIN ----------------------
 We can add 'social login' as a sign up method to our app. Sometimes the user doesn't want to create a new account to use the app. With social login the user just needs to make some clicks to create an account on the app. This removes 'friction' to new users.
 
-First we have to allow the desired social method in the firebase console, there are a lot of them, we can start with 'Google', so the user can create an account using it's Google account.
+First we have to allow the desired social method in the firebase console, there are a lot of them, we can start with 'Google', so the user can create an account using it's Google account (see the docs at https://firebase.google.com/docs/auth/web/google-signin).
 
 You go to the console (https://console.firebase.google.com) and go to the auth section, then sign-in methods, and activate 'Google'.
 

@@ -746,17 +746,29 @@ Afterward, we are able to implement the social login in the code.
 		    //calling the doSignInWithGoogle() function defined at firebase.js
 		    onSubmit = (event) => {
 		        this.props.firebase
-		            .doSignInWithGoogle()
-		            //creates the user and redirects
-		            .then(socialAuthUser => {
-		                this.setState({ error: null });
-		                this.props.history.push(ROUTES.HOME);
+		            .doSignInWithGoogle() //here is the magic
+		            .then( socialAuthUser => {
+		                //add user to the db too
+		                this.props.firebase
+		                    .user(socialAuthUser.user.uid)
+		                    .set({
+		                        username: socialAuthUser.user.displayName,
+		                        email: socialAuthUser.user.email,
+		                        roles: [],
+		                    })
+		                    .then(() => {
+		                        this.setState({ error: null });
+		                        this.props.history.push(ROUTES.HOME);
+		                    })
+		                    //if there are any error
+		                    .catch(error => {
+		                        this.setState({ error });
+		                    })
 		            })
-		            //if there are any error
 		            .catch(error => {
 		                this.setState({ error });
 		            })
-		        
+		            
 		        event.preventDefault();
 		    };
 
@@ -773,6 +785,18 @@ Afterward, we are able to implement the social login in the code.
 		    }
 		}
 
+Another popular sign in method is 'Facebook'. To enable it we should set some things before.
+	
+	First we need to create an account on https://developers.facebook.com/
+	Then we can create a 'new app', you should choose the 'Create connected experiences' (or something like that lol) radio button.
+	We need to copy the app id and secret from the settings > basic panel
+	Now on the firebase auth console we can activate the 'FB' sign in method, we use the id and secret we copied before, also copy the callback code, we will use it later.
+	We also need to enable the 'login product' for the FB app (its on the dashboard), then we go to settings (without touching any login setting) and paste the OAuth redirect URI that we got when enabling the Facebook Sign In Method in Firebase.
+
+	Now we can add the signIn method to the code.
+
+	(see https://www.robinwieruch.de/firebase-facebook-login)
+
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
@@ -780,3 +804,5 @@ https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#fire
 
 https://firebase.google.com/docs/auth/web/firebaseui?authuser=1
 https://firebase.google.com/docs/auth/web/auth-state-persistence
+
+https://developers.facebook.com/

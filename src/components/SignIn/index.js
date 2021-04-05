@@ -110,11 +110,11 @@ class SignInGoogleBase extends Component {
                     })
                     //if there are any error
                     .catch(error => {
-                        this.setState({ error }); window.alert("uno");
+                        this.setState({ error });
                     })
             })
             .catch(error => {
-                this.setState({ error }); window.alert("dos");
+                this.setState({ error });
             })
             
         event.preventDefault();

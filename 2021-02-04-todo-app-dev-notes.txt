@@ -791,11 +791,12 @@ Another popular sign in method is 'Facebook'. To enable it we should set some th
 	Then we can create a 'new app', you should choose the 'Create connected experiences' (or something like that lol) radio button.
 	We need to copy the app id and secret from the settings > basic panel
 	Now on the firebase auth console we can activate the 'FB' sign in method, we use the id and secret we copied before, also copy the callback code, we will use it later.
-	We also need to enable the 'login product' for the FB app (its on the dashboard), then we go to settings (without touching any login setting) and paste the OAuth redirect URI that we got when enabling the Facebook Sign In Method in Firebase.
+	We also need to enable the 'login product' for the FB app (its on the dashboard), then we go to settings (without touching any login setting) and paste the OAuth redirect URI that we got when enabling the Facebook Sign In Method in Firebase (see https://www.robinwieruch.de/firebase-facebook-login).
 
 	Now we can add the signIn method to the code.
 
-	(see https://www.robinwieruch.de/firebase-facebook-login)
+	
+	
 
 
 COOL LINKS:

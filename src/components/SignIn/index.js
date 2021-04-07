@@ -8,6 +8,16 @@ import { withFirebase } from '../Firebase';
 
 import * as ROUTES from '../../constants/routes';
 
+const ERROR_CODE_ACCOUNT_EXISTS = 
+    'auth/account-exists-with-different-credential';
+
+const ERROR_MSG_ACCOUNT_EXISTS = `
+    An account with an E-Mail address to
+    this social account already exists. Try to login from
+    this account instead and associate your social accounts on
+    your personal account page.
+  `;
+
 const SingInPage = () => {
     return(
         <div>
@@ -115,6 +125,10 @@ class SignInGoogleBase extends Component {
                     })
             })
             .catch(error => {
+                if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+                    error.message = ERROR_MSG_ACCOUNT_EXISTS;
+                }
+
                 this.setState({ error });
             })
             
@@ -142,7 +156,7 @@ class SignInFacebookBase extends Component {
 
     onSubmit = event => {
         this.props.firebase
-            .diSignInWithFacebook()
+            .doSignInWithFacebook()
             .then( socialAuthUser => {
                 this.props.firebase
                     .user(socialAuthUser.user.uid)
@@ -190,3 +204,8 @@ const SignInFacebook = withRouter(withFirebase(SignInFacebookBase));
 export default SingInPage;
 
 export { SignInForm, SignInGoogle, SignInFacebook };
+
+/**
+ * notice the ` `, we call them 'template strings' in javascript 
+ * see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+ */

@@ -856,6 +856,12 @@ Another popular sign in method is 'Facebook'. To enable it we should set some th
 		    }
 		}
 
+Now we need to link all social accounts when creating a user in the app. This means we can create an account with our email, or with a Google or Facebook account with the same email no matter wich sign-in method the user takes, the account should be the same.
+
+	First we need to prevent the user from signing in with another account when there is an account associated to the email address (firebase > console > auth > signin method tab).
+
+	
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

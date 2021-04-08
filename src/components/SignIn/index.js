@@ -124,13 +124,15 @@ class SignInGoogleBase extends Component {
                         this.setState({ error });
                     })
             })
-            .catch(error => {
-                if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
-                    error.message = ERROR_MSG_ACCOUNT_EXISTS;
-                }
+            .catch(
+                (error) => {
+                    if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+                        error.message = ERROR_MSG_ACCOUNT_EXISTS;
+                    }
 
-                this.setState({ error });
-            })
+                    this.setState({ error });
+                }
+            );
             
         event.preventDefault();
     };
@@ -178,7 +180,11 @@ class SignInFacebookBase extends Component {
                     )
             })
             .catch(
-                error => {
+                (error) => {
+                    if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+                        error.message = ERROR_MSG_ACCOUNT_EXISTS;
+                    }
+
                     this.setState({error});
                 }
             );

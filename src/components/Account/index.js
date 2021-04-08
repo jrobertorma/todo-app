@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { AuthUserContext, withAuthorization } from '../Session';
 
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
+
+const SIGN_IN_METHODS = [
+    {
+        id: 'password',
+        provider: null,
+    },
+    {
+        id: 'google.com',
+        provider: 'googleProvider',
+    },
+    {
+        id: 'facebook.com',
+        provider: 'facebookProvider'
+    },
+];
 
 const AccountPage = () => {
     return ( 
@@ -15,12 +30,36 @@ const AccountPage = () => {
                             <h1>Account: {authUser.email}</h1>
                             <PasswordForgetForm />
                             <PasswordChangeForm />
+                            <LoginManagement authUser={authUser} />
                         </div>
                     );
                 }
             }
         </AuthUserContext.Consumer>
      );
+}
+
+class LoginManagement extends Component {
+    constructor(props) {
+        super(props);
+        // this.state = {  }
+    }
+    render() { 
+        return ( 
+            <div>
+                Sign In Methods:
+                <ul>
+                    {SIGN_IN_METHODS.map( (signInMethod) => {
+                        return( <li key={signInMethod.id}>
+                                    <button type="button" onClick={ () => {} }>
+                                        {signInMethod.id}
+                                    </button>
+                                </li> );
+                    } )}
+                </ul>
+            </div>
+        );
+    }
 }
 
 const condition = authUser => !!authUser; // '!!expression', returns the 'truthiness' of expression

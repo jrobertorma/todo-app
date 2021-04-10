@@ -860,8 +860,6 @@ Now we need to link all social accounts when creating a user in the app. This me
 
 	First we need to prevent the user from signing in with another account when there is an account associated to the email address (firebase > console > auth > signin method tab).
 
-	
-
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

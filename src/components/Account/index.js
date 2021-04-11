@@ -76,6 +76,10 @@ class LoginManagementBase extends Component {
             .catch(error => this.setState({ error }))
     }
 
+    onDefaultLoginLink = () => {
+
+    }
+
     render() {
         const { activeSignInMethods, error } = this.state;
 
@@ -92,22 +96,25 @@ class LoginManagementBase extends Component {
                         return( 
                             <li key={signInMethod.id}>
                                 {
-                                    isEnabled ? (
-                                    <button 
-                                        type="button" 
-                                        onClick={ () => this.onUnlink(signInMethod.id) }
-                                        disabled={onlyOneLeft}
-                                    >
-                                        Deactivate {signInMethod.id}
-                                    </button> ): (
-                                    <button 
-                                        type="button" 
-                                        onClick={ () => this.onSocialLoginLink(signInMethod.provider) }
-                                    >
-                                        Link {signInMethod.id}
-                                    </button> )
+                                    signInMethod.id === 'password' ? (
+                                    <DefaultLoginToggle 
+                                        onlyOneLeft={onlyOneLeft}
+                                        isEnabled={isEnabled}
+                                        signInMethod={signInMethod}
+                                        onLink={this.onDefaultLoginLink}
+                                        onUnlink={this.onUnlink}
+                                    /> ): (
+                                    <SocialLoginToggle 
+                                        onlyOneLeft={onlyOneLeft}
+                                        isEnabled={isEnabled}
+                                        signInMethod={signInMethod}
+                                        onLink={this.onSocialLoginLink}
+                                        onUnlink={this.onUnlink}
+                                    />    
+                                    )
                                 }
-                            </li> );
+                            </li> 
+                        );
                     } )}
                 </ul>
                 

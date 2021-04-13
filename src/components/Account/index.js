@@ -76,8 +76,16 @@ class LoginManagementBase extends Component {
             .catch(error => this.setState({ error }))
     }
 
-    onDefaultLoginLink = () => {
+    onDefaultLoginLink = (password) => {
+        const credential = this.props.firebase.emailAuthProvider.credential(
+            this.props.authUser.email,
+            password,
+        );
 
+        this.props.firebase.auth.currentUser
+            .linkAndRetrieveDataWithCredential(credential)
+            .then(this.fetchSignInMethods)
+            .catch(error => this.setState({ error }))
     }
 
     render() {
@@ -182,15 +190,36 @@ class DefaultLoginToggle extends Component {
 
         return ( 
             isEnabled ? (
-                <button>
-
+                <button
+                    type="button"
+                    onClick={ () => onUnlink(signInMethod.id) }
+                    disabled={onlyOneLeft}
+                >
+                    Deactivate {signInMethod.id}
                 </button>
             ) : (
-                <form>
-                    
+                <form onSubmit={this.onSubmit}>
+                    <input
+                        name="passwordOne"
+                        value={passwordOne}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="New Password"
+                    />
+                    <input
+                        name="passwordTwo"
+                        value={passwordTwo}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="Confirm New Password"
+                    />
+
+                    <button disabled={isInvalid} type="submit">
+                        Link {signInMethod.id}
+                    </button>
                 </form>
-            ) 
-        );
+            )
+        )
     }
 }
 

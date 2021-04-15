@@ -119,11 +119,12 @@ class SignInGoogleBase extends Component {
                         this.setState({ error: null });
                         this.props.history.push(ROUTES.HOME);
                     })
-                    //if there are any error
+                    //if there are any error with the realtime db
                     .catch(error => {
                         this.setState({ error });
                     })
             })
+            //if there are any error with the doSignInWithGoogle method
             .catch(
                 (error) => {
                     if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
@@ -212,6 +213,33 @@ export default SingInPage;
 export { SignInForm, SignInGoogle, SignInFacebook };
 
 /**
- * notice the ` `, we call them 'template strings' in javascript 
- * see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+ * The SignIn form and its components.
+ * 
+ * It displays a form to sign-in to the app (see SingInPage component),
+ *  we can access to the app with an email address and a password (<SignInForm />)
+ *  A social sign in with a Google (<SignInGoogle />) or Facebook (<SignInFacebook />) accounts
+ *  We also link to a form to reset the password of the account (<PasswordForgetLink />)
+ *  Finally the component displays a link to create an account (<SignUpLink />)
+ * 
+ * The <SignInForm /> component 
+ * Displays a form to create an account with an email address and a password, it uses the
+ * doSignInWithEmailAndPassword() firebase method, we can use it because we call it as a HOC argument (see line 206)
+ * const SignInForm = withRouter(withFirebase(SignInFormBase)); 
+ * 
+ * The <SignInGoogle /> component
+ * Follows the same pattern, calls <SignInGoogleBase/> as an argument of withFirebase and withRouter HOCs
+ * it uses the doSignInWithGoogle() method of the firebase.js file (class)
+ * 
+ *      //social login
+ *      doSignInWithGoogle = () =>
+ *          this.auth.signInWithPopup(this.googleProvider);
+ * 
+ * This method creates a pop up to allow the app to sign in with the google credentials of the authenticated user, it also creates a user's copy in
+ * the realtime database. Notice how the component catch an specific kind of error, previously defined with the const ERROR_CODE_ACCOUNT_EXISTS, 
+ * and if it is the error returned, it changes the error.message prop using 'template strings' (the ` ` stuff 
+ * see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+ * 
+ * So when you try to sign in with an already registered account you can know there is a linked account already in the app.
+ * 
+ * The <SignInFacebook /> component works similarly, besides the fact it uses the doSignInWithFacebook() method of the firebase class
  */

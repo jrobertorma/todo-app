@@ -237,9 +237,13 @@ export { SignInForm, SignInGoogle, SignInFacebook };
  * This method creates a pop up to allow the app to sign in with the google credentials of the authenticated user, it also creates a user's copy in
  * the realtime database. Notice how the component catch an specific kind of error, previously defined with the const ERROR_CODE_ACCOUNT_EXISTS, 
  * and if it is the error returned, it changes the error.message prop using 'template strings' (the ` ` stuff 
- * see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+ * see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals). 
  * 
  * So when you try to sign in with an already registered account you can know there is a linked account already in the app.
  * 
- * The <SignInFacebook /> component works similarly, besides the fact it uses the doSignInWithFacebook() method of the firebase class
+ * The <SignInFacebook /> component, besides the fact it uses the doSignInWithFacebook() method of the firebase class, works similarly,.
+ * 
+ * "If a user signs in with one of the social logins, but there is already an account in the system with this email address, 
+ * the custom error message shows up. The user has to log in with the correct sign-in method and link all other desired social 
+ * accounts to this account on the account page."
  */

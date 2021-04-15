@@ -184,6 +184,10 @@ export { SignUpForm, SignUpLink };
  * The relevant property from the router props is the history object, because it allows us to redirect a user to another page 
  * by pushing a route to it.
  * 
- * Also see how the event calls the firebase functions at line 38 and calls the user() method to create a new user with the same id as
- * the authAPI user created three lines before, then the set() method can be used to add information to the user on the db.
+ * Also see how the event calls the firebase functions at line 55 and calls the user() method to create a new user with the same id as
+ * the authAPI user created three lines before, then the set() method can be used to add information to the user in the db.
+ * 
+ * The doCreateUserWithEmailAndPassword() method can return an error if the email address is already asociated with othe user, maybe because 
+ * they signed in before with a social account (google, fb, etc), that is when we set the custom error message for the user to see and link 
+ * his accounts after sign in with the social account. 
  */

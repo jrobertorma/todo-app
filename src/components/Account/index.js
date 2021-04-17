@@ -6,6 +6,7 @@ import { withFirebase } from '../Firebase';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
 
+//List of all the sign in methods available to create an account
 const SIGN_IN_METHODS = [
     {
         id: 'password',
@@ -108,15 +109,29 @@ class LoginManagementBase extends Component {
                         * 
                         * Well, in each of the SIGN_IN_METHODS we check if it is included in the 'activeSignInMethods' state, so we know
                         * if it is active or not (if it isn't in the state then it is disabled)
-                        * 
-                        * And after that we create a list with the components that allow the user to enable it or disable it (the current 
-                        * sign in method, remember we are inside a map, similar to a for loop)
                         * */ 
                         const isEnabled = activeSignInMethods.includes(
                             signInMethod.id,
                         );
 
-                        return( 
+                        return(
+                            /**
+                             * We create a list item. If the signInMethod is the traditional 'password/email' we return the
+                             * <DefaultLoginToggle /> component, if is of any other type (i.e.social login) we display the
+                             * <SocialLoginToggle /> instead, we pass the handlers of each kind of signIn method to those
+                             * components. 
+                             * 
+                             * onlyOneLeft is a constant whose value is 'true' if there is only one active
+                             * signIn method (see line 103).
+                             * 
+                             * isEnabled stores a 'true' value if the signIn method is included in the activeSignInMethods
+                             * state, which means is an active method for the user
+                             * 
+                             * signInMethod is the 'row' in the SIGN_IN_METHODS we are currently on, during the 'map loop'.
+                             * 
+                             * onLink passes onSocialLoginLink() function as a handler
+                             * onUnlink does the same with onUnlink().
+                             */
                             <li key={signInMethod.id}>
                                 {
                                     signInMethod.id === 'password' ? (

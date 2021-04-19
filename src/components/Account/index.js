@@ -79,6 +79,9 @@ class LoginManagementBase extends Component {
             .catch(error => this.setState({ error }))
     }
 
+    /**
+    * Gets a password 
+    */
     onDefaultLoginLink = (password) => {
         const credential = this.props.firebase.emailAuthProvider.credential(
             this.props.authUser.email,
@@ -119,18 +122,7 @@ class LoginManagementBase extends Component {
                              * We create a list item. If the signInMethod is the traditional 'password/email' we return the
                              * <DefaultLoginToggle /> component, if is of any other type (i.e.social login) we display the
                              * <SocialLoginToggle /> instead, we pass the handlers of each kind of signIn method to those
-                             * components. 
-                             * 
-                             * onlyOneLeft is a constant whose value is 'true' if there is only one active
-                             * signIn method (see line 103).
-                             * 
-                             * isEnabled stores a 'true' value if the signIn method is included in the activeSignInMethods
-                             * state, which means is an active method for the user
-                             * 
-                             * signInMethod is the 'row' in the SIGN_IN_METHODS we are currently on, during the 'map loop'.
-                             * 
-                             * onLink passes onSocialLoginLink() function as a handler
-                             * onUnlink does the same with onUnlink().
+                             * components.
                              */
                             <li key={signInMethod.id}>
                                 {
@@ -163,6 +155,28 @@ class LoginManagementBase extends Component {
     }
 }
 
+/**
+ * This component is called by a loop on the SIGN_IN_METHODS const. 
+ * It is displayed if the signInMethod is not the traditional 'password/email'
+ * 
+ * onlyOneLeft is a constant wich value is 'true' if there is only one active
+ * signIn method (see line 106).
+ * 
+ * isEnabled stores a 'true' value if the signIn method is included in the activeSignInMethods
+ * state, which means is an active method for the user
+ * 
+ * signInMethod is the 'row' in the SIGN_IN_METHODS we are currently on, during the 'map loop'.
+ * 
+ * onLink passes onSocialLoginLink() function as a handler
+ * onUnlink does the same with onUnlink(). (see the LoginManagementBase component)
+ * 
+ * SocialLoginToggle returns a button. If the isEnabled var returns 'true' it displays a button with
+ * the onUnlink() function as the onClick handler, but is disabled if the onlyOneLeft var returns 'true'
+ * so the user can't use it if there is no more active signInMethods for them.
+ * 
+ * If isEnabled returns 'false' the button has the onLink() function as the onClick handler so we can 
+ * link the signIn method to the user.
+ */
 const SocialLoginToggle = ({
     onlyOneLeft,
     isEnabled,

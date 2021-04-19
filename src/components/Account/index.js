@@ -65,6 +65,11 @@ class LoginManagementBase extends Component {
             .catch( (error) => this.setState({ error }) )
     }
 
+    /**
+     * Gets a providerId and calls a popUp for the user to approve the social account
+     * linking, then calls fetchSignInMethods() that uses this.setState() so every linked component
+     * will be re-rendered.
+     */
     onSocialLoginLink = (provider) => {
         this.props.firebase.auth.currentUser
             .linkWithPopup(this.props.firebase[provider])
@@ -72,6 +77,12 @@ class LoginManagementBase extends Component {
             .catch(error => this.setState({ error }))
     }
 
+    /**
+     * This function unlinks the sign in method asigned of the provided id (see unlink() method).
+     * 
+     * And then calls fetchSignInMethods() that uses this.setState() so every linked component
+     * will be re-rendered.
+     */
     onUnlink = (providerId) => {
         this.props.firebase.auth.currentUser
             .unlink(providerId)
@@ -80,7 +91,9 @@ class LoginManagementBase extends Component {
     }
 
     /**
-    * Gets a password 
+    * Gets a password and attaches it to the user (see linkAndRetrieveDataWithCredential method)
+    * then calls fetchSignInMethods() that uses this.setState() so every linked component
+    * will be re-rendered.
     */
     onDefaultLoginLink = (password) => {
         const credential = this.props.firebase.emailAuthProvider.credential(
@@ -160,7 +173,7 @@ class LoginManagementBase extends Component {
  * It is displayed if the signInMethod is not the traditional 'password/email'
  * 
  * onlyOneLeft is a constant wich value is 'true' if there is only one active
- * signIn method (see line 106).
+ * signIn method (see line 119).
  * 
  * isEnabled stores a 'true' value if the signIn method is included in the activeSignInMethods
  * state, which means is an active method for the user
@@ -202,6 +215,19 @@ const SocialLoginToggle = ({
     )
 }
 
+/**
+ * This component is called by a loop on the SIGN_IN_METHODS const. 
+ * It is displayed if the signInMethod is the traditional 'password/email'.
+ * 
+ * This component gets the same parameters of SocialLoginToggle (see its notes to know what do each of them mean).
+ * 
+ * If the value of isEnabled is 'true', the component displays a button with the onUnlink() function of <LoginManagementBase /> 
+ * as the onClick handler. If the onlyOneLeft var is 'true' the button is disabled.
+ * 
+ * If the value of isEnabled is 'false', the component displays a form with two password fields (controled input, wich means 
+ * they have a state and onChange handlers for the user input). The onSubmit handler of the form calls the onLink() 
+ * function of <LoginManagementBase />
+ */
 class DefaultLoginToggle extends Component {
     constructor(props) {
         super(props);
@@ -278,25 +304,21 @@ export default withAuthorization (condition)(AccountPage);
  * 
  * This component displays the user's mail and two forms to reset his/her's password, via mail reset or by typing the new password.
  * 
- * See how it is exported: using the withAuthorization HOC created at src\components\Session\withAuthorization.js (line 230).
+ * See how it is exported: using the withAuthorization HOC created at src\components\Session\withAuthorization.js (line 300).
  * 
- * That component checks if the user is logged in (using the 'condition' function, line 228), and depending on that calls the second
- * parameter (AccountPage in this case, line 65).
+ * That component checks if the user is logged in (using the 'condition' function, line 298), and depending on that calls the second
+ * parameter (AccountPage in this case, line 300).
  * 
  * Notice how the component uses the 'authUser' object. That is possible because the withAuthorization HOC, passes it as a prop at some
  * point (see the HOC's notes).
  * 
- * The <AccountPage /> component displays thse forms (<PasswordForgetForm />, <PasswordChangeForm />) and a component to handle the login 
+ * The <AccountPage /> component displays three forms (<PasswordForgetForm />, <PasswordChangeForm />) and a component to handle the login 
  * management of the social accounts. i.e. <LoginManagement authUser={authUser} />
  * 
  * That component fetch the sign in methods for the logged user (we passed it as authUser), see the componentDidMount() event and the 
  * fetchSignInMethods() method. Which calls the firebase.auth method 'fetchSignInMethodsForEmail()' that in change returns a set of signIn 
  * methods and we store them in the activeSignInMethods state.
  * 
- * 
- * 
- * 
- * 
- *                   
- * 
+ * Then the component loop through each of the signIn methods possible to use and displays a set of buttons to link/unlink each of them 
+ * depending on the users auth methods.
  */

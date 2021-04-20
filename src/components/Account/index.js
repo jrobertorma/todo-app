@@ -307,15 +307,17 @@ export default withAuthorization (condition)(AccountPage);
  * See how it is exported: using the withAuthorization HOC created at src\components\Session\withAuthorization.js (line 300).
  * 
  * That component checks if the user is logged in (using the 'condition' function, line 298), and depending on that calls the second
- * parameter (AccountPage in this case, line 300).
+ * parameter (AccountPage in this case, line 25).
  * 
- * Notice how the component uses the 'authUser' object. That is possible because the withAuthorization HOC, passes it as a prop at some
+ * Notice how the component uses the 'authUser' object. This is possible because the withAuthorization HOC, passes it as a prop at some
  * point (see the HOC's notes).
  * 
- * The <AccountPage /> component displays three forms (<PasswordForgetForm />, <PasswordChangeForm />) and a component to handle the login 
+ * The <AccountPage /> component displays two forms (<PasswordForgetForm />, <PasswordChangeForm />) and a component to handle the login 
  * management of the social accounts. i.e. <LoginManagement authUser={authUser} />
  * 
- * That component fetch the sign in methods for the logged user (we passed it as authUser), see the componentDidMount() event and the 
+ * See src\components\PasswordForget\index.js and src\components\PasswordChange\index.js respectively.
+ * 
+ * <LoginManagement /> fetchs the sign in methods for the logged in user (we passed it as authUser), see the componentDidMount() event and the 
  * fetchSignInMethods() method. Which calls the firebase.auth method 'fetchSignInMethodsForEmail()' that in change returns a set of signIn 
  * methods and we store them in the activeSignInMethods state.
  * 

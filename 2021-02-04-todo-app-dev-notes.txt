@@ -864,7 +864,11 @@ Now we need to link all social accounts when creating a user in the app. This me
 
 	We do the same with the signUp component. The user might use a social login first and later attempt to sign up with an email address (email/password sign up) that has been used by the social login already, we should cath this kind of case (see the src\components\SignUp\index.js component).
 
-	Now users can use the same mail address for different sign-in methods. Now we will add an area to manage and activate/deactivate all the sign-in methods to the Account component (see the src\components\Account\index.js component).
+	Now users can use the same mail address for different sign-in methods. Now we will add an area to manage and activate/deactivate all the sign-in methods to the Account component (see the src\components\Account\index.js component). The component has a list of all the available sign in methods and fetches the active methods for the authenticated user, then compares both lists (arrays) and based on its state (active or not active) displays a button to activate/link each of the sign in methods or to unlink/deactivate them, depending on the aforementioned state.
+
+---------------------- ABOUT EMAIL VERIFICATION ----------------------
+
+
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

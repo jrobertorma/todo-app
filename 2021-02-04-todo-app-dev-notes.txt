@@ -97,6 +97,19 @@ Adding roles support to users in db
 01/04/2021
 Adding browser's local storage support
 
+02-06/04/2021
+Adding social login
+
+07-13/04/2021
+Linking social accounts
+
+14-20/04/2021
+Creating notes and documentation of account linking
+
+21/04/2021
+Adding Email Verification
+
+
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
 
@@ -866,8 +879,18 @@ Now we need to link all social accounts when creating a user in the app. This me
 
 	Now users can use the same mail address for different sign-in methods. Now we will add an area to manage and activate/deactivate all the sign-in methods to the Account component (see the src\components\Account\index.js component). The component has a list of all the available sign in methods and fetches the active methods for the authenticated user, then compares both lists (arrays) and based on its state (active or not active) displays a button to activate/link each of the sign in methods or to unlink/deactivate them, depending on the aforementioned state.
 
----------------------- ABOUT EMAIL VERIFICATION ----------------------
+IMPORTANT NOTES: linkAndRetrieveDataWithCredential is deprecated, we should use other function instead. See src\components\Account\index.js
 
+---------------------- ABOUT EMAIL VERIFICATION ----------------------
+When the user creates an account with the email address and password method, we have no way to know if the address exist or if it doesn't.
+
+Firebase provides a method to implement email verification, so we can be sure the user has access to the provided email address.
+
+	First we add the method to the firebase class
+
+	Then we call the method when the app creates new users for that signUp method
+
+	Lastly we add route protection to only allow users that have verified their email address, to use the app 
 
 
 COOL LINKS:

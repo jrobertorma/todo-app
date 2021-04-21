@@ -197,22 +197,24 @@ const SocialLoginToggle = ({
     onLink,
     onUnlink,
 }) => {
-    isEnabled ? (
-        <button 
-            type="button"
-            onClick={() => onUnlink(signInMethod.id)}
-            disabled={onlyOneLeft}
-        >
-            Deactivate {signInMethod.id}
-        </button>
-    ) : (
-        <button
-            type="button"
-            onClick={() => onLink(signInMethod.provider)}
-        >
-            Link {signInMethod.id}
-        </button>
-    )
+    return (
+        isEnabled ? (
+            <button 
+                type="button"
+                onClick={() => onUnlink(signInMethod.id)}
+                disabled={onlyOneLeft}
+            >
+                Deactivate {signInMethod.id}
+            </button>
+        ) : (
+            <button
+                type="button"
+                onClick={() => onLink(signInMethod.provider)}
+            >
+                Link {signInMethod.id}
+            </button>
+        )
+    );
 }
 
 /**

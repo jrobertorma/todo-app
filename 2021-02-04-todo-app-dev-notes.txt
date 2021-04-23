@@ -903,9 +903,28 @@ Firebase provides a method to implement email verification, so we can be sure th
       		REACT_APP_CONFIRMATION_EMAIL_REDIRECT=http://localhost:3000
 
 	Then we call the method when the app creates new users for that signUp method
+		Because that is the best place to guide users to the email verification
 
-	Lastly we add route protection to only allow users that have verified their email address, to use the app 
+		We add this line after the user creation on the db (this is at the onSubmit handler of the <SignUpFormBase /> component
+		in the src\components\SignUp\index.js)
 
+			.then(() => {
+		    	return this.props.firebase.doSendEmailVerification();
+		    })
+
+	Lastly we add route protection to allow users to use the app only if they have verified their email address.
+		First we need to know if the user has a verified email.
+		In order to do that, we add a state to store that value on the db, when creating the user on the onAuthUserListener()
+		method of the src\components\Firebase\firebase.js file.
+
+			// merge auth and db user
+            authUser = {
+              	uid: authUser.uid,
+              	email: authUser.email,
+              	emailVerified: authUser.emailVerified,
+              	providerData: authUser.providerData,
+              	...dbUser,
+            };
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

@@ -886,7 +886,21 @@ When the user creates an account with the email address and password method, we 
 
 Firebase provides a method to implement email verification, so we can be sure the user has access to the provided email address.
 
-	First we add the method to the firebase class
+	First we add the method to the firebase class 
+
+		src\components\Firebase\firebase.js
+
+			doSendEmailVerification = () =>
+	        this.auth.currentUser.sendEmailVerification({
+	            url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT
+	        });
+
+      	Notice how we call a new environment constant. We could use the url directly, but by using the environmental constants
+      	you can switch between .env files and make this parameter dynamic.
+
+  		We add to the .env.development.local file
+
+      		REACT_APP_CONFIRMATION_EMAIL_REDIRECT=http://localhost:3000
 
 	Then we call the method when the app creates new users for that signUp method
 

@@ -926,6 +926,9 @@ Firebase provides a method to implement email verification, so we can be sure th
               	...dbUser,
             };
 
+        Then we create a new HOC that has access to Firebase and the authenticated user (src\components\Session\withEmailVerification.js)
+
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

@@ -27,8 +27,16 @@ const needsEmailVerification = (authUser) => {
 
 const withEmailVerification = Component => {
     class WithEmailVerification extends React.Component {
+        constructor(props) {
+            super(props);
+
+            this.state = { isSent:false }
+        }
+
         onSendEmailVerification = () => {
-            this.props.firebase.doSendEmailVerification();
+            this.props.firebase
+                .doSendEmailVerification()
+                .then( () => this.setState({ isSent: true }) );
         }
 
         render() {
@@ -37,15 +45,24 @@ const withEmailVerification = Component => {
                     { authUser => 
                         needsEmailVerification(authUser) ? (
                             <div>
-                                <p>
-                                    Verify your E-Mail: Check you E-Mails (Spam folder
-                                    included) for a confirmation E-Mail or send
-                                    another confirmation E-Mail.
-                                </p>
+                                {this.state.isSent ? (
+                                    <p>
+                                        E-Mail confirmation sent: Check you E-Mails (Spam
+                                        folder included) for a confirmation E-Mail.
+                                        Refresh this page once you confirmed your E-Mail.
+                                    </p>
+                                ) : (
+                                    <p>
+                                        Verify your E-Mail: Check you E-Mails (Spam folder
+                                        included) for a confirmation E-Mail or send
+                                        another confirmation E-Mail.
+                                    </p>
+                                )}
 
                                 <button
                                     type="button"
                                     onClick={this.onSendEmailVerification}
+                                    disabled={this.state.isSent}
                                 >
                                     Send confirmation E-mail
                                 </button>
@@ -77,8 +94,9 @@ export default withEmailVerification;
  * The render() function catches the returned value of needsEmailVerification() and uses a ternary operator to decide what
  * to do next.
  * 
- * If the value is 'true' it displays a message and a button to resend the email verification link (the same we used at
- * src\components\SignUp\index.js).
+ * If the value is 'true' it displays a message and a button to resend the email verification link (the same function we used at
+ * src\components\SignUp\index.js). Notice how we use the 'isSent' state to only allow the user to call the function once (nobody 
+ * likes spam), see the onSendEmailVerification() function.
  * 
  * If the value is 'false' the component returns the original component with all its props.
  */

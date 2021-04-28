@@ -96,7 +96,7 @@ export default withEmailVerification;
  * 
  * If the value is 'true' it displays a message and a button to resend the email verification link (the same function we used at
  * src\components\SignUp\index.js). Notice how we use the 'isSent' state to only allow the user to call the function once (nobody 
- * likes spam), see the onSendEmailVerification() function.
+ * likes spam) at the button, also see the onSendEmailVerification() function.
  * 
  * If the value is 'false' the component returns the original component with all its props.
  */

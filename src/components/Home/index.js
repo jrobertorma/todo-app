@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { withAuthorization } from '../Session';
+import { withAuthorization, withEmailVerification } from '../Session';
 
 const HomePage = () => {
     return ( 
@@ -13,7 +13,7 @@ const HomePage = () => {
 
 const condition = (authUser) => !!authUser; //'!!expression', returns the 'truthiness' of expression
  
-export default withAuthorization(condition)(HomePage);
+export default withEmailVerification(withAuthorization(condition)(HomePage));
 
 /**
  * The HomePage component (really? lol)

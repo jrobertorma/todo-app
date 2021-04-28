@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
 
-import { withAuthorization } from '../Session';
+import { withAuthorization, withEmailVerification } from '../Session';
 import * as ROLES from '../../constants/roles';
 
 class AdminPage extends Component {
@@ -89,7 +89,7 @@ const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];
 * the second one is the component to render in case the condition is passed, in this case is a HOC call with AdminPage 
 * as param
 */
-export default withAuthorization ( condition )( withFirebase( AdminPage ) );
+export default withEmailVerification ( withAuthorization ( condition )( withFirebase( AdminPage ) ) );
 
 /**
  * The administrators component

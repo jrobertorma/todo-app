@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { AuthUserContext, withAuthorization } from '../Session';
+import { AuthUserContext, withAuthorization, withEmailVerification } from '../Session';
 import { withFirebase } from '../Firebase';
 
 import { PasswordForgetForm } from '../PasswordForget';
@@ -299,7 +299,7 @@ const LoginManagement = withFirebase (LoginManagementBase);
 
 const condition = authUser => !!authUser; // '!!expression', returns the 'truthiness' of expression
 
-export default withAuthorization (condition)(AccountPage);
+export default withEmailVerification ( withAuthorization (condition)(AccountPage) );
 
 /**
  * Displayed on the '/account' route.

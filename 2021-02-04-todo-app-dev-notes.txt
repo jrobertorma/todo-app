@@ -106,7 +106,7 @@ Linking social accounts
 14-20/04/2021
 Creating notes and documentation of account linking
 
-21/04/2021
+21-29/04/2021
 Adding Email Verification
 
 
@@ -927,6 +927,16 @@ Firebase provides a method to implement email verification, so we can be sure th
             };
 
         Then we create a new HOC that has access to Firebase and the authenticated user (src\components\Session\withEmailVerification.js)
+        	The component will check if the user has verified the email address and based on that will render the passed component (remember
+        	a HOC recieves a component and re-renders after doing something) or a button to resend the verification link.
+
+        Finally we need to call the withEmailVerification HOC in the components/routes that need to be protected.
+        	src/components/Session/index.js (to make the HOC available to the other components)
+        	src/components/Home/index.js
+        	src/components/Admin/index.js
+        	src/components/Account/index.js
+
+        /* The emailVerified state is not in the realtime database, need to know why T.T */
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

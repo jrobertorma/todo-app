@@ -4,7 +4,7 @@ import AuthUserContext from './context';
 import { withFirebase } from '../Firebase';
 
 /**
- * Gets a user and if exist (first authUser && string) 
+ * Gets a user and if exists (first authUser && string) 
  * the function checks if the user has not verified the email address (!authUser.emailVerified, 
  * if the method returns true the ! negates it and the && conditional gets a false, passing
  * that value to the function summoner).

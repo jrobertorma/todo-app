@@ -30,7 +30,7 @@ const withEmailVerification = Component => {
         constructor(props) {
             super(props);
 
-            this.state = { isSent:false }
+            this.state = { isSent: false }
         }
 
         onSendEmailVerification = () => {

@@ -936,7 +936,12 @@ Firebase provides a method to implement email verification, so we can be sure th
         	src/components/Admin/index.js
         	src/components/Account/index.js
 
-        /* The emailVerified state is not in the realtime database, need to know why T.T */
+        /* The emailVerified state is not in the realtime database, need to know why T.T: I think it may be related with the AuthUserContext. when
+        	I try to print the authUser object in the src\components\Session\withEmailVerification.js component the app displays an error, it can't 
+        	find the authUser var, well, we'll check that later lol*/
+
+---------------------- EXTENDING ADMIN PAGE ----------------------
+Right now, the src\components\Admin\index.js component only shows a list of users. Now we will create a dashboard for the admins, that besides displaying all the registered users, will allow some other functionalities.
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

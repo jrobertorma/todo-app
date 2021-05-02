@@ -943,6 +943,8 @@ Firebase provides a method to implement email verification, so we can be sure th
 ---------------------- EXTENDING ADMIN PAGE ----------------------
 Right now, the src\components\Admin\index.js component only shows a list of users. Now we will create a dashboard for the admins, that besides displaying all the registered users, will allow some other functionalities.
 
+	First we define a new child route 
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

@@ -1,11 +1,34 @@
 import React, { Component } from 'react';
 
+import { Switch, Route, Link } from 'react-router-dom';
+
 import { withFirebase } from '../Firebase';
-
 import { withAuthorization, withEmailVerification } from '../Session';
-import * as ROLES from '../../constants/roles';
 
-class AdminPage extends Component {
+import * as ROLES from '../../constants/roles';
+import * as ROUTES from '../../constants/routes';
+
+const AdminPage = () => {
+    return(
+        <div>
+            <h1>Admin</h1>
+            <p>
+                The Admin Page is accessible by every signed in admin user.
+            </p>
+
+            <Switch>
+                <Route exact path={ROUTES.ADMIN_DETAILS}>
+                    <UserItem/>
+                </Route>
+                <Route exact path={ROUTES.ADMIN} >
+                    <UserList/>
+                </Route>
+            </Switch>
+        </div>
+    );
+}
+
+class UserListBase extends Component {
     constructor(props) {
         super(props);
 
@@ -20,8 +43,15 @@ class AdminPage extends Component {
 
         //Calling firebase database and passing it to the state
         this.props.firebase.users().on('value', snapshot => {
+            const usersObject = snapshot.val();
+
+            const usersList = Objects.keys(usersObject).map( (key) => ({
+                ...usersObject[key],
+                uid: key,
+            }));
+
             this.setState({
-                users: snapshot.val(), //the response of database API, a collection of 'user' objects
+                users: usersList, //the response of database API, a collection of 'user' objects
                 loading: false,
             });
         });
@@ -34,50 +64,49 @@ class AdminPage extends Component {
     render() { 
         const { users, loading } = this.state; //'Destructuring assignment' syntax
 
+        //Converting the users object stored in the state to an array (deprecated, just in case)
+        /*
+        const usersListArray = Object.keys(users).map( ( key ) => ({
+            ...users[key],
+            uid:key,
+        }));*/
+
         return ( 
             <div>
-                <h1>Admin</h1>
-                <p>
-                    The Admin Page is accessible by every signed in admin user.
-                </p>
-
+                <h2>Users</h2>
                 {loading && <div>Loading ...</div> /*conditional rendering: 'logicExpression && TODO if logicExpression returns true'*/}
-
-                <UserList users={users} />
-
+                
+                <ul>
+                    {   //Mapping the users array to create one list item for each user and its data 
+                        users.map( user => (
+                                <li key={user.uid}>
+                                    <span>
+                                        <strong>ID: </strong> {user.uid}
+                                    </span>
+                                    <span>
+                                        <strong>E-Mail: </strong> {user.email}
+                                    </span>
+                                    <span>
+                                        <strong>Username: </strong> {user.username}
+                                    </span>
+                                    <span>
+                                        <Link to { `${ROUTES.ADMIN}/${user.uid}` }>
+                                            Details
+                                        </Link>
+                                    </span>
+                                </li>
+                            )
+                        )
+                    }
+                </ul>
             </div>
         );
     }
 }
 
-const UserList = ({ users }) => {
-    
-    //Converting the users object stored in the state to an array
-    const usersListArray = Object.keys(users).map( ( key ) => ({
-        ...users[key],
-        uid:key,
-    }));
-
+const UserList = () => {
     return ( 
-        <ul>
-            {   //Mapping the users array to create one list item for each user and its data 
-                usersListArray.map( ( user ) => {
-                    return(
-                        <li key={user.uid}>
-                            <span>
-                                <strong>ID: </strong> {user.uid}
-                            </span>
-                            <span>
-                                <strong>E-Mail: </strong> {user.email}
-                            </span>
-                            <span>
-                                <strong>Username: </strong> {user.username}
-                            </span>
-                        </li>
-                    );
-                })
-            }
-        </ul>
+        <div>UserList</div>
     );
 }
 

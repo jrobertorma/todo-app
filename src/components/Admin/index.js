@@ -34,7 +34,7 @@ class UserListBase extends Component {
 
         this.state = { 
             loading: false,
-            users: {},
+            users: [],
         };
     }
 
@@ -45,7 +45,7 @@ class UserListBase extends Component {
         this.props.firebase.users().on('value', snapshot => {
             const usersObject = snapshot.val();
 
-            const usersList = Objects.keys(usersObject).map( (key) => ({
+            const usersList = Object.keys(usersObject).map( key => ({
                 ...usersObject[key],
                 uid: key,
             }));
@@ -90,7 +90,7 @@ class UserListBase extends Component {
                                         <strong>Username: </strong> {user.username}
                                     </span>
                                     <span>
-                                        <Link to { `${ROUTES.ADMIN}/${user.uid}` }>
+                                        <Link to = { `${ROUTES.ADMIN}/${user.uid}` }>
                                             Details
                                         </Link>
                                     </span>
@@ -104,11 +104,63 @@ class UserListBase extends Component {
     }
 }
 
-const UserList = () => {
-    return ( 
-        <div>UserList</div>
-    );
+const UserList = withFirebase(UserListBase);
+
+class UserItemBase extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { 
+            loading: false,
+            user: null,
+        }
+    }
+
+    componentDidMount() {
+        this.setState({ loading: true });
+        
+        this.props.firebase
+            .user(this.props.match.params.id)
+            .on('value', snapshot => {
+                this.setState({
+                    user: snapshot.val(),
+                    loading: false,
+                });
+            })
+    }
+
+    componentWillUnmount() {
+        this.props.firebase.user(this.props.match.params.id).off();
+    }
+
+    render() { 
+        const { user, loading } = this.state;
+
+        return ( 
+            <div>
+                <h2>User ({ this.props.match.params.id })</h2>
+
+                {loading && <div>Loading ...</div>}
+
+                {user && (
+                    <div>
+                        <span>
+                            <strong>ID:</strong> {user.id}
+                        </span>
+                        <span>
+                            <strong>E-mail</strong> {user.email}
+                        </span>
+                        <span>
+                            <strong>Username:</strong> {user.username}
+                        </span>
+                    </div>
+                )}
+            </div>
+        );
+    }
 }
+
+const UserItem = withFirebase(UserItemBase);
 
 //if there is an authUser value we check for the truthiness of the value in the provided authUser.roles[ROLES.ADMIN]
 const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];

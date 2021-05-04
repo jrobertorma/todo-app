@@ -90,7 +90,10 @@ class UserListBase extends Component {
                                         <strong>Username: </strong> {user.username}
                                     </span>
                                     <span>
-                                        <Link to = { `${ROUTES.ADMIN}/${user.uid}` }>
+                                        <Link to = {{ 
+                                            pathname: `${ROUTES.ADMIN}/${user.uid}`, 
+                                            state: {user}, 
+                                        }}>
                                             Details
                                         </Link>
                                     </span>
@@ -117,6 +120,10 @@ class UserItemBase extends Component {
     }
 
     componentDidMount() {
+        if (this.state.user) {
+            return;
+        }
+
         this.setState({ loading: true });
         
         this.props.firebase
@@ -126,7 +133,7 @@ class UserItemBase extends Component {
                     user: snapshot.val(),
                     loading: false,
                 });
-            })
+            });
     }
 
     componentWillUnmount() {

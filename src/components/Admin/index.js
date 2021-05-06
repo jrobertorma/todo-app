@@ -17,12 +17,8 @@ const AdminPage = () => {
             </p>
 
             <Switch>
-                <Route exact path={ROUTES.ADMIN_DETAILS}>
-                    <UserItem/>
-                </Route>
-                <Route exact path={ROUTES.ADMIN} >
-                    <UserList/>
-                </Route>
+                <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
+                <Route exact path={ROUTES.ADMIN} component={UserList} />
             </Switch>
         </div>
     );
@@ -92,7 +88,7 @@ class UserListBase extends Component {
                                     <span>
                                         <Link to = {{ 
                                             pathname: `${ROUTES.ADMIN}/${user.uid}`, 
-                                            state: {user}, 
+                                            state: { user }, 
                                         }}>
                                             Details
                                         </Link>
@@ -107,8 +103,6 @@ class UserListBase extends Component {
     }
 }
 
-const UserList = withFirebase(UserListBase);
-
 class UserItemBase extends Component {
     constructor(props) {
         super(props);
@@ -116,7 +110,8 @@ class UserItemBase extends Component {
         this.state = { 
             loading: false,
             user: null,
-        }
+            ...props.location.state,
+        };
     }
 
     componentDidMount() {
@@ -140,6 +135,10 @@ class UserItemBase extends Component {
         this.props.firebase.user(this.props.match.params.id).off();
     }
 
+    onSendPasswordResetEmail = () => {
+        this.props.firebase.doPasswordReset(this.state.user.email);
+    }
+
     render() { 
         const { user, loading } = this.state;
 
@@ -160,6 +159,14 @@ class UserItemBase extends Component {
                         <span>
                             <strong>Username:</strong> {user.username}
                         </span>
+                        <span>
+                            <button
+                                type="button"
+                                onClick={this.onSendPasswordResetEmail}
+                            >
+                                Send Password Reset
+                            </button>
+                        </span>
                     </div>
                 )}
             </div>
@@ -167,17 +174,18 @@ class UserItemBase extends Component {
     }
 }
 
+const UserList = withFirebase(UserListBase);
 const UserItem = withFirebase(UserItemBase);
 
 //if there is an authUser value we check for the truthiness of the value in the provided authUser.roles[ROLES.ADMIN]
-const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];
+const condition = authUser => authUser && authUser.roles.includes(ROLES.ADMIN);
 
 /* 
 * withAuthorization gets two functions as parameters, the first must return a logical value (true or false),
 * the second one is the component to render in case the condition is passed, in this case is a HOC call with AdminPage 
 * as param
 */
-export default withEmailVerification ( withAuthorization ( condition )( withFirebase( AdminPage ) ) );
+export default withEmailVerification ( withAuthorization ( condition )( AdminPage ) );
 
 /**
  * The administrators component

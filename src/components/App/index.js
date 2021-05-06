@@ -30,22 +30,22 @@ const App = () => {
               <Route exact path={ROUTES.LANDING}>
                   <LandingPage/>
               </Route>
-              <Route exact path={ROUTES.SIGN_UP}>
+              <Route path={ROUTES.SIGN_UP}>
                   <SignUpPage/>
               </Route>
-              <Route exact path={ROUTES.SIGN_IN}>
+              <Route path={ROUTES.SIGN_IN}>
                   <SignInPage/>
               </Route>
-              <Route exact path={ROUTES.PASSWORD_FORGET}>
+              <Route path={ROUTES.PASSWORD_FORGET}>
                   <PasswordForgetPage/>
               </Route>
-              <Route exact path={ROUTES.HOME}>
+              <Route path={ROUTES.HOME}>
                   <HomePage/>
               </Route>
-              <Route exact path={ROUTES.ACCOUNT}>
+              <Route path={ROUTES.ACCOUNT}>
                   <AccountPage/>
               </Route>
-              <Route exact path={ROUTES.ADMIN}>
+              <Route path={ROUTES.ADMIN}>
                   <AdminPage/>
               </Route>
             </Switch>

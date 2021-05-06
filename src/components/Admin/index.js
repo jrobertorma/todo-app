@@ -1,191 +1,185 @@
 import React, { Component } from 'react';
-
 import { Switch, Route, Link } from 'react-router-dom';
+import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
 import { withAuthorization, withEmailVerification } from '../Session';
-
 import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 
-const AdminPage = () => {
-    return(
-        <div>
-            <h1>Admin</h1>
-            <p>
-                The Admin Page is accessible by every signed in admin user.
-            </p>
+const AdminPage = () => (
+  <div>
+    <h1>Admin</h1>
+    <p>The Admin Page is accessible by every signed in admin user.</p>
 
-            <Switch>
-                <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
-                <Route exact path={ROUTES.ADMIN} component={UserList} />
-            </Switch>
-        </div>
-    );
-}
+    <Switch>
+      <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
+      <Route exact path={ROUTES.ADMIN} component={UserList} />
+    </Switch>
+  </div>
+);
 
 class UserListBase extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = { 
-            loading: false,
-            users: [],
-        };
-    }
+    this.state = {
+      loading: false,
+      users: [],
+    };
+  }
 
-    componentDidMount() {
-        this.setState({ loading: true });
+  componentDidMount() {
+    this.setState({ loading: true });
 
-        //Calling firebase database and passing it to the state
-        this.props.firebase.users().on('value', snapshot => {
-            const usersObject = snapshot.val();
-
-            const usersList = Object.keys(usersObject).map( key => ({
-                ...usersObject[key],
-                uid: key,
-            }));
-
-            this.setState({
-                users: usersList, //the response of database API, a collection of 'user' objects
-                loading: false,
-            });
-        });
-    }
-
-    componentWillUnmount() {
-        this.props.firebase.users().off(); //closing the connection
-    }
+    //Calling firebase database and passing it to the state
+    this.props.firebase.users().on('value', snapshot => {
+      const usersObject = snapshot.val();
     
-    render() { 
-        const { users, loading } = this.state; //'Destructuring assignment' syntax
+      //parsing the user object into an array
+      const usersList = Object.keys(usersObject).map(key => ({
+        ...usersObject[key],
+        uid: key,
+      }));
 
-        //Converting the users object stored in the state to an array (deprecated, just in case)
-        /*
-        const usersListArray = Object.keys(users).map( ( key ) => ({
-            ...users[key],
-            uid:key,
-        }));*/
+      this.setState({
+        users: usersList, //the response of database API, an array of 'user' objects
+        loading: false,
+      });
+    });
+  }
 
-        return ( 
-            <div>
-                <h2>Users</h2>
-                {loading && <div>Loading ...</div> /*conditional rendering: 'logicExpression && TODO if logicExpression returns true'*/}
-                
-                <ul>
-                    {   //Mapping the users array to create one list item for each user and its data 
-                        users.map( user => (
-                                <li key={user.uid}>
-                                    <span>
-                                        <strong>ID: </strong> {user.uid}
-                                    </span>
-                                    <span>
-                                        <strong>E-Mail: </strong> {user.email}
-                                    </span>
-                                    <span>
-                                        <strong>Username: </strong> {user.username}
-                                    </span>
-                                    <span>
-                                        <Link to = {{ 
-                                            pathname: `${ROUTES.ADMIN}/${user.uid}`, 
-                                            state: { user }, 
-                                        }}>
-                                            Details
-                                        </Link>
-                                    </span>
-                                </li>
-                            )
-                        )
-                    }
-                </ul>
-            </div>
-        );
-    }
+  componentWillUnmount() {
+    this.props.firebase.users().off();//closing the connection
+  }
+
+  render() {
+    const { users, loading } = this.state; //'Destructuring assignment' syntax
+
+    return (
+      <div>
+        <h2>Users</h2>
+        {loading && <div>Loading ...</div> /*conditional rendering: 'logicExpression && TODO if logicExpression returns true'*/}
+        <ul>
+          {//Mapping the users array to create one list item for each user and its data 
+          users.map(user => (
+            <li key={user.uid}>
+              <span>
+                <strong>ID:</strong> {user.uid}
+              </span>
+              <span>
+                <strong>E-Mail:</strong> {user.email}
+              </span>
+              <span>
+                <strong>Username:</strong> {user.username}
+              </span>
+              <span>
+                <Link
+                  to={{
+                    pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                    state: { user },
+                  }}
+                >
+                  Details
+                </Link>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
 
 class UserItemBase extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = { 
-            loading: false,
-            user: null,
-            ...props.location.state,
-        };
+    this.state = {
+      loading: false,
+      user: null,
+      ...props.location.state,
+    };
+  }
+
+  componentDidMount() {
+    if (this.state.user) {
+      return;
     }
 
-    componentDidMount() {
-        if (this.state.user) {
-            return;
-        }
+    this.setState({ loading: true });
 
-        this.setState({ loading: true });
-        
-        this.props.firebase
-            .user(this.props.match.params.id)
-            .on('value', snapshot => {
-                this.setState({
-                    user: snapshot.val(),
-                    loading: false,
-                });
-            });
-    }
+    //storting in the local state the user data with the id the component got as a param
+    this.props.firebase
+      .user(this.props.match.params.id)
+      .on('value', snapshot => {
+        this.setState({
+          user: snapshot.val(),
+          loading: false,
+        });
+      });
+  }
 
-    componentWillUnmount() {
-        this.props.firebase.user(this.props.match.params.id).off();
-    }
+  componentWillUnmount() {
+    this.props.firebase.user(this.props.match.params.id).off();
+  }
 
-    onSendPasswordResetEmail = () => {
-        this.props.firebase.doPasswordReset(this.state.user.email);
-    }
+  onSendPasswordResetEmail = () => {
+    this.props.firebase.doPasswordReset(this.state.user.email);
+  };
 
-    render() { 
-        const { user, loading } = this.state;
+  render() {
+    const { user, loading } = this.state;
 
-        return ( 
-            <div>
-                <h2>User ({ this.props.match.params.id })</h2>
+    return (
+      <div>
+        <h2>User ({this.props.match.params.id})</h2>
+        {loading && <div>Loading ...</div>}
 
-                {loading && <div>Loading ...</div>}
-
-                {user && (
-                    <div>
-                        <span>
-                            <strong>ID:</strong> {user.id}
-                        </span>
-                        <span>
-                            <strong>E-mail</strong> {user.email}
-                        </span>
-                        <span>
-                            <strong>Username:</strong> {user.username}
-                        </span>
-                        <span>
-                            <button
-                                type="button"
-                                onClick={this.onSendPasswordResetEmail}
-                            >
-                                Send Password Reset
-                            </button>
-                        </span>
-                    </div>
-                )}
-            </div>
-        );
-    }
+        {user && (
+          <div>
+            <span>
+              <strong>ID:</strong> {user.uid}
+            </span>
+            <span>
+              <strong>E-Mail:</strong> {user.email}
+            </span>
+            <span>
+              <strong>Username:</strong> {user.username}
+            </span>
+            <span>
+              <button
+                type="button"
+                onClick={this.onSendPasswordResetEmail}
+              >
+                Send Password Reset
+              </button>
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 const UserList = withFirebase(UserListBase);
 const UserItem = withFirebase(UserItemBase);
 
+// const condition = authUser =>
+//   authUser && authUser.roles.includes(ROLES.ADMIN);
+
 //if there is an authUser value we check for the truthiness of the value in the provided authUser.roles[ROLES.ADMIN]
-const condition = authUser => authUser && authUser.roles.includes(ROLES.ADMIN);
+const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];
 
 /* 
 * withAuthorization gets two functions as parameters, the first must return a logical value (true or false),
 * the second one is the component to render in case the condition is passed, in this case is a HOC call with AdminPage 
 * as param
 */
-export default withEmailVerification ( withAuthorization ( condition )( AdminPage ) );
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition),
+)(AdminPage);
 
 /**
  * The administrators component

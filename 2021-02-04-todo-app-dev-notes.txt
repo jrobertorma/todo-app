@@ -943,7 +943,74 @@ Firebase provides a method to implement email verification, so we can be sure th
 ---------------------- EXTENDING ADMIN PAGE ----------------------
 Right now, the src\components\Admin\index.js component only shows a list of users. Now we will create a dashboard for the admins, that besides displaying all the registered users, will allow some other functionalities.
 
-	First we define a new child route 
+	First we define a new child route on the src\constants\routes.js file
+
+		export const ADMIN_DETAILS = '/admin/:id'
+
+		As you can see, we added a param. i.e. a placeholder for an 'id', when the router gets a route like /admin/sdadasd, it will call this route.
+
+	Then we create a new list component to render a link for each user at the admin component (src\components\Admin\index.js), the route of each of them will follow the ADMIN_DETAILS format. The UserListBase component fetch all the users stored on firebase and usign a map, renders then within a list, including the link for the user detail.  
+		
+		...
+		<span>
+            <Link to = {{ 
+                pathname: `${ROUTES.ADMIN}/${user.uid}`, 
+                state: { user }, 
+            }}>
+                Details
+            </Link>
+        </span>
+        ...
+
+    The router (defined at AdminPage component), will return the UserItem component when a route like '/admin/:id' is called.
+
+    	...
+	    <Switch>
+	        <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
+	        <Route path={ROUTES.ADMIN}>
+	            <UserList />
+	        </Route>
+	    </Switch>
+	    ...
+
+	The component gets the user (see the <Link> component) and the user.uid prop, and uses them to render the user details, including a link for the password reset firebase function.
+
+	UserItemBase component
+
+		...
+		render() {
+		    const { user, loading } = this.state;
+
+		    return (
+		      <div>
+		        <h2>User ({this.props.match.params.id})</h2>
+		        {loading && <div>Loading ...</div>}
+
+		        {user && (
+		          <div>
+		            <span>
+		              <strong>ID:</strong> {user.uid}
+		            </span>
+		            <span>
+		              <strong>E-Mail:</strong> {user.email}
+		            </span>
+		            <span>
+		              <strong>Username:</strong> {user.username}
+		            </span>
+		            <span>
+		              <button
+		                type="button"
+		                onClick={this.onSendPasswordResetEmail}
+		              >
+		                Send Password Reset
+		              </button>
+		            </span>
+		          </div>
+		        )}
+		      </div>
+		    );
+		  }
+		  ...
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

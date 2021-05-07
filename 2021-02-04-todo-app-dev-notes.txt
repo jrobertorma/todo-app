@@ -109,6 +109,8 @@ Creating notes and documentation of account linking
 21-29/04/2021
 Adding Email Verification
 
+30/04/2021 - 06/05/2021
+Adding Admin dashboard
 
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
@@ -203,9 +205,12 @@ What do you need to create the app?
 		3.3.2 Add session handling
 		3.3.3 Add password management
 		3.3.4 Create protected routes
-		3.3.5 Adding realtime database support, when creating a new user also create a correspondent user object in the db
-		3.3.6 Merging user state (from the auth API) with the user object (from the db)
-		3.3.7 Using the merged user data to implement role based route protection
+		3.3.5 Add realtime database support, when creating a new user also create a correspondent user object in the db
+		3.3.6 Merge user state (from the auth API) with the user object (from the db)
+		3.3.7 Use the merged user data to implement role based route protection
+		3.3.8 Add social login functions, including merging accounts and email verification
+		3.3.9 Update admin dashboard to edit users from the front-end
+		3.3.10 Add the core functionalities
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * * * * * * * * * * * * * * * N O T E S * * * * * * * * * * * * * * *
@@ -949,7 +954,7 @@ Right now, the src\components\Admin\index.js component only shows a list of user
 
 		As you can see, we added a param. i.e. a placeholder for an 'id', when the router gets a route like /admin/sdadasd, it will call this route.
 
-	Then we create a new list component to render a link for each user at the admin component (src\components\Admin\index.js), the route of each of them will follow the ADMIN_DETAILS format. The UserListBase component fetch all the users stored on firebase and usign a map, renders then within a list, including the link for the user detail.  
+	Then we create a new list component to render a link for each user at the admin component (src\components\Admin\index.js), the route of each of them will follow the ADMIN_DETAILS format. The UserListBase component fetchs all the users stored on firebase and usign a map, renders them within a list, including the link for the user detail.  
 		
 		...
 		<span>
@@ -1011,6 +1016,13 @@ Right now, the src\components\Admin\index.js component only shows a list of user
 		    );
 		  }
 		  ...
+
+---------------------- CORE FUNCTIONALITIES ----------------------
+We have a Login and all the components for the 'user' object, we can lock components based on wether the user is logged in or if it has the permissions based on the roles stored in the realtime database.
+
+This could be the base for any app you want to build using firebase and react, robinwieruch also has other versions of this 'scafold app' (including one with redux).
+
+Now we can add the other entities you will need for any of your apps, a 'book', a 'movie', or a 'note' entity (or all of them if you need them).
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

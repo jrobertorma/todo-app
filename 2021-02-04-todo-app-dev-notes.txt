@@ -1024,6 +1024,23 @@ This could be the base for any app you want to build using firebase and react, r
 
 Now we can add the other entities you will need for any of your apps, a 'book', a 'movie', or a 'note' entity (or all of them if you need them).
 
+DEFINING THE API
+The Firebase class is the bridge between the app and the Firebase API. We instantiate it once and then pass it to every component that needs it using the React's Context API. There we can define all APIs to connect both parties. We've done that with the authentication API and the realtime database API (see comments on the class methods).
+
+Now we can define a new API for the entity. This is a note taking app, so it will be a 'note' entity. The notes will be stored in the realtime database.
+
+src\components\Firebase\firebase.js
+
+	...
+	// *** Notes API ***
+
+    note = uid => this.db.ref(`notes/${uid}`);
+
+    messages = () => this.db.ref('notes');
+    ...
+
+Notes will be readable and writable on these endpoints. We will create a new note and fetch all the notes with the 'notes' endpoint, and edit and remove notes with the 'notes/:notesId' endpoint. 
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

@@ -1039,7 +1039,10 @@ src\components\Firebase\firebase.js
     messages = () => this.db.ref('notes');
     ...
 
-Notes will be readable and writable on these endpoints. We will create a new note and fetch all the notes with the 'notes' endpoint, and edit and remove notes with the 'notes/:notesId' endpoint. 
+Notes will be readable and writable on these endpoints. We will create a new note and fetch all the notes with the 'notes' endpoint, and edit and remove notes with the 'notes/:notesId' endpoint.
+
+FETCHING NOTES
+The HomePage is the best place to show all the user's notes, because is a protected route and is easy to access.
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

@@ -27,9 +27,22 @@ class NotesBase extends Component {
         this.setState({ loading: true });
 
         this.props.firebase.notes().on('value', snapshot => {
-            //convert notes list from snapshot (is a set of objects)
+            const notesObject = snapshot.val();
 
-            this.setState({ loading: false });
+            //convert notes list from snapshot (is a set of objects)
+            if ( notesObject ) {
+                const notesArray = Object.keys(notesObject).map(key => ({
+                    ...notesObject[key],
+                    uid: key,
+                }));
+
+                this.setState({
+                    notes: notesArray,
+                    loading: false,
+                });
+            } else {
+                this.setState({ notes: null, loading: false });
+            }
         });
     }
 
@@ -44,10 +57,31 @@ class NotesBase extends Component {
             <div>
                 { loading && <div>Loading ...</div> }
 
-                Soy una lista de notas
+                <NoteList notes={notes}/>
             </div>
         );
     }
+}
+
+const NoteList = ({ notes }) => {
+    return(
+        <ul>
+            {
+                notes.map( note => {
+                    <NoteItem key={note.uid} note={note}/>
+                })
+            }
+        </ul>
+    );
+}
+
+const NoteItem = ({ note }) => {
+    return ( 
+        <li>
+            <strong>{note.uid}</strong>
+            {note.text}
+        </li>
+    );
 }
 
 const Notes = withFirebase(NotesBase);
@@ -84,5 +118,4 @@ export default withEmailVerification(withAuthorization(condition)(HomePage));
  *      this.props.firebase.notes().on( value => //to do )
  * 
  * And because it has a setState function it will re-render the changed components.
- * 
  */

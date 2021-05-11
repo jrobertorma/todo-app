@@ -18,6 +18,7 @@ class NotesBase extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            text: '',
             loading: false,
             notes: [],
         }
@@ -29,7 +30,7 @@ class NotesBase extends Component {
         this.props.firebase.notes().on('value', snapshot => {
             const notesObject = snapshot.val();
 
-            //convert notes list from snapshot (is a set of objects)
+            //convert notes list from snapshot (is a set of objects) to an array
             if ( notesObject ) {
                 const notesArray = Object.keys(notesObject).map(key => ({
                     ...notesObject[key],
@@ -46,18 +47,47 @@ class NotesBase extends Component {
         });
     }
 
+    onChangeText = event => {
+        this.setState({ text: event.target.value });
+    }
+
+    onCreateMessage = event => {
+        this.props.firebase.notes().push({
+            text: this.state.text,
+        });
+
+        this.setState({ text: '' });
+
+        event.preventDefault();
+    }
+
     componentWillUnmount() {
         this.props.firebase.notes.off();
     }
 
-    render() { 
-        const { notes, loading } = this.state;
+    render() {
+        const { text, notes, loading } = this.state;
 
         return (
             <div>
                 { loading && <div>Loading ...</div> }
 
-                <NoteList notes={notes}/>
+                { 
+                    notes ? (
+                        <NoteList notes={notes}/> 
+                    ) : (
+                        <div>There are no messages ...</div>
+                    )
+                }
+
+                <form onSubmit={this.onCreateMessage}>
+                    <input 
+                        type="text"
+                        value={text}
+                        onChange={this.onChangeText}
+                    />
+                    <button type="submit">Send</button>
+                </form>
             </div>
         );
     }
@@ -117,5 +147,8 @@ export default withEmailVerification(withAuthorization(condition)(HomePage));
  * 
  *      this.props.firebase.notes().on( value => //to do )
  * 
- * And because it has a setState function it will re-render the changed components.
+ * And because it has a setState function it will re-render the changed components 
+ * (https://firebase.google.com/docs/database/web/read-and-write#web_value_events).
+ * 
+ * 
  */

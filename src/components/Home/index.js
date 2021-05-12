@@ -51,7 +51,7 @@ class NotesBase extends Component {
         this.setState({ text: event.target.value });
     }
 
-    onCreateMessage = event => {
+    onCreateNote = event => {
         this.props.firebase.notes().push({
             text: this.state.text,
         });
@@ -80,7 +80,7 @@ class NotesBase extends Component {
                     )
                 }
 
-                <form onSubmit={this.onCreateMessage}>
+                <form onSubmit={this.onCreateNote}>
                     <input 
                         type="text"
                         value={text}
@@ -150,5 +150,20 @@ export default withEmailVerification(withAuthorization(condition)(HomePage));
  * And because it has a setState function it will re-render the changed components 
  * (https://firebase.google.com/docs/database/web/read-and-write#web_value_events).
  * 
+ * It is important to note that .notes() is an API function defined at src\components\Firebase\firebase.js
+ * 
+ *      // *** Notes API ***
+ *      note = uid => this.db.ref(`notes/${uid}`);
+ *      notes = () => this.db.ref('notes');
+ * 
+ * So the listener will be the same as:
+ *      
+ *      firebase.db.ref('notes').on( snapshot => //todo )
+ * 
+ * Just like the docs suggest.
+ * 
+ * The same component also displays a form to save new notes, the onSubmit handler, calls the onCreateNote function,
+ * it calls the firebase's .push() method (https://firebase.google.com/docs/database/admin/save-data) and cleans the input
+ * state (a controlled form), that method returns an id for the new record in the db.
  * 
  */

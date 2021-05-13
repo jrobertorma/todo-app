@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import { withFirebase } from '../Firebase';
 
-import { withAuthorization, withEmailVerification } from '../Session';
+import { 
+    withAuthorization, 
+    withEmailVerification, 
+    AuthUserContext,
+} from '../Session';
 
 const HomePage = () => {
     return ( 
@@ -30,7 +34,7 @@ class NotesBase extends Component {
         this.props.firebase.notes().on('value', snapshot => {
             const notesObject = snapshot.val();
 
-            //convert notes list from snapshot (is a set of objects) to an array
+            //convert notes list from snapshot (is a set of objects) to an array, ATENTO a uid
             if ( notesObject ) {
                 const notesArray = Object.keys(notesObject).map(key => ({
                     ...notesObject[key],
@@ -51,9 +55,10 @@ class NotesBase extends Component {
         this.setState({ text: event.target.value });
     }
 
-    onCreateNote = event => {
+    onCreateNote = (event, authUser) => {
         this.props.firebase.notes().push({
             text: this.state.text,
+            userId: authUser.uid,
         });
 
         this.setState({ text: '' });
@@ -69,26 +74,30 @@ class NotesBase extends Component {
         const { text, notes, loading } = this.state;
 
         return (
-            <div>
-                { loading && <div>Loading ...</div> }
+            <AuthUserContext.Consumer>
+                {authUser => (
+                    <div>
+                        { loading && <div>Loading ...</div> }
 
-                { 
-                    notes ? (
-                        <NoteList notes={notes}/> 
-                    ) : (
-                        <div>There are no messages ...</div>
-                    )
-                }
+                        { 
+                            notes ? (
+                                <NoteList notes={notes}/> 
+                            ) : (
+                                <div>There are no messages ...</div>
+                            )
+                        }
 
-                <form onSubmit={this.onCreateNote}>
-                    <input 
-                        type="text"
-                        value={text}
-                        onChange={this.onChangeText}
-                    />
-                    <button type="submit">Send</button>
-                </form>
-            </div>
+                        <form onSubmit={ event => this.onCreateNote(event, authUser) }>
+                            <input 
+                                type="text"
+                                value={text}
+                                onChange={this.onChangeText}
+                            />
+                            <button type="submit">Send</button>
+                        </form>
+                    </div>
+                )}
+            </AuthUserContext.Consumer>
         );
     }
 }
@@ -164,6 +173,11 @@ export default withEmailVerification(withAuthorization(condition)(HomePage));
  * 
  * The same component also displays a form to save new notes, the onSubmit handler, calls the onCreateNote function,
  * it calls the firebase's .push() method (https://firebase.google.com/docs/database/admin/save-data) and cleans the input
- * state (a controlled form), that method returns an id for the new record in the db.
+ * state (a controlled form), that method returns an id for the new record in the db. The <NotesBase> component also uses
+ * the authUser context to get the uid of the logged in user (see its render function), and be able to pass it to the 
+ * onCreateNote function, a random fact is that when you have several parameters to pass in a function, as a form handler, 
+ * you must pass the event first:
+ * 
+ *      event => this.onCreateNote(event, authUser)
  * 
  */

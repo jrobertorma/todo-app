@@ -38,7 +38,7 @@ class NotesBase extends Component {
             if ( notesObject ) {
                 const notesArray = Object.keys(notesObject).map(key => ({
                     ...notesObject[key],
-                    uid: key,
+                    userId: key,
                 }));
 
                 this.setState({
@@ -66,8 +66,12 @@ class NotesBase extends Component {
         event.preventDefault();
     }
 
+    onRemoveNote = uid => {
+        this.props.firebase.message(uid).remove();
+    }
+
     componentWillUnmount() {
-        this.props.firebase.notes.off();
+        this.props.firebase.notes().off();
     }
 
     render() {
@@ -81,9 +85,12 @@ class NotesBase extends Component {
 
                         { 
                             notes ? (
-                                <NoteList notes={notes}/> 
+                                <NoteList 
+                                    notes={notes}
+                                    onRemoveNote={this.onRemoveNote}
+                                /> 
                             ) : (
-                                <div>There are no messages ...</div>
+                                <div>There are no notes ...</div>
                             )
                         }
 
@@ -102,12 +109,16 @@ class NotesBase extends Component {
     }
 }
 
-const NoteList = ({ notes }) => {
+const NoteList = ({ notes, onRemoveNote }) => {
     return(
         <ul>
-            {
-                notes.map( note => {
-                    <NoteItem key={note.uid} note={note}/>
+            {   
+                notes.map( note => { 
+                    <NoteItem 
+                        key={note.uid} 
+                        note={note}
+                        onRemoveNote={onRemoveNote}
+                    /> 
                 })
             }
         </ul>
@@ -117,8 +128,13 @@ const NoteList = ({ notes }) => {
 const NoteItem = ({ note }) => {
     return ( 
         <li>
-            <strong>{note.uid}</strong>
-            {note.text}
+            <strong>{note.uid}</strong> {note.text}
+            <button
+                type="button"
+                onClick={ () => onRemoveNote(note.uid) }
+            >
+                Delete
+            </button>
         </li>
     );
 }

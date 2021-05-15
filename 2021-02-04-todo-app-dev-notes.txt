@@ -1046,7 +1046,11 @@ The HomePage is the best place to show all the user's notes, because is a protec
 
 So we'll add a <Notes /> component that will render all the 'notes', the children component that fetches and renders the notes is notesBase, it has a firebase listener (see the .on() method) attached to the 'notes' entities.
 
-Then we add a form to create new 'notes', the onSubmit function calls the .push() method, so it creates a new recor with a unique ID. 
+Then we add a form to create new 'notes', the onSubmit function calls the .push() method, so it creates a new recor with a unique ID.
+
+Uhmm, It is actually a todo list app, so I guess I will change all of this lol.
+
+The app will store only one todo list with a lot of todo list items (I just figured that out XD)
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

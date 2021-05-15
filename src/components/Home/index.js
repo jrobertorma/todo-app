@@ -13,40 +13,40 @@ const HomePage = () => {
             <h1>Home Page</h1>
             <p>The Home Page is accessible by every signed in user.</p>
             
-            <Notes />
+            <TodoLists />
         </div>
      );
 }
 
-class NotesBase extends Component {
+class TodoListsBase extends Component {
     constructor(props) {
         super(props);
         this.state = {
             text: '',
             loading: false,
-            notes: [],
+            todoLists: [],
         }
     }
     
     componentDidMount() {
         this.setState({ loading: true });
 
-        this.props.firebase.notes().on('value', snapshot => {
-            const notesObject = snapshot.val();
+        this.props.firebase.todoLists().on('value', snapshot => {
+            const todoListObject = snapshot.val();
 
-            //convert notes list from snapshot (is a set of objects) to an array, ATENTO a uid
-            if ( notesObject ) {
-                const notesArray = Object.keys(notesObject).map(key => ({
-                    ...notesObject[key],
+            //convert notes list from snapshot (is a set of objects) to an array
+            if ( todoListObject ) {
+                const todoListArray = Object.keys(todoListObject).map(key => ({
+                    ...todoListObject[key],
                     userId: key,
                 }));
 
                 this.setState({
-                    notes: notesArray,
+                    todoLists: todoListArray,
                     loading: false,
                 });
             } else {
-                this.setState({ notes: null, loading: false });
+                this.setState({ todoLists: null, loading: false });
             }
         });
     }
@@ -55,8 +55,8 @@ class NotesBase extends Component {
         this.setState({ text: event.target.value });
     }
 
-    onCreateNote = (event, authUser) => {
-        this.props.firebase.notes().push({
+    onCreateList = (event, authUser) => {
+        this.props.firebase.todoLists().push({
             text: this.state.text,
             userId: authUser.uid,
         });
@@ -66,16 +66,16 @@ class NotesBase extends Component {
         event.preventDefault();
     }
 
-    onRemoveNote = uid => {
-        this.props.firebase.message(uid).remove();
+    onRemoveList = uid => {
+        this.props.firebase.todoLists(uid).remove();
     }
 
     componentWillUnmount() {
-        this.props.firebase.notes().off();
+        this.props.firebase.todoLists().off();
     }
 
     render() {
-        const { text, notes, loading } = this.state;
+        const { text, todoLists, loading } = this.state;
 
         return (
             <AuthUserContext.Consumer>
@@ -84,17 +84,17 @@ class NotesBase extends Component {
                         { loading && <div>Loading ...</div> }
 
                         { 
-                            notes ? (
-                                <NoteList 
-                                    notes={notes}
-                                    onRemoveNote={this.onRemoveNote}
+                            todoLists ? (
+                                <TodoListsContainer 
+                                    todoLists={todoLists}
+                                    onRemoveTodoList={this.onRemoveList}
                                 /> 
                             ) : (
-                                <div>There are no notes ...</div>
+                                <div>There are no To-do lists...</div>
                             )
                         }
 
-                        <form onSubmit={ event => this.onCreateNote(event, authUser) }>
+                        <form onSubmit={ event => this.onCreateList(event, authUser) }>
                             <input 
                                 type="text"
                                 value={text}
@@ -109,15 +109,15 @@ class NotesBase extends Component {
     }
 }
 
-const NoteList = ({ notes, onRemoveNote }) => {
+const TodoListsContainer = ({ todoLists, onRemoveTodoList }) => {
     return(
         <ul>
             {   
-                notes.map( note => { 
-                    <NoteItem 
-                        key={note.uid} 
-                        note={note}
-                        onRemoveNote={onRemoveNote}
+                todoLists.map( todoList => { 
+                    <TodoListComponent
+                        key={todoList.uid} 
+                        todoList={todoList}
+                        onRemoveTodoList={onRemoveTodoList}
                     /> 
                 })
             }
@@ -125,13 +125,13 @@ const NoteList = ({ notes, onRemoveNote }) => {
     );
 }
 
-const NoteItem = ({ note }) => {
+const TodoListComponent = ({ todoList, onRemoveTodoList }) => {
     return ( 
         <li>
-            <strong>{note.uid}</strong> {note.text}
+            <strong>{todoList.uid}</strong> {todoList.text}
             <button
                 type="button"
-                onClick={ () => onRemoveNote(note.uid) }
+                onClick={ () => onRemoveTodoList(todoList.uid) }
             >
                 Delete
             </button>
@@ -139,7 +139,7 @@ const NoteItem = ({ note }) => {
     );
 }
 
-const Notes = withFirebase(NotesBase);
+const TodoLists = withFirebase(TodoListsBase);
 
 const condition = (authUser) => !!authUser; //'!!expression', returns the 'truthiness' of expression
  

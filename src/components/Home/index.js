@@ -13,40 +13,40 @@ const HomePage = () => {
             <h1>Home Page</h1>
             <p>The Home Page is accessible by every signed in user.</p>
             
-            <TodoLists />
+            <TodoList />
         </div>
      );
 }
 
-class TodoListsBase extends Component {
+class TodoListBase extends Component {
     constructor(props) {
         super(props);
         this.state = {
             text: '',
             loading: false,
-            todoLists: [],
+            todoListItems: [],
         }
     }
     
     componentDidMount() {
         this.setState({ loading: true });
 
-        this.props.firebase.todoLists().on('value', snapshot => {
-            const todoListObject = snapshot.val();
+        this.props.firebase.todoItems().on('value', snapshot => {
+            const todoItemsObject = snapshot.val();
 
             //convert notes list from snapshot (is a set of objects) to an array
-            if ( todoListObject ) {
-                const todoListArray = Object.keys(todoListObject).map(key => ({
-                    ...todoListObject[key],
+            if ( todoItemsObject ) {
+                const todoItemsArray = Object.keys(todoItemsObject).map(key => ({
+                    ...todoItemsObject[key],
                     userId: key,
                 }));
 
                 this.setState({
-                    todoLists: todoListArray,
+                    todoListItems: todoItemsArray,
                     loading: false,
                 });
             } else {
-                this.setState({ todoLists: null, loading: false });
+                this.setState({ todoListItems: null, loading: false });
             }
         });
     }
@@ -55,8 +55,8 @@ class TodoListsBase extends Component {
         this.setState({ text: event.target.value });
     }
 
-    onCreateList = (event, authUser) => {
-        this.props.firebase.todoLists().push({
+    onCreateItem = (event, authUser) => {
+        this.props.firebase.todoItems().push({
             text: this.state.text,
             userId: authUser.uid,
         });
@@ -66,16 +66,16 @@ class TodoListsBase extends Component {
         event.preventDefault();
     }
 
-    onRemoveList = uid => {
-        this.props.firebase.todoLists(uid).remove();
+    onRemoveItem = uid => {
+        this.props.firebase.todoItems(uid).remove();
     }
 
     componentWillUnmount() {
-        this.props.firebase.todoLists().off();
+        this.props.firebase.todoItems().off();
     }
 
     render() {
-        const { text, todoLists, loading } = this.state;
+        const { text, todoListItems, loading } = this.state;
 
         return (
             <AuthUserContext.Consumer>
@@ -84,17 +84,17 @@ class TodoListsBase extends Component {
                         { loading && <div>Loading ...</div> }
 
                         { 
-                            todoLists ? (
-                                <TodoListsContainer 
-                                    todoLists={todoLists}
-                                    onRemoveTodoList={this.onRemoveList}
+                            todoListItems ? (
+                                <ItemList
+                                    todoListsItems={todoListItems}
+                                    onRemoveItem={this.onRemoveItem}
                                 /> 
                             ) : (
-                                <div>There are no To-do lists...</div>
+                                <div>There are no To-do list items...</div>
                             )
                         }
 
-                        <form onSubmit={ event => this.onCreateList(event, authUser) }>
+                        <form onSubmit={ event => this.onCreateItem(event, authUser) }>
                             <input 
                                 type="text"
                                 value={text}
@@ -109,15 +109,15 @@ class TodoListsBase extends Component {
     }
 }
 
-const TodoListsContainer = ({ todoLists, onRemoveTodoList }) => {
+const ItemList = ({ todoListsItems, onRemoveItem }) => {
     return(
         <ul>
             {   
-                todoLists.map( todoList => { 
-                    <TodoListComponent
-                        key={todoList.uid} 
-                        todoList={todoList}
-                        onRemoveTodoList={onRemoveTodoList}
+                todoListsItems.map( todoListItem => { 
+                    <TodoListItem
+                        key={todoListItem.uid} 
+                        todoListItem={todoListItem}
+                        onRemoveItem={onRemoveItem}
                     /> 
                 })
             }
@@ -125,13 +125,13 @@ const TodoListsContainer = ({ todoLists, onRemoveTodoList }) => {
     );
 }
 
-const TodoListComponent = ({ todoList, onRemoveTodoList }) => {
+const TodoListItem = ({ todoListItem, onRemoveItem }) => {
     return ( 
         <li>
-            <strong>{todoList.uid}</strong> {todoList.text}
+            <strong>{todoListItem.uid}</strong> {todoListItem.text}
             <button
                 type="button"
-                onClick={ () => onRemoveTodoList(todoList.uid) }
+                onClick={ () => onRemoveItem(todoListItem.uid) }
             >
                 Delete
             </button>
@@ -139,7 +139,7 @@ const TodoListComponent = ({ todoList, onRemoveTodoList }) => {
     );
 }
 
-const TodoLists = withFirebase(TodoListsBase);
+const TodoList = withFirebase(TodoListBase);
 
 const condition = (authUser) => !!authUser; //'!!expression', returns the 'truthiness' of expression
  

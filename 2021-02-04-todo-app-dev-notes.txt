@@ -1052,6 +1052,8 @@ Uhmm, It is actually a todo list app, so I guess I will change all of this lol.
 
 The app will store only one todo list with a lot of todo list items (I just figured that out XD)
 
+The todolist items aren't appearing, I'll check it out, maybe change all the code lol.
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

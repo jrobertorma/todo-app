@@ -1,11 +1,13 @@
-import React, {Component} from 'react';
-import { withFirebase } from '../Firebase';
+import React, { Component } from 'react';
+import { compose } from 'recompose';
 
 import { 
+    AuthUserContext,
     withAuthorization, 
     withEmailVerification, 
-    AuthUserContext,
 } from '../Session';
+
+import { withFirebase } from '../Firebase';
 
 const HomePage = () => {
     return ( 
@@ -21,6 +23,7 @@ const HomePage = () => {
 class TodoListBase extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             text: '',
             loading: false,
@@ -38,7 +41,7 @@ class TodoListBase extends Component {
             if ( todoItemsObject ) {
                 const todoItemsArray = Object.keys(todoItemsObject).map(key => ({
                     ...todoItemsObject[key],
-                    userId: key,
+                    uid: key,
                 }));
 
                 this.setState({
@@ -49,6 +52,10 @@ class TodoListBase extends Component {
                 this.setState({ todoListItems: null, loading: false });
             }
         });
+    }
+
+    componentWillUnmount() {
+        this.props.firebase.todoItems().off();
     }
 
     onChangeText = event => {
@@ -70,13 +77,9 @@ class TodoListBase extends Component {
         this.props.firebase.todoItems(uid).remove();
     }
 
-    componentWillUnmount() {
-        this.props.firebase.todoItems().off();
-    }
-
     render() {
         const { text, todoListItems, loading } = this.state;
-
+        
         return (
             <AuthUserContext.Consumer>
                 {authUser => (
@@ -143,7 +146,11 @@ const TodoList = withFirebase(TodoListBase);
 
 const condition = (authUser) => !!authUser; //'!!expression', returns the 'truthiness' of expression
  
-export default withEmailVerification(withAuthorization(condition)(HomePage));
+export default compose(
+    withFirebase,
+    withEmailVerification,
+    withAuthorization(condition),
+)(HomePage);
 
 /**
  * The HomePage component (really? lol)

@@ -25,45 +25,121 @@ class TodoListBase extends Component {
         super(props);
 
         this.state = {
+            text: '',
             loading: false,
             todoListItems: [],
-        };
-    };
-
+        }
+    }
+    
     componentDidMount() {
         this.setState({ loading: true });
 
-        this.props.firebase.todoItems().on( 'value', (snapshot) => {
-            const data = snapshot.val();
-            
-            this.setState({
-                loading: false,
-                todoListItems: data,
-            })
-        } );
+        this.props.firebase.todoItems().on('value', snapshot => {
+            const todoItemsObject = snapshot.val();
+
+            //convert notes list from snapshot (is a set of objects) to an array
+            if ( todoItemsObject ) {
+                const todoItemsArray = Object.keys(todoItemsObject).map(key => ({
+                    ...todoItemsObject[key],
+                    uid: key,
+                }));
+
+                this.setState({
+                    todoListItems: todoItemsArray,
+                    loading: false,
+                });
+            } else {
+                this.setState({ todoListItems: null, loading: false });
+            }
+        });
     }
 
     componentWillUnmount() {
         this.props.firebase.todoItems().off();
     }
 
+    onChangeText = event => {
+        this.setState({ text: event.target.value });
+    }
+
+    onCreateItem = (event, authUser) => {
+        this.props.firebase.todoItems().push({
+            text: this.state.text,
+            userId: authUser.uid,
+        });
+
+        this.setState({ text: '' });
+
+        event.preventDefault();
+    }
+
+    onRemoveItem = uid => {
+        this.props.firebase.todoItems(uid).remove();
+    }
+
     render() {
-        const { loading, todoListItems } = this.state;
+        const { text, todoListItems, loading } = this.state;
+        
+        return (
+            <AuthUserContext.Consumer>
+                {authUser => (
+                    <div>
+                        { loading && <div>Loading ...</div> }
 
-        return(
-            <div>
-                {loading && <div>Loading ...</div>}
+                        { 
+                            todoListItems ? (
+                                <ItemList
+                                    todoListsItems={todoListItems}
+                                    onRemoveItem={this.onRemoveItem}
+                                /> 
+                            ) : (
+                                <div>There are no To-do list items...</div>
+                            )
+                        }
 
-                <ItemsList todoListItems={todoListItems}/>
-            </div>
+                        <form onSubmit={ event => this.onCreateItem(event, authUser) }>
+                            <input 
+                                type="text"
+                                value={text}
+                                onChange={this.onChangeText}
+                            />
+                            <button type="submit">Send</button>
+                        </form>
+                    </div>
+                )}
+            </AuthUserContext.Consumer>
         );
     }
 }
 
-const ItemsList = () => {
-    <div>
-        Yoyoyoyo, se supone que soy la lista de items :3
-    </div>
+const ItemList = ({ todoListsItems, onRemoveItem }) => {
+    return(
+        <ul>
+            {   
+                todoListsItems.map( todoListItem => { 
+                    <TodoListItem
+                        key={todoListItem.uid} 
+                        todoListItem={todoListItem}
+                        onRemoveItem={onRemoveItem}
+                    /> 
+                })
+            }
+        </ul>
+    );
+}
+
+const TodoListItem = ({ todoListItem, onRemoveItem }) => {
+    return ( 
+        <li>
+            <strong>{todoListItem.uid}</strong> {todoListItem.text}
+            <button
+                type="button"
+                onClick={ () => onRemoveItem(todoListItem.uid) }
+            >
+                Delete
+            </button>
+        </li>
+    );
 }
 
 const TodoList = withFirebase(TodoListBase);

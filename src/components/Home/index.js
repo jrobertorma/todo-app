@@ -34,12 +34,19 @@ class TodoListBase extends Component {
         this.setState({ loading: true });
 
         this.props.firebase.todoItems().on( 'value', (snapshot) => {
-            const data = snapshot.val();
+            const listItems = snapshot.val();
             
-            this.setState({
-                loading: false,
-                todoListItems: data,
-            })
+            if( listItems ) {
+                const parsedItems = Object.keys(listItems).map( (key) => ({ 
+                    ...listItems[key],
+                    uid: key,
+                }));
+
+                this.setState({
+                    loading: false,
+                    todoListItems: parsedItems,
+                })
+            }
         } );
     }
 
@@ -60,10 +67,21 @@ class TodoListBase extends Component {
     }
 }
 
-const ItemsList = () => {
-    <div>
-        Yoyoyoyo, se supone que soy la lista de items :3
-    </div>
+const ItemsList = ({ todoListItems }) => {
+    return ( 
+        <div>
+            {"Yoyoyoyo, se supone que soy la lista de items :3"}
+
+            {   /*the map is important, as it is to get the todoListItems as a function param, not
+                * using this.props, every listItem object (todoListItems is an array of objects)
+                * has the 'text', 'userId' and 'uid' keys.
+                */
+                todoListItems.map( listItem => {
+                    return( <p key={listItem['uid']}>soy un item{"item"+listItem['text']}</p> )
+                })
+            }
+        </div>
+    );
 }
 
 const TodoList = withFirebase(TodoListBase);

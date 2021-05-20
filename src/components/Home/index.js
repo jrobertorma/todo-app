@@ -27,6 +27,7 @@ class TodoListBase extends Component {
         this.state = {
             loading: false,
             todoListItems: [],
+            text: '',
         };
     };
 
@@ -46,6 +47,11 @@ class TodoListBase extends Component {
                     loading: false,
                     todoListItems: parsedItems,
                 })
+            } else {
+                this.setState({
+                    loading: false,
+                    todoListItems: null,
+                });
             }
         } );
     }
@@ -54,33 +60,94 @@ class TodoListBase extends Component {
         this.props.firebase.todoItems().off();
     }
 
+    onChangeText = event => {
+        this.setState({ text: event.target.value });
+    }
+
+    onCreateItem = (event, authUser) => {
+        this.props.firebase.todoItems().push({
+            text: this.state.text,
+            userId: authUser.uid,
+        });
+
+        this.setState({ text: '' });
+
+        event.preventDefault();
+    }
+
+    onRemoveItem = uid => {
+        this.props.firebase.todoItems(uid).remove();
+    }
+
     render() {
-        const { loading, todoListItems } = this.state;
+        const { loading, todoListItems, text } = this.state;
 
         return(
-            <div>
-                {loading && <div>Loading ...</div>}
+            <AuthUserContext.Consumer>
+                { authUser => (
+                    <div>
+                        {loading && <div>Loading ...</div>}
 
-                <ItemsList todoListItems={todoListItems}/>
-            </div>
+                        {
+                            todoListItems ? (
+                                <ItemsList 
+                                    todoListItems={todoListItems}
+                                    onRemoveItem={this.onRemoveItem}
+                                />
+                            ) : (
+                                <div>There are no To-do list items...</div>
+                            )
+                        }
+                        
+                        <form onSubmit={ event => this.onCreateItem(event, authUser) }>
+                            <input 
+                                type="text"
+                                value={text}
+                                onChange={this.onChangeText}
+                            />
+                            <button type="submit">Send</button>
+                        </form>
+                    </div>
+                )}
+            </AuthUserContext.Consumer>
         );
     }
 }
 
-const ItemsList = ({ todoListItems }) => {
-    return ( 
-        <div>
-            {"Yoyoyoyo, se supone que soy la lista de items :3"}
-
+const ItemsList = ({ todoListItems, onRemoveItem }) => {
+    return (
+        <ul>
             {   /*the map is important, as it is to get the todoListItems as a function param, not
                 * using this.props, every listItem object (todoListItems is an array of objects)
                 * has the 'text', 'userId' and 'uid' keys.
+                * 
+                * listItem.text
                 */
                 todoListItems.map( listItem => {
-                    return( <p key={listItem['uid']}>soy un item{"item"+listItem['text']}</p> )
+                    return(
+                        <ListItem 
+                            key={listItem.uid}
+                            listItem={listItem}
+                            onRemoveItem={onRemoveItem}
+                        />
+                    )
                 })
             }
-        </div>
+        </ul>
+    );
+}
+
+const ListItem = ({ listItem, onRemoveItem }) => {
+    return (
+        <li>
+            <strong>{listItem.uid}</strong> {listItem.text}
+            <button
+                type="button"
+                onClick={ () => onRemoveItem(listItem.uid) }
+            >
+                Delete
+            </button>
+        </li>
     );
 }
 

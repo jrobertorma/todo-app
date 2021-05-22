@@ -90,7 +90,7 @@ class TodoListBase extends Component {
     }
 
     onEditItem = () => {
-
+        //aquí vas XD
     }
 
     render() {
@@ -198,11 +198,28 @@ class ListItem extends Component {
 
         return ( 
             <li>
-                <span>
-                    <strong>{listItem.uid}</strong> {listItem.text}
-                </span>
+                { editMode ? (
+                    <input
+                        type="text"
+                        value={editText}
+                        onChange={this.onChangeEditText}
+                    />
+                ) : (
+                    <span>
+                        <strong>{listItem.uid}</strong> {listItem.text}
+                    </span>
+                )}
                 
-                { editMode && (
+                { editMode ? (
+                    <span>
+                        <button onClick={this.onSaveEditText}>Save</button>
+                        <button onClick={this.onToggleEditMode}>Reset</button>
+                    </span>
+                ) : (
+                    <button onClick={this.onToggleEditMode}>Edit</button>
+                )}
+
+                { !editMode && (
                     <button
                         type="button"
                         onClick={ () => onRemoveItem(listItem.uid) }

@@ -68,6 +68,7 @@ class TodoListBase extends Component {
         this.props.firebase.todoItems().push({
             text: this.state.text,
             userId: authUser.uid,
+            createdAt: this.props.firebase.serverValue.TIMESTAMP,
         });
 
         this.setState({ text: '' });
@@ -89,8 +90,14 @@ class TodoListBase extends Component {
         this.props.firebase.todoItem(uid).remove();
     }
 
-    onEditItem = () => {
-        //aquí vas XD
+    onEditItem = ( listItem, text ) => {
+        const { uid, ...listItemSnapshot } = listItem;
+
+        this.props.firebase.todoItem(listItem.uid).set({ 
+            ...listItemSnapshot,
+            text,
+            editedAt: this.props.firebase.serverValue.TIMESTAMP,
+        });
     }
 
     render() {
@@ -207,6 +214,7 @@ class ListItem extends Component {
                 ) : (
                     <span>
                         <strong>{listItem.uid}</strong> {listItem.text}
+                        {listItem.editedAt && <span>(Edited)</span>}
                     </span>
                 )}
                 

@@ -28,36 +28,45 @@ class TodoListBase extends Component {
             loading: false,
             todoListItems: [],
             text: '',
+            limit: 5,
         };
     };
 
     componentDidMount() {
-        this.setState({ loading: true });
-
-        this.props.firebase.todoItems().on( 'value', (snapshot) => {
-            const listItems = snapshot.val();
-            
-            if( listItems ) {
-                const parsedItems = Object.keys(listItems).map( (key) => ({ 
-                    ...listItems[key],
-                    uid: key,
-                }));
-
-                this.setState({
-                    loading: false,
-                    todoListItems: parsedItems,
-                })
-            } else {
-                this.setState({
-                    loading: false,
-                    todoListItems: null,
-                });
-            }
-        } );
+        this.onListenForMessages();
     }
 
     componentWillUnmount() {
         this.props.firebase.todoItems().off();
+    }
+
+    onListenForMessages() {
+        this.setState({ loading: true });
+
+        this.props.firebase
+            .todoItems()
+            .orderByChild('createdAt')
+            .limitToLast(this.state.limit)
+            .on( 'value', (snapshot) => {
+                const listItems = snapshot.val();
+                
+                if( listItems ) {
+                    const parsedItems = Object.keys(listItems).map( (key) => ({ 
+                        ...listItems[key],
+                        uid: key,
+                    }));
+
+                    this.setState({
+                        loading: false,
+                        todoListItems: parsedItems,
+                    })
+                } else {
+                    this.setState({
+                        loading: false,
+                        todoListItems: null,
+                    });
+                }
+            } );
     }
 
     onChangeText = event => {
@@ -111,7 +120,8 @@ class TodoListBase extends Component {
 
                         {
                             todoListItems ? (
-                                <ItemsList 
+                                <ItemsList
+                                    authUser={authUser}
                                     todoListItems={todoListItems}
                                     onEditItem={this.onEditItem}
                                     onRemoveItem={this.onRemoveItem}
@@ -136,7 +146,7 @@ class TodoListBase extends Component {
     }
 }
 
-const ItemsList = ({ todoListItems, onEditItem, onRemoveItem }) => {
+const ItemsList = ({ authUser, todoListItems, onEditItem, onRemoveItem }) => {
     return (
         <ul>
             {   /*the map is important, as it is to get the todoListItems as a function param, not
@@ -145,7 +155,8 @@ const ItemsList = ({ todoListItems, onEditItem, onRemoveItem }) => {
                 */
                 todoListItems.map( listItem => {
                     return(
-                        <ListItem 
+                        <ListItem
+                            authUser={authUser}
                             key={listItem.uid}
                             listItem={listItem}
                             onEditItem={onEditItem}
@@ -157,20 +168,6 @@ const ItemsList = ({ todoListItems, onEditItem, onRemoveItem }) => {
         </ul>
     );
 }
-
-// const ListItem = ({ listItem, onRemoveItem }) => {
-//     return (
-//         <li>
-//             <strong>{listItem.uid}</strong> {listItem.text}
-//             <button
-//                 type="button"
-//                 onClick={ () => onRemoveItem(listItem.uid) }
-//             >
-//                 Delete
-//             </button>
-//         </li>
-//     );
-// }
 
 class ListItem extends Component {
     constructor(props) {
@@ -200,7 +197,7 @@ class ListItem extends Component {
     }
 
     render() { 
-        const { listItem, onRemoveItem } = this.props;
+        const { authUser, listItem, onRemoveItem } = this.props;
         const { editMode, editText } = this.state;
 
         return ( 
@@ -218,22 +215,26 @@ class ListItem extends Component {
                     </span>
                 )}
                 
-                { editMode ? (
+                {authUser.uid === listItem.userId && ( 
                     <span>
-                        <button onClick={this.onSaveEditText}>Save</button>
-                        <button onClick={this.onToggleEditMode}>Reset</button>
-                    </span>
-                ) : (
-                    <button onClick={this.onToggleEditMode}>Edit</button>
-                )}
+                        { editMode ? (
+                            <span>
+                                <button onClick={this.onSaveEditText}>Save</button>
+                                <button onClick={this.onToggleEditMode}>Reset</button>
+                            </span>
+                        ) : (
+                            <button onClick={this.onToggleEditMode}>Edit</button>
+                        )}
 
-                { !editMode && (
-                    <button
-                        type="button"
-                        onClick={ () => onRemoveItem(listItem.uid) }
-                    >
-                        Delete
-                    </button>
+                        { !editMode && (
+                            <button
+                                type="button"
+                                onClick={ () => onRemoveItem(listItem.uid) }
+                            >
+                                Delete
+                            </button>
+                        )}
+                    </span>
                 )}
             </li>
         );

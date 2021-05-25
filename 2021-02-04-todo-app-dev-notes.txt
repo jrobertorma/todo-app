@@ -112,6 +112,9 @@ Adding Email Verification
 30/04/2021 - 06/05/2021
 Adding Admin dashboard
 
+07/05/2021 - 25/05/2021
+Adding Core functionalities
+
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
 
@@ -1027,32 +1030,38 @@ Now we can add the other entities you will need for any of your apps, a 'book', 
 DEFINING THE API
 The Firebase class is the bridge between the app and the Firebase API. We instantiate it once and then pass it to every component that needs it using the React's Context API. There we can define all APIs to connect both parties. We've done that with the authentication API and the realtime database API (see comments on the class methods).
 
-Now we can define a new API for the entity. This is a note taking app, so it will be a 'note' entity. The notes will be stored in the realtime database.
+Now we can define a new API for the entity. This is a todolist app, so it will be a 'todolistitem' entity. The items will be stored in the realtime database.
 
 src\components\Firebase\firebase.js
 
 	...
-	// *** Notes API ***
+	// *** To-do list API ***
 
-    note = uid => this.db.ref(`notes/${uid}`);
+    todoItem = uid => this.db.ref(`todoItems/${uid}`);
 
-    messages = () => this.db.ref('notes');
+    todoItems = () => this.db.ref('todoItems');
     ...
 
-Notes will be readable and writable on these endpoints. We will create a new note and fetch all the notes with the 'notes' endpoint, and edit and remove notes with the 'notes/:notesId' endpoint.
+todoItems will be readable and writable on these endpoints. We will create a new note and fetch all the todoItems with the 'todoItems' endpoint, and edit and remove notes with the 'todoItems/:todoItemId' endpoint.
 
-FETCHING NOTES
-The HomePage is the best place to show all the user's notes, because is a protected route and is easy to access.
+CORE FUNCTIONALITIES
+The HomePage is the best place to show all the user's todoItems, because is a protected route and is easy to access.
 
-So we'll add a <Notes /> component that will render all the 'notes', the children component that fetches and renders the notes is notesBase, it has a firebase listener (see the .on() method) attached to the 'notes' entities.
+So we'll add a <TodoList /> component that will render all the 'todoItems', the children component that fetches and renders the todoItems is TodoListBase, it has a firebase listener (see the .on() method) attached to the 'todoItems' entities.
 
-Then we add a form to create new 'notes', the onSubmit function calls the .push() method, so it creates a new recor with a unique ID.
+Then we add a form to create new 'todoItems', the onSubmit function calls the .push() method, so it creates a new record with a unique ID.
 
-Uhmm, It is actually a todo list app, so I guess I will change all of this lol.
+The app will store only one todo list with a lot of todo list items (I just figured that out XD).
 
-The app will store only one todo list with a lot of todo list items (I just figured that out XD)
+The TodoListBase component also gets the authUser object using the react context API to only display the items created by the logged user.
 
-The todolist items aren't appearing, I'll check it out, maybe change all the code lol.
+There is a handler to remove list items and to update a list item.
+
+TodoListBase pass all the handlers and list items to the ItemsList component, that component only maps the todoListItems and calls the ListItem component passing the same handlers to that component.
+
+ListItem displays the list item and some buttons (with a lot of conditional rendering) to implement the edit and delete functionalities.
+
+And that's it, we still can add some color and improve the UI but the basic functionalities are working :). 
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

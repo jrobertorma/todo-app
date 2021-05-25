@@ -33,14 +33,14 @@ class TodoListBase extends Component {
     };
 
     componentDidMount() {
-        this.onListenForMessages();
+        this.onListenForTodoItems();
     }
 
     componentWillUnmount() {
         this.props.firebase.todoItems().off();
     }
 
-    onListenForMessages() {
+    onListenForTodoItems() {
         this.setState({ loading: true });
 
         this.props.firebase
@@ -67,6 +67,13 @@ class TodoListBase extends Component {
                     });
                 }
             } );
+    }
+
+    onNextPage = () => {
+        this.setState(
+            state => ({ limit: state.limit + 5 }),
+            this.onListenForTodoItems,
+        );
     }
 
     onChangeText = event => {
@@ -116,6 +123,12 @@ class TodoListBase extends Component {
             <AuthUserContext.Consumer>
                 { authUser => (
                     <div>
+                        {!loading && todoListItems && (
+                            <button type="button" onClick={this.onNextPage}>
+                                More
+                            </button>
+                        )}
+
                         {loading && <div>Loading ...</div>}
 
                         {

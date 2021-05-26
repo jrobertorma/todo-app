@@ -225,41 +225,117 @@ These are the contents of 'src\components\Firebase\firebase.js', the config file
 file on a production app, the best practice is to set the firebase connection through a backend (e.g. express).
 
 import app from "firebase/app";
-import 'firebase/auth'
+import 'firebase/auth';
+import 'firebase/database';
 
 const config = {
- /*
- 	The firebase configuration object or the env vars callings (just for development stage)
- */
+    apiKey:             process.env.REACT_APP_API_KEY,
+    authDomain:         process.env.REACT_APP_AUTH_DOMAIN,
+    databaseURL:        process.env.REACT_APP_DATABASE_URL,
+    projectId:          process.env.REACT_APP_PROJECT_ID,
+    storageBucket:      process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId:  process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId:              process.env.REACT_APP_APPID,
+    measurementId:      process.env.REACT_APP_MEASUREMENTID 
 };
 
 class Firebase {
     constructor() {
         app.initializeApp(config);
 
+        /* Helper */
+
+        this.serverValue = app.database.ServerValue;
+        this.emailAuthProvider = app.auth.EmailAuthProvider;
+        
         this.auth = app.auth();
+        this.db = app.database();
 
-        // *** Auth API ***
+        //adding google social login provider
+        this.googleProvider = new app.auth.GoogleAuthProvider();
 
-        doCreateUserWithEmailAndPassword = (email, password) =>
+        //adding fb social login provider
+        this.facebookProvider = new app.auth.FacebookAuthProvider();
+        
+    }
+
+    // *** Auth API ***
+
+    doCreateUserWithEmailAndPassword = (email, password) =>
         this.auth.createUserWithEmailAndPassword(email, password);
 
-        doSignInWithEmailAndPassword = (email, password) =>
+    doSignInWithEmailAndPassword = (email, password) =>
         this.auth.signInWithEmailAndPassword(email, password);
 
-        doSignOut = () => this.auth.signOut();
+    doSendEmailVerification = () =>
+        this.auth.currentUser.sendEmailVerification({
+            url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT
+        });
 
-        doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+    //social login
+    doSignInWithGoogle = () =>
+        this.auth.signInWithPopup(this.googleProvider);
 
-        doPasswordUpdate = password =>
-          this.auth.currentUser.updatePassword(password);
+    doSignInWithFacebook = () => 
+        this.auth.signInWithPopup(this.facebookProvider);
 
-        // *** User API ***
+    doSignOut = () => this.auth.signOut();
 
-	    user = uid => this.db.ref(`users/${uid}`);
+    doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
-	    users = () => this.db.ref('users');
+    doPasswordUpdate = password =>
+        this.auth.currentUser.updatePassword(password);
+
+    // *** Merge Auth and DB User API ***
+
+    onAuthUserListener = (next, fallback) => {
+        //listener (onAuthStateChanged) to know if the user is logged in
+        this.auth.onAuthStateChanged( (authUser) => {
+            //the user is logged in
+            if (authUser) {
+                this.user(authUser.uid)
+                    .once('value')
+                    .then(
+                        //we call the db once() function to fetch the user data and then()
+                        snapshot => {
+                            //user db data (it is an object)
+                            const dbUser = snapshot.val();
+
+                            // if there are no roles, we add the default empty roles
+                            if (!dbUser.roles) {
+                                dbUser.roles = {};
+                            }
+
+                            // merge auth and db user, we called authUser from the listener, and now we are adding the db data
+                            //to that state
+                            authUser = {
+                                uid: authUser.uid,
+                                email: authUser.email,
+                                emailVerified: authUser.emailVerified,
+                                providerData: authUser.providerData,
+                                ...dbUser,
+                            };
+
+                            //call the provided function, we pass the merged authUser object 
+                            next(authUser);
+                        });
+            } else {
+                fallback();
+            }
+        });
     }
+
+    // *** User API ***
+
+    user = uid => this.db.ref(`users/${uid}`);
+
+    users = () => this.db.ref('users');
+
+    // *** To-do list API ***
+
+    todoItem = uid => this.db.ref(`todoItems/${uid}`);
+
+    todoItems = () => this.db.ref('todoItems');
 }
 
 export default Firebase;
@@ -1062,6 +1138,12 @@ TodoListBase pass all the handlers and list items to the ItemsList component, th
 ListItem displays the list item and some buttons (with a lot of conditional rendering) to implement the edit and delete functionalities.
 
 And that's it, we still can add some color and improve the UI but the basic functionalities are working :). 
+
+---------------------- UI IMPROVEMENTS ----------------------
+Installed 
+	yarn add @material-ui/core
+	npm install @fontsource/roboto
+	yarn add @material-ui/icons
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

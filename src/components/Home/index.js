@@ -308,10 +308,16 @@ export default compose(
  * 
  * The same component also displays a form to save new todo-list items, the onSubmit handler, calls the onCreateNote function,
  * that then calls the firebase's .push() method (https://firebase.google.com/docs/database/admin/save-data) and cleans the input
- * state (a controlled form), that method returns an id for the new record in the db. The <NotesBase> component also uses
+ * state (a controlled form), that method returns an id for the new record in the db. The <TodoListBase> component also uses
  * the authUser context to get the uid of the logged in user (see its render function), and be able to pass it to the 
  * onCreateNote function, a random fact is that when you have several parameters to pass in a function, as a form handler, 
  * you must pass the 'event' parameter first:
  * 
  *      event => this.onCreateNote(event, authUser)
+ * 
+ * The base component will call the ItemsList component that only maps and calls ListItem for each of the list-items returned by 
+ * the API call.
+ * 
+ * ListItem renders the item based on the passed parameters, it also has a local state to handle the 'edit mode', and renders
+ * an edit and delete button based on it (the handlers wer defined at TodoListBase)
  */

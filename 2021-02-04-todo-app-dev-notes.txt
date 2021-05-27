@@ -1145,6 +1145,38 @@ Installed
 	npm install @fontsource/roboto
 	yarn add @material-ui/icons
 
+NAVIGATION
+I liked the <Drawer/> component, it displays a menu button, when clicked displays a sidebar with styled links.
+
+How to convert the basic nav into a mui <Drawer/>
+The nav structure starts in the src\components\App\index.js component
+	
+	<Router>
+      <Container>
+
+        <Navigation />
+
+        <hr />
+
+        <Switch>
+
+          { /* ROUTES */ }
+
+        </Switch>
+
+      </Container>
+    </Router>
+
+In the docs the <Drawer/> example has this structure (you could call this a lame kind of 'pseudocode' lol)
+
+	{/* IMPORTS */}
+
+	{/* drawerWidth CONST*/}
+
+	{/* useStyles CONST, that uses the makeStyles() API method to create the styles for the components */}
+
+	{/* PersistentDrawerLeft component */}
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup
@@ -1155,3 +1187,5 @@ https://firebase.google.com/docs/database/web/read-and-write#web_value_events
 https://firebase.google.com/docs/database/admin/save-data
 
 https://developers.facebook.com/
+
+https://material-ui.com/getting-started/installation/

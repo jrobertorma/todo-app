@@ -2,6 +2,8 @@ import React from 'react';
 
 import '@fontsource/roboto';
 
+import Container from '@material-ui/core/Container';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,34 +27,34 @@ import { withAuthentication } from "../Session";
 const App = () => {
   return ( 
     <Router>
-          <div>
-            <Navigation />
-            <hr />
-            <Switch>
-              <Route exact path={ROUTES.LANDING}>
-                  <LandingPage/>
-              </Route>
-              <Route path={ROUTES.SIGN_UP}>
-                  <SignUpPage/>
-              </Route>
-              <Route path={ROUTES.SIGN_IN}>
-                  <SignInPage/>
-              </Route>
-              <Route path={ROUTES.PASSWORD_FORGET}>
-                  <PasswordForgetPage/>
-              </Route>
-              <Route path={ROUTES.HOME}>
-                  <HomePage/>
-              </Route>
-              <Route path={ROUTES.ACCOUNT}>
-                  <AccountPage/>
-              </Route>
-              <Route path={ROUTES.ADMIN}>
-                  <AdminPage/>
-              </Route>
-            </Switch>
-          </div>
-        </Router>
+      <Container>
+        <Navigation />
+        <hr />
+        <Switch>
+          <Route exact path={ROUTES.LANDING}>
+              <LandingPage/>
+          </Route>
+          <Route path={ROUTES.SIGN_UP}>
+              <SignUpPage/>
+          </Route>
+          <Route path={ROUTES.SIGN_IN}>
+              <SignInPage/>
+          </Route>
+          <Route path={ROUTES.PASSWORD_FORGET}>
+              <PasswordForgetPage/>
+          </Route>
+          <Route path={ROUTES.HOME}>
+              <HomePage/>
+          </Route>
+          <Route path={ROUTES.ACCOUNT}>
+              <AccountPage/>
+          </Route>
+          <Route path={ROUTES.ADMIN}>
+              <AdminPage/>
+          </Route>
+        </Switch>
+      </Container>
+    </Router>
   );
 }
 

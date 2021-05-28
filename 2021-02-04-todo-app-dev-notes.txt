@@ -1148,7 +1148,7 @@ Installed
 NAVIGATION
 I liked the <Drawer/> component, it displays a menu button, when clicked displays a sidebar with styled links.
 
-How to convert the basic nav into a mui <Drawer/>
+How to convert the basic nav into a mui <Drawer/>?
 The nav structure starts in the src\components\App\index.js component
 	
 	<Router>
@@ -1167,15 +1167,80 @@ The nav structure starts in the src\components\App\index.js component
       </Container>
     </Router>
 
+The <Navigation /> component has the following structure:
+	
+	if there is a logged in user
+		<NavigationAuth />
+	else
+		<NavigationNonAuth />
+
+	Each Navigation component returns an unordered list (<ul>) with <Link /> components as list items (<li>)
+
+	<ul>
+      <li>
+        <Link to={ROUTES.LANDING}>Landing</Link>
+      </li>
+
+      ...
+
+    </ul>
+
 In the docs the <Drawer/> example has this structure (you could call this a lame kind of 'pseudocode' lol)
 
-	{/* IMPORTS */}
+	{/* IMPORTS */} YA
 
-	{/* drawerWidth CONST*/}
+	{/* drawerWidth CONST*/} YA
 
-	{/* useStyles CONST, that uses the makeStyles() API method to create the styles for the components */}
+	{/* useStyles CONST, that uses the makeStyles() API method to create the styles for the components */} YA
 
 	{/* PersistentDrawerLeft component */}
+
+The PersistentDrawerLeft component has the following structure
+
+	{/* styles and theme constants */} YA
+
+	{/* hooks and handler functions */} 
+
+	{/* return statement 
+
+			AppBar component
+				IconButton with the openDrawer handler
+
+			Drawer component
+				List component
+					ListItem component
+	*/}
+
+Note about react Hooks
+  /**
+  * A hook is a function that allows a component to use some
+  * react functionality, e.g. useState() is a hook that lets you
+  * use 'react states' within a function component (in the old times
+  * you would need to rewrite a stateless functional component into
+  * a class stateful component in order to use react states)
+  * 
+  * so we call the useState() hook to handle the drawer state
+  **/
+
+We'll add the styles, hooks and handlers (and the wrapper) into the src\components\App\index.js component
+We'll add the List and ListItem components to the NavigationAuth and NavigationNonAuth components
+	
+	{/* all the drawer stuff */}
+	...
+
+	{/* return statement 
+
+			AppBar component
+				IconButton with the openDrawer handler
+
+			Drawer component
+				<Navigation />
+	*/}
+
+	...
+	{/* all the drawer stuff */}
+
+https://material-ui.com/components/drawers/
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

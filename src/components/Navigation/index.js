@@ -8,6 +8,13 @@ import SignOutButton from '../SignOut';
 
 import { AuthUserContext } from '../Session';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
 const Navigation = () => {
   return (
     <div>
@@ -20,15 +27,25 @@ const Navigation = () => {
   );
 }
 
+{
+/**
+* Vas aquí, solo falta acomodar los enlaces para que se vean bonitos e integrados 
+* con el drawer.
+*/
+}
 const NavigationAuth = ({ authUser }) => {
   return ( 
-    <ul>
-      <li>
+    <List>
+      <ListItem button>
+        <ListItemIcon> <InboxIcon /> </ListItemIcon>
+        <ListItemText primary="Landing" />
         <Link to={ROUTES.LANDING}>Landing</Link>
-      </li>
+      </ListItem>
+
       <li>
         <Link to={ROUTES.HOME}>Home</Link>
       </li>
+      
       <li>
         <Link to={ROUTES.ACCOUNT}>Account</Link>
       </li>
@@ -38,7 +55,7 @@ const NavigationAuth = ({ authUser }) => {
       <li>
         <SignOutButton />
       </li>
-    </ul>
+    </List>
   );
 }
 

@@ -1199,7 +1199,7 @@ The PersistentDrawerLeft component has the following structure
 
 	{/* styles and theme constants */} YA
 
-	{/* hooks and handler functions */} 
+	{/* hooks and handler functions */} YA
 
 	{/* return statement 
 
@@ -1240,7 +1240,21 @@ We'll add the List and ListItem components to the NavigationAuth and NavigationN
 	...
 	{/* all the drawer stuff */}
 
+At the <Navigation/> component we used mui 'composition' to render a good looking button that calls a react-router-dom link
+
+	<ListItem button component={Link} to={ROUTES.LANDING}>
+		<ListItemIcon> <InboxIcon /> </ListItemIcon>
+		<ListItemText primary="Landing" />
+	</ListItem>
+
+I saw a cool idea to use a local state to change the toolbar text based on the rendered component, let's do that lol
+
+	https://paulgrajewski.medium.com/react-material-ui-drawer-with-routes-8e27c91b6119 <-- AQUÍ VAS :P
+
+
 https://material-ui.com/components/drawers/
+https://dev.to/rossanodan/building-a-navigation-drawer-with-material-ui-and-react-router-dom-1j6l
+https://material-ui.com/guides/composition/
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

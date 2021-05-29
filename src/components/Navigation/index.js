@@ -27,30 +27,36 @@ const Navigation = () => {
   );
 }
 
-{
 /**
-* Vas aquí, solo falta acomodar los enlaces para que se vean bonitos e integrados 
-* con el drawer.
-*/
-}
+ * This set of links is returned if there is a logged in user
+ * notice how we use mui 'composition' at the <ListItem/> component.
+ * We pass a react-router-dom <Link> component as the 'component' prop so 
+ * when clicked it works as a normal router link while looking cute ;).
+ */
 const NavigationAuth = ({ authUser }) => {
   return ( 
     <List>
-      <ListItem button>
+      <ListItem button component={Link} to={ROUTES.LANDING}>
         <ListItemIcon> <InboxIcon /> </ListItemIcon>
         <ListItemText primary="Landing" />
-        <Link to={ROUTES.LANDING}>Landing</Link>
       </ListItem>
 
-      <li>
-        <Link to={ROUTES.HOME}>Home</Link>
-      </li>
+      <ListItem button component={Link} to={ROUTES.HOME}>
+        <ListItemIcon> <InboxIcon /> </ListItemIcon>
+        <ListItemText primary="Home" />
+      </ListItem>
       
-      <li>
-        <Link to={ROUTES.ACCOUNT}>Account</Link>
-      </li>
+      <ListItem button component={Link} to={ROUTES.ACCOUNT}>
+        <ListItemIcon> <InboxIcon /> </ListItemIcon>
+        <ListItemText primary="Account" />
+      </ListItem>
         
-        { !!authUser.roles[ROLES.ADMIN] && (<li><Link to={ROUTES.ADMIN}>Admin</Link></li>) }
+      {!!authUser.roles[ROLES.ADMIN] && (
+        <ListItem button component={Link} to={ROUTES.ADMIN}>
+          <ListItemIcon> <InboxIcon /> </ListItemIcon>
+          <ListItemText primary="Admin" />
+        </ListItem>
+      )}
         
       <li>
         <SignOutButton />

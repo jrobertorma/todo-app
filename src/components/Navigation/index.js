@@ -12,8 +12,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+
+import HomeIcon from '@material-ui/icons/Home';
+import BuildIcon from '@material-ui/icons/Build';
+import CallToActionIcon from '@material-ui/icons/CallToAction';
+import PersonIcon from '@material-ui/icons/Person';
 
 const Navigation = () => {
   return (
@@ -37,23 +40,23 @@ const NavigationAuth = ({ authUser }) => {
   return ( 
     <List>
       <ListItem button component={Link} to={ROUTES.LANDING}>
-        <ListItemIcon> <InboxIcon /> </ListItemIcon>
+        <ListItemIcon> <CallToActionIcon /> </ListItemIcon>
         <ListItemText primary="Landing" />
       </ListItem>
 
       <ListItem button component={Link} to={ROUTES.HOME}>
-        <ListItemIcon> <InboxIcon /> </ListItemIcon>
+        <ListItemIcon> <HomeIcon /> </ListItemIcon>
         <ListItemText primary="Home" />
       </ListItem>
       
       <ListItem button component={Link} to={ROUTES.ACCOUNT}>
-        <ListItemIcon> <InboxIcon /> </ListItemIcon>
+        <ListItemIcon> <PersonIcon /> </ListItemIcon>
         <ListItemText primary="Account" />
       </ListItem>
         
       {!!authUser.roles[ROLES.ADMIN] && (
         <ListItem button component={Link} to={ROUTES.ADMIN}>
-          <ListItemIcon> <InboxIcon /> </ListItemIcon>
+          <ListItemIcon> <BuildIcon /> </ListItemIcon>
           <ListItemText primary="Admin" />
         </ListItem>
       )}
@@ -65,16 +68,21 @@ const NavigationAuth = ({ authUser }) => {
   );
 }
 
+/**
+ * If there is no user logged in, the component returns this set of links 
+ */
 const NavigationNonAuth = () => {
   return ( 
-    <ul>
-      <li>
-        <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.LANDING}>Landing</Link>
-      </li>
-    </ul>
+    <List>
+      <ListItem button component={Link} to={ROUTES.SIGN_IN}>
+        <ListItemIcon> <PersonIcon /> </ListItemIcon>
+        <ListItemText primary="Sign In" />
+      </ListItem>
+      <ListItem button component={Link} to={ROUTES.LANDING}>
+        <ListItemIcon> <CallToActionIcon /> </ListItemIcon>
+        <ListItemText primary="Landing" />
+      </ListItem>
+    </List>
   );
 }
 

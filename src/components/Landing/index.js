@@ -1,7 +1,8 @@
 const LandingPage = () => {
     return ( 
         <div>
-            YOYOYO, I'M LANDINGGGG
+            <h1>Admin</h1>
+            <p>YOYOYO, I'M LANDINGGGG.</p>
         </div>
      );
 }

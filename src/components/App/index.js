@@ -103,6 +103,7 @@ const App = () => {
 
   //we call the useState() hook to handle the drawer state
   const [open, setOpen] = React.useState(false);
+  const [toolbarText, setToolbarText] = React.useState("");
 
   //some handlers
   const handleDrawerOpen = () => {
@@ -112,6 +113,10 @@ const App = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const toolbarHandler = newToolbarText => () => {
+    setToolbarText(newToolbarText);
+  }
 
   return (
     <div className={classes.root}>
@@ -135,7 +140,7 @@ const App = () => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap>
-              Persistent drawer
+              {toolbarText}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -157,7 +162,7 @@ const App = () => {
 
           <Divider />
 
-          <Navigation />
+          <Navigation toolbarHandler={toolbarHandler} />
 
         </Drawer>
 
@@ -165,7 +170,7 @@ const App = () => {
           <hr />
           <Switch>
             <Route exact path={ROUTES.LANDING}>
-                <LandingPage/>
+                <LandingPage />
             </Route>
             <Route path={ROUTES.SIGN_UP}>
                 <SignUpPage/>

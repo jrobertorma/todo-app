@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
+import Box from '@material-ui/core/Box';
+
 const PasswordForgetPage = () => {
     return ( 
-        <div>
+        <Box mt={8}>
             <h1>Password Forget</h1>
             <PasswordForgetForm />
-        </div>
+        </Box>
     );
 };
 

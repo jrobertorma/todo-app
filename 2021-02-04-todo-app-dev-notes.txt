@@ -1242,15 +1242,50 @@ We'll add the List and ListItem components to the NavigationAuth and NavigationN
 
 At the <Navigation/> component we used mui 'composition' to render a good looking button that calls a react-router-dom link
 
-	<ListItem button component={Link} to={ROUTES.LANDING}>
-		<ListItemIcon> <InboxIcon /> </ListItemIcon>
+	const Navigation = ({toolbarHandler}) => {
+	  return (
+	    <div>
+	      <AuthUserContext.Consumer>
+	        { 
+	          (authUser) =>  authUser ? 
+	            <NavigationAuth authUser={authUser} toolbarHandler={toolbarHandler}/> : 
+	            <NavigationNonAuth toolbarHandler={toolbarHandler}/> 
+	        }
+	      </AuthUserContext.Consumer>
+	    </div>
+	  );
+	}
+
+Notice we also pass the toolbarHandler argument to the component and pass it again to both 'Navigation' components. Those components render the nav links:
+	
+	<ListItem button component={Link} to={ROUTES.LANDING} onClick={toolbarHandler("Landing")}>
+		<ListItemIcon> <CallToActionIcon /> </ListItemIcon>
 		<ListItemText primary="Landing" />
 	</ListItem>
 
-I saw a cool idea to use a local state to change the toolbar text based on the rendered component, let's do that lol
+They display an icon, a text and use the 'composition' (see the 'component={Link}' prop) so it has the react-router-dom function available to the onClick listener (this is implicit), we also define an onClick handler thar is the previously passed toolbarHandler that gets a string as an argument.
 
-	https://paulgrajewski.medium.com/react-material-ui-drawer-with-routes-8e27c91b6119 <-- AQUÍ VAS :P
+The handler was defined at the src\components\App\index.js <App /> component
 
+First a new state using the useState Hook was defined (see the docs at https://reactjs.org/docs/hooks-state.html)
+
+	 const [toolbarText, setToolbarText] = React.useState("");
+
+Basically with this hook you can use state without needing to rewrite a functional component into a class.
+
+When using the hook you name the state var and its state handler (toolbarText and setToolbarText in this case), and the default value for the state (the empty quotes).
+
+Then you can use the set handler anywhere
+
+	const toolbarHandler = newToolbarText => () => {
+		setToolbarText(newToolbarText);
+	}
+
+And use the state as usual.
+	
+	<Typography variant="h6" noWrap>
+    	{toolbarText}
+    </Typography>
 
 https://material-ui.com/components/drawers/
 https://dev.to/rossanodan/building-a-navigation-drawer-with-material-ui-and-react-router-dom-1j6l

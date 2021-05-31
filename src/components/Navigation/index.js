@@ -18,12 +18,14 @@ import BuildIcon from '@material-ui/icons/Build';
 import CallToActionIcon from '@material-ui/icons/CallToAction';
 import PersonIcon from '@material-ui/icons/Person';
 
-const Navigation = () => {
+const Navigation = ({toolbarHandler}) => {
   return (
     <div>
       <AuthUserContext.Consumer>
         { 
-          (authUser) =>  authUser ? <NavigationAuth authUser={authUser}/> : <NavigationNonAuth /> 
+          (authUser) =>  authUser ? 
+            <NavigationAuth authUser={authUser} toolbarHandler={toolbarHandler}/> : 
+            <NavigationNonAuth toolbarHandler={toolbarHandler}/> 
         }
       </AuthUserContext.Consumer>
     </div>
@@ -36,26 +38,26 @@ const Navigation = () => {
  * We pass a react-router-dom <Link> component as the 'component' prop so 
  * when clicked it works as a normal router link while looking cute ;).
  */
-const NavigationAuth = ({ authUser }) => {
+const NavigationAuth = ({ authUser, toolbarHandler }) => {
   return ( 
     <List>
-      <ListItem button component={Link} to={ROUTES.LANDING}>
+      <ListItem button component={Link} to={ROUTES.LANDING} onClick={toolbarHandler("Landing")}>
         <ListItemIcon> <CallToActionIcon /> </ListItemIcon>
         <ListItemText primary="Landing" />
       </ListItem>
 
-      <ListItem button component={Link} to={ROUTES.HOME}>
+      <ListItem button component={Link} to={ROUTES.HOME} onClick={toolbarHandler("Home")}>
         <ListItemIcon> <HomeIcon /> </ListItemIcon>
         <ListItemText primary="Home" />
       </ListItem>
       
-      <ListItem button component={Link} to={ROUTES.ACCOUNT}>
+      <ListItem button component={Link} to={ROUTES.ACCOUNT} onClick={toolbarHandler("Account")}>
         <ListItemIcon> <PersonIcon /> </ListItemIcon>
         <ListItemText primary="Account" />
       </ListItem>
         
       {!!authUser.roles[ROLES.ADMIN] && (
-        <ListItem button component={Link} to={ROUTES.ADMIN}>
+        <ListItem button component={Link} to={ROUTES.ADMIN} onClick={toolbarHandler("Admin")}>
           <ListItemIcon> <BuildIcon /> </ListItemIcon>
           <ListItemText primary="Admin" />
         </ListItem>
@@ -71,14 +73,14 @@ const NavigationAuth = ({ authUser }) => {
 /**
  * If there is no user logged in, the component returns this set of links 
  */
-const NavigationNonAuth = () => {
+const NavigationNonAuth = ({ toolbarHandler }) => {
   return ( 
     <List>
-      <ListItem button component={Link} to={ROUTES.SIGN_IN}>
+      <ListItem button component={Link} to={ROUTES.SIGN_IN} onClick={toolbarHandler("Sign In")}>
         <ListItemIcon> <PersonIcon /> </ListItemIcon>
         <ListItemText primary="Sign In" />
       </ListItem>
-      <ListItem button component={Link} to={ROUTES.LANDING}>
+      <ListItem button component={Link} to={ROUTES.LANDING} onClick={toolbarHandler("Landing")}>
         <ListItemIcon> <CallToActionIcon /> </ListItemIcon>
         <ListItemText primary="Landing" />
       </ListItem>

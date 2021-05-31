@@ -6,6 +6,8 @@ import { withFirebase } from '../Firebase';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
 
+import Box from '@material-ui/core/Box';
+
 //List of all the sign in methods available to create an account
 const SIGN_IN_METHODS = [
     {
@@ -28,12 +30,12 @@ const AccountPage = () => {
             {
                 (authUser) => {
                     return (
-                        <div>
+                        <Box mt={8}>
                             <h1>Account: {authUser.email}</h1>
                             <PasswordForgetForm />
                             <PasswordChangeForm />
                             <LoginManagement authUser={authUser} />
-                        </div>
+                        </Box>
                     );
                 }
             }

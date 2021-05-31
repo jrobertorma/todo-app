@@ -5,6 +5,8 @@ import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import { withFirebase } from '../Firebase';
 
+import Box from '@material-ui/core/Box';
+
 const INITIAL_STATE = {
     username: '',
     email: '',
@@ -25,10 +27,10 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 
 const SignUpPage = () => {
     return ( 
-        <div>
+        <Box mt={8}>
             <h1>SignUp</h1>
             <SignUpForm />
-        </div>
+        </Box>
     );
 }
 

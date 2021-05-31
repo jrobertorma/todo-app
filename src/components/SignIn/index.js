@@ -8,6 +8,8 @@ import { withFirebase } from '../Firebase';
 
 import * as ROUTES from '../../constants/routes';
 
+import Box from '@material-ui/core/Box';
+
 const ERROR_CODE_ACCOUNT_EXISTS = 
     'auth/account-exists-with-different-credential';
 
@@ -20,14 +22,14 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 
 const SingInPage = () => {
     return(
-        <div>
+        <Box mt={8}>
             <h1>SignIn</h1>
             <SignInForm />
             <SignInGoogle />
             <SignInFacebook />
             <PasswordForgetLink />
             <SignUpLink />
-        </div>
+        </Box>
     );
 }
 

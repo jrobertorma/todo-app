@@ -9,14 +9,16 @@ import {
 
 import { withFirebase } from '../Firebase';
 
+import Box from '@material-ui/core/Box';
+
 const HomePage = () => {
     return ( 
-        <div>
+        <Box mt={8}>
             <h1>Home Page</h1>
             <p>The Home Page is accessible by every signed in user.</p>
             
             <TodoList />
-        </div>
+        </Box>
      );
 }
 

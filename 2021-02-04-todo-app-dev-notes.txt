@@ -1187,19 +1187,19 @@ The <Navigation /> component has the following structure:
 
 In the docs the <Drawer/> example has this structure (you could call this a lame kind of 'pseudocode' lol)
 
-	{/* IMPORTS */} YA
+	{/* IMPORTS */}
 
-	{/* drawerWidth CONST*/} YA
+	{/* drawerWidth CONST*/}
 
-	{/* useStyles CONST, that uses the makeStyles() API method to create the styles for the components */} YA
+	{/* useStyles CONST, that uses the makeStyles() API method to create the styles for the components */}
 
 	{/* PersistentDrawerLeft component */}
 
 The PersistentDrawerLeft component has the following structure
 
-	{/* styles and theme constants */} YA
+	{/* styles and theme constants */}
 
-	{/* hooks and handler functions */} YA
+	{/* hooks and handler functions */}
 
 	{/* return statement 
 
@@ -1291,6 +1291,9 @@ https://material-ui.com/components/drawers/
 https://dev.to/rossanodan/building-a-navigation-drawer-with-material-ui-and-react-router-dom-1j6l
 https://material-ui.com/guides/composition/
 
+FORMS
+Forms 
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup
@@ -1303,3 +1306,5 @@ https://firebase.google.com/docs/database/admin/save-data
 https://developers.facebook.com/
 
 https://material-ui.com/getting-started/installation/
+
+https://reactjs.org/docs/hooks-state.html

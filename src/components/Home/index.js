@@ -9,7 +9,18 @@ import {
 
 import { withFirebase } from '../Firebase';
 
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+        width: '25ch',
+      },
+    },
+  }));
 
 const HomePage = () => {
     return ( 
@@ -146,11 +157,13 @@ class TodoListBase extends Component {
                             )
                         }
                         
-                        <form onSubmit={ event => this.onCreateItem(event, authUser) }>
-                            <input 
-                                type="text"
+                        <form className="form" onSubmit={ event => this.onCreateItem(event, authUser) }>
+                            <TextField  
+                                id="filled-name"
+                                label="Text"
                                 value={text}
                                 onChange={this.onChangeText}
+                                required
                             />
                             <button type="submit">Send</button>
                         </form>

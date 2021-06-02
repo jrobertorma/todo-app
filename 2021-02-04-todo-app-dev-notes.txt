@@ -1294,6 +1294,10 @@ https://material-ui.com/guides/composition/
 FORMS
 Forms 
 
+https://material-ui.com/components/text-fields/
+https://material-ui.com/components/buttons/
+https://material-ui.com/components/grid/
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

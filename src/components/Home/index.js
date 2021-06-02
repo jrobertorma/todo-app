@@ -9,18 +9,10 @@ import {
 
 import { withFirebase } from '../Firebase';
 
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
-    },
-  }));
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 const HomePage = () => {
     return ( 
@@ -158,15 +150,28 @@ class TodoListBase extends Component {
                         }
                         
                         <form className="form" onSubmit={ event => this.onCreateItem(event, authUser) }>
-                            <TextField  
-                                id="filled-name"
-                                label="Text"
-                                value={text}
-                                onChange={this.onChangeText}
-                                required
-                            />
-                            <button type="submit">Send</button>
+                            <Grid 
+                                container
+                                direction="row"
+                                justify="flex-start"
+                                alignItems="flex-end"
+                            >
+                                <Grid item xs={2}>
+                                    <TextField  
+                                        id="filled-name"
+                                        label="Text"
+                                        value={text}
+                                        onChange={this.onChangeText}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={1}> 
+                                    <Button color="primary" variant="contained" type="submit">Send</Button>
+                                </Grid>
+                            </Grid>
                         </form>
+                        
+
                     </div>
                 )}
             </AuthUserContext.Consumer>

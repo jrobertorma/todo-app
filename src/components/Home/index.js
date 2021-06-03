@@ -170,8 +170,6 @@ class TodoListBase extends Component {
                                 </Grid>
                             </Grid>
                         </form>
-                        
-
                     </div>
                 )}
             </AuthUserContext.Consumer>

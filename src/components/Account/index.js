@@ -7,6 +7,7 @@ import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
 
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 
 //List of all the sign in methods available to create an account
 const SIGN_IN_METHODS = [
@@ -31,10 +32,17 @@ const AccountPage = () => {
                 (authUser) => {
                     return (
                         <Box mt={8}>
-                            <h1>Account: {authUser.email}</h1>
-                            <PasswordForgetForm />
-                            <PasswordChangeForm />
-                            <LoginManagement authUser={authUser} />
+                            <Grid 
+                                container
+                                direction="row"
+                                justify="flex-start"
+                                alignItems="flex-end"
+                            >   
+                                <Grid item xs={12}> <h1>Account: {authUser.email}</h1> </Grid>
+                                <Grid item xs={12}> <PasswordForgetForm /> </Grid>
+                                <Grid item xs={12}> <PasswordChangeForm /> </Grid>
+                                <Grid item xs={12}> <LoginManagement authUser={authUser} /> </Grid>
+                            </Grid>
                         </Box>
                     );
                 }

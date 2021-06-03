@@ -1292,7 +1292,20 @@ https://dev.to/rossanodan/building-a-navigation-drawer-with-material-ui-and-reac
 https://material-ui.com/guides/composition/
 
 FORMS
-Forms 
+We have several forms in the app.
+
+	New todo-list item form
+		Its in the src\components\Home\index.js component, we render a form with a single field and button at the <TodoListBase /> component.
+
+		mui doesn't have a form component, but it has components for the fields and buttons, so we used the <TextField /> component that can use almost all the html <input> props, and a <Button /> component that can do the same.
+
+		Notice that the form items are wrapped by some <Grid /> components, those <Grid /> allow us to align (vertically) and justify (horizontally) every of it's child components. 
+
+
+	Password reset
+		It is called by the src\components\Account\index.js component to render a password reset form the component itself is at src\components\PasswordForget\index.js is called <PasswordForgetFormBase />
+
+		There we can add a grid layout and rewrite the field and the button the same way we did it at the <TodoListBase /> component.
 
 https://material-ui.com/components/text-fields/
 https://material-ui.com/components/buttons/

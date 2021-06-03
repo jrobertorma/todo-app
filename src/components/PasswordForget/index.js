@@ -5,6 +5,7 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 
 const PasswordForgetPage = () => {
     return ( 
@@ -56,18 +57,32 @@ class PasswordForgetFormBase extends Component {
 
         return(
             <form>
-                <input
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
-                <button disabled={isInvalid} type="submit">
-                    Reset my password
-                </button>
+                <Grid 
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="flex-end"
+                >
+                    <Grid item xs={2}>
+                        <input
+                            name="email"
+                            value={this.state.email}
+                            onChange={this.onChange}
+                            type="text"
+                            placeholder="Email Address"
+                        />
+                    </Grid>
 
-                {error && <p>{error.message}</p>}
+                    <Grid item xs={2}>
+                        <button disabled={isInvalid} type="submit">
+                            Reset my password
+                        </button>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        {error && <p>{error.message}</p>}
+                    </Grid>
+                </Grid>
             </form>
         );
     }

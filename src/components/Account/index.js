@@ -39,7 +39,13 @@ const AccountPage = () => {
                                 alignItems="flex-end"
                             >   
                                 <Grid item xs={12}> <h1>Account: {authUser.email}</h1> </Grid>
-                                <Grid item xs={12}> <PasswordForgetForm /> </Grid>
+                                
+                                <Grid item xs={12}> 
+                                    <Box my={2}> 
+                                        <PasswordForgetForm /> 
+                                    </Box> 
+                                </Grid>
+
                                 <Grid item xs={12}> <PasswordChangeForm /> </Grid>
                                 <Grid item xs={12}> <LoginManagement authUser={authUser} /> </Grid>
                             </Grid>

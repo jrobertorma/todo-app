@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
 
+import Grid from '@material-ui/core/Grid';
+
 const INITIAL_STATE = {
     passwordOne: '',
     passwordTwo: '',
@@ -47,27 +49,34 @@ class PasswordChangeForm extends Component {
 
         return(
             <form onSubmit={this.onSubmit}>
-                <input
-                    name="passwordOne"
-                    value={passwordOne}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="New Password"
-                />
-                
-                <input
-                    name="passwordTwo"
-                    value={passwordTwo}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Confirm New Password"
-                />
+                <Grid 
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="flex-end"
+                >
+                    <input
+                        name="passwordOne"
+                        value={passwordOne}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="New Password"
+                    />
+                    
+                    <input
+                        name="passwordTwo"
+                        value={passwordTwo}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="Confirm New Password"
+                    />
 
-                <button disabled={isInvalid} type="submit">
-                    Reset My Password
-                </button>
+                    <button disabled={isInvalid} type="submit">
+                        Reset My Password
+                    </button>
 
-                {error && <p>{error.message}</p>}
+                    {error && <p>{error.message}</p>}
+                </Grid>
             </form>
         );
     }

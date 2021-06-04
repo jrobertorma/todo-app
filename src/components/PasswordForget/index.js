@@ -6,12 +6,14 @@ import * as ROUTES from '../../constants/routes';
 
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const PasswordForgetPage = () => {
     return ( 
         <Box mt={8}>
             <h1>Password Forget</h1>
-            <PasswordForgetForm />
+                <PasswordForgetForm />
         </Box>
     );
 };
@@ -28,24 +30,20 @@ class PasswordForgetFormBase extends Component {
         this.state = { ...INITIAL_STATE };
     }
 
-    onSubmit = (event) => {
+    onSubmit = event => {
         const { email } = this.state;
 
-        this.props.withFirebase
+        this.props.firebase
             .doPasswordReset(email)
-            .then(
-                () => {
-                    this.setState({ ...INITIAL_STATE });
-                }
-            )
-            .catch(
-                (error) => {
-                    this.setState({ error });
-                }
-            );
+            .then(() => {
+            this.setState({ ...INITIAL_STATE });
+            })
+            .catch(error => {
+            this.setState({ error });
+            });
 
         event.preventDefault();
-    }
+    };
 
     onChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
@@ -56,7 +54,7 @@ class PasswordForgetFormBase extends Component {
         const isInvalid = email === '';
 
         return(
-            <form>
+            <form onSubmit={this.onSubmit}>
                 <Grid 
                     container
                     direction="row"
@@ -64,19 +62,25 @@ class PasswordForgetFormBase extends Component {
                     alignItems="flex-end"
                 >
                     <Grid item xs={2}>
-                        <input
+                        <TextField  
+                            id="email"
                             name="email"
+                            label="Email Address"
                             value={this.state.email}
                             onChange={this.onChange}
-                            type="text"
-                            placeholder="Email Address"
+                            required
                         />
                     </Grid>
 
                     <Grid item xs={2}>
-                        <button disabled={isInvalid} type="submit">
+                        <Button 
+                            disabled={isInvalid} 
+                            color="primary" 
+                            variant="contained" 
+                            type="submit"
+                        >
                             Reset my password
-                        </button>
+                        </Button>
                     </Grid>
 
                     <Grid item xs={12}>

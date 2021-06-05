@@ -41,12 +41,17 @@ const AccountPage = () => {
                                 <Grid item xs={12}> <h1>Account: {authUser.email}</h1> </Grid>
                                 
                                 <Grid item xs={12}> 
-                                    <Box my={2}> 
+                                    <Box my={1}> 
                                         <PasswordForgetForm /> 
                                     </Box> 
                                 </Grid>
 
-                                <Grid item xs={12}> <PasswordChangeForm /> </Grid>
+                                <Grid item xs={12}> 
+                                    <Box my={1}> 
+                                        <PasswordChangeForm /> 
+                                    </Box>
+                                </Grid>
+                                
                                 <Grid item xs={12}> <LoginManagement authUser={authUser} /> </Grid>
                             </Grid>
                         </Box>

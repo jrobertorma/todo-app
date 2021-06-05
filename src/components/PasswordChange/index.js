@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
 
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const INITIAL_STATE = {
     passwordOne: '',
@@ -55,25 +57,38 @@ class PasswordChangeForm extends Component {
                     justify="flex-start"
                     alignItems="flex-end"
                 >
-                    <input
-                        name="passwordOne"
-                        value={passwordOne}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="New Password"
-                    />
+                    <Grid item xs={2}>
+                        <TextField  
+                            id="passwordOne"
+                            name="passwordOne"
+                            label="New Password"
+                            type="password"
+                            value={passwordOne}
+                            onChange={this.onChange}
+                        />
+                    </Grid>
                     
-                    <input
-                        name="passwordTwo"
-                        value={passwordTwo}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="Confirm New Password"
-                    />
+                    <Grid item xs={2}>
+                        <TextField  
+                            id="passwordTwo"
+                            name="passwordTwo"
+                            label="Confirm New Password"
+                            type="password"
+                            value={passwordTwo}
+                            onChange={this.onChange}
+                        />
+                    </Grid>
 
-                    <button disabled={isInvalid} type="submit">
-                        Reset My Password
-                    </button>
+                    <Grid item xs={2}>
+                        <Button 
+                            disabled={isInvalid} 
+                            color="primary" 
+                            variant="contained" 
+                            type="submit"
+                        >
+                            Reset my password
+                        </Button>
+                    </Grid>
 
                     {error && <p>{error.message}</p>}
                 </Grid>

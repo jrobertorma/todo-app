@@ -1303,9 +1303,16 @@ We have several forms in the app.
 
 
 	Password reset
-		It is called by the src\components\Account\index.js component to render a password reset form the component itself is at src\components\PasswordForget\index.js is called <PasswordForgetFormBase />
+		It is called by the src\components\Account\index.js component to render a password reset form. The component itself is at src\components\PasswordForget\index.js is called <PasswordForgetFormBase />
 
 		There we can add a grid layout and rewrite the field and the button the same way we did it at the <TodoListBase /> component.
+
+	New password form
+		Is defined at src\components\PasswordChange\index.js in the <PasswordChangeForm />, the component displays two fields and one button.
+
+		Again, we can add a Grid based layout and use the mui fields and button with the same props and handlers of the original form.
+
+		/* Vas en el return de DefaultLoginToggle, línea 321 de src\components\Account\index.js :3*/
 
 https://material-ui.com/components/text-fields/
 https://material-ui.com/components/buttons/

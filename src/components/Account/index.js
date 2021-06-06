@@ -8,6 +8,9 @@ import PasswordChangeForm from '../PasswordChange';
 
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 //List of all the sign in methods available to create an account
 const SIGN_IN_METHODS = [
@@ -52,7 +55,11 @@ const AccountPage = () => {
                                     </Box>
                                 </Grid>
                                 
-                                <Grid item xs={12}> <LoginManagement authUser={authUser} /> </Grid>
+                                <Grid item xs={12}> 
+                                    <Box my={1}> 
+                                        <LoginManagement authUser={authUser} />
+                                    </Box> 
+                                </Grid>
                             </Grid>
                         </Box>
                     );
@@ -132,8 +139,19 @@ class LoginManagementBase extends Component {
         const { activeSignInMethods, error } = this.state;
 
         return ( 
-            <div>
-                Sign In Methods:
+            <Grid 
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-end"
+            >
+                <Grid item xs={12}>
+                    <Typography variant="h6" gutterBottom>
+                        Sign In Methods:
+                    </Typography>
+                </Grid>
+                
+                <Grid item xs={12}>
                 <ul>
                     {SIGN_IN_METHODS.map( (signInMethod) => {
                         //this returns true if there is only one sign in method in the state
@@ -141,8 +159,7 @@ class LoginManagementBase extends Component {
 
                         /*we have two set of signInMethods, the 'activeSignInMethods' state which stores the returned sign in methods from
                         * the fetchSignInMethodsForEmail() firebase method, and the SIGN_IN_METHODS constant, we are going through each item
-                        * of the constant (it is better to use the foreach() method, map() was designed to create a new array based on an 
-                        * existent array see https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+                        * of the constant.
                         * 
                         * Well, in each of the SIGN_IN_METHODS we check if it is included in the 'activeSignInMethods' state, so we know
                         * if it is active or not (if it isn't in the state then it is disabled)
@@ -159,32 +176,34 @@ class LoginManagementBase extends Component {
                              * components.
                              */
                             <li key={signInMethod.id}>
-                                {
-                                    signInMethod.id === 'password' ? (
-                                    <DefaultLoginToggle 
-                                        onlyOneLeft={onlyOneLeft}
-                                        isEnabled={isEnabled}
-                                        signInMethod={signInMethod}
-                                        onLink={this.onDefaultLoginLink}
-                                        onUnlink={this.onUnlink}
-                                    /> ): (
-                                    <SocialLoginToggle 
-                                        onlyOneLeft={onlyOneLeft}
-                                        isEnabled={isEnabled}
-                                        signInMethod={signInMethod}
-                                        onLink={this.onSocialLoginLink}
-                                        onUnlink={this.onUnlink}
-                                    />    
-                                    )
-                                }
+                                <Box my={1}>
+                                    {
+                                        signInMethod.id === 'password' ? (
+                                        <DefaultLoginToggle 
+                                            onlyOneLeft={onlyOneLeft}
+                                            isEnabled={isEnabled}
+                                            signInMethod={signInMethod}
+                                            onLink={this.onDefaultLoginLink}
+                                            onUnlink={this.onUnlink}
+                                        /> ): (
+                                        <SocialLoginToggle 
+                                            onlyOneLeft={onlyOneLeft}
+                                            isEnabled={isEnabled}
+                                            signInMethod={signInMethod}
+                                            onLink={this.onSocialLoginLink}
+                                            onUnlink={this.onUnlink}
+                                        />    
+                                        )
+                                    }
+                                </Box>
                             </li> 
                         );
                     } )}
                 </ul>
-                
+                </Grid> {/* grid item closing tag */}
                 {error && error.message}
 
-            </div>
+            </Grid> /* grid container closing tag */
         );
     }
 }
@@ -220,20 +239,38 @@ const SocialLoginToggle = ({
 }) => {
     return (
         isEnabled ? (
-            <button 
-                type="button"
+            <Button 
+                disabled={onlyOneLeft} 
                 onClick={() => onUnlink(signInMethod.id)}
-                disabled={onlyOneLeft}
+                color="primary" 
+                variant="contained"
             >
                 Deactivate {signInMethod.id}
-            </button>
+            </Button>
+
+            // <button 
+            //     type="button"
+            //     onClick={() => onUnlink(signInMethod.id)}
+            //     disabled={onlyOneLeft}
+            // >
+            //     Deactivate {signInMethod.id}
+            // </button>
         ) : (
-            <button
-                type="button"
+
+            <Button 
                 onClick={() => onLink(signInMethod.provider)}
+                color="primary" 
+                variant="contained"
             >
                 Link {signInMethod.id}
-            </button>
+            </Button>
+
+            // <button
+            //     type="button"
+            //     onClick={() => onLink(signInMethod.provider)}
+            // >
+            //     Link {signInMethod.id}
+            // </button>
         )
     );
 }

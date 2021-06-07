@@ -320,33 +320,80 @@ class DefaultLoginToggle extends Component {
 
         return ( 
             isEnabled ? (
-                <button
+                <Button 
+                    disabled={onlyOneLeft} 
+                    color="primary" 
+                    variant="contained" 
                     type="button"
                     onClick={ () => onUnlink(signInMethod.id) }
-                    disabled={onlyOneLeft}
                 >
                     Deactivate {signInMethod.id}
-                </button>
+                </Button>
+                // <button
+                //     type="button"
+                //     onClick={ () => onUnlink(signInMethod.id) }
+                //     disabled={onlyOneLeft}
+                // >
+                //     Deactivate {signInMethod.id}
+                // </button>
             ) : (
                 <form onSubmit={this.onSubmit}>
-                    <input
-                        name="passwordOne"
-                        value={passwordOne}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="New Password"
-                    />
-                    <input
-                        name="passwordTwo"
-                        value={passwordTwo}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="Confirm New Password"
-                    />
+                    <Grid 
+                        container
+                        direction="row"
+                        justify="flex-start"
+                        alignItems="flex-end"
+                    >
+                        <Grid item xs={2}>
+                            <TextField  
+                                id="passwordOne"
+                                name="passwordOne"
+                                label="New Password"
+                                value={passwordOne}
+                                onChange={this.onChange}
+                                type="password"
+                                required
+                            />
+                            {/* <input
+                                name="passwordOne"
+                                value={passwordOne}
+                                onChange={this.onChange}
+                                type="password"
+                                placeholder="New Password"
+                            /> */}
+                        </Grid>
+                        
+                        <Grid item xs={2}>
+                            <TextField  
+                                id="passwordTwo"
+                                name="passwordTwo"
+                                label="Confirm New Password"
+                                value={passwordTwo}
+                                onChange={this.onChange}
+                                type="password"
+                                required
+                            />
 
-                    <button disabled={isInvalid} type="submit">
-                        Link {signInMethod.id}
-                    </button>
+                            {/* <input
+                                name="passwordTwo"
+                                value={passwordTwo}
+                                onChange={this.onChange}
+                                type="password"
+                                placeholder="Confirm New Password"
+                            /> */}
+                        </Grid>
+                        
+                        <Grid item xs={2}>
+                            <Button 
+                                disabled={isInvalid} 
+                                color="primary" 
+                                variant="contained" 
+                                type="submit"
+                            > 
+                                Link {signInMethod.id}
+                            </Button>
+                        </Grid>         
+                    </Grid>
                 </form>
             )
         )

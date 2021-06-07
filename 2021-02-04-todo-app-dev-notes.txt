@@ -1312,7 +1312,7 @@ We have several forms in the app.
 
 		Again, we can add a Grid based layout and use the mui fields and button with the same props and handlers of the original form.
 
-		/* Vas en el return de DefaultLoginToggle, línea 321 de src\components\Account\index.js :3*/
+		/* VAS AQUÍ en el return de DefaultLoginToggle, línea 321 de src\components\Account\index.js :3*/
 
 https://material-ui.com/components/text-fields/
 https://material-ui.com/components/buttons/

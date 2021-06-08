@@ -1291,7 +1291,7 @@ https://material-ui.com/components/drawers/
 https://dev.to/rossanodan/building-a-navigation-drawer-with-material-ui-and-react-router-dom-1j6l
 https://material-ui.com/guides/composition/
 
-FORMS
+FORMS AND BUTTONS
 We have several forms in the app.
 
 	New todo-list item form
@@ -1300,7 +1300,6 @@ We have several forms in the app.
 		mui doesn't have a form component, but it has components for the fields and buttons, so we used the <TextField /> component that can use almost all the html <input> props, and a <Button /> component that can do the same.
 
 		Notice that the form items are wrapped by some <Grid /> components, those <Grid /> allow us to align (vertically) and justify (horizontally) every of it's child components. 
-
 
 	Password reset
 		It is called by the src\components\Account\index.js component to render a password reset form. The component itself is at src\components\PasswordForget\index.js is called <PasswordForgetFormBase />
@@ -1312,7 +1311,8 @@ We have several forms in the app.
 
 		Again, we can add a Grid based layout and use the mui fields and button with the same props and handlers of the original form.
 
-		/* VAS AQUÍ en el return de DefaultLoginToggle, línea 321 de src\components\Account\index.js :3*/
+	Login management section
+		It's a <ul> with a button that links or unlinks a new auth method to the user (there are three methods: password/email, google account and facebook account), we can add a mui <Button /> component and pass the existing handlers to this section, wich is rendered by the <LoginManagementBase /> component at the src\components\Account\index.js file.
 
 https://material-ui.com/components/text-fields/
 https://material-ui.com/components/buttons/

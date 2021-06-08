@@ -152,7 +152,6 @@ class LoginManagementBase extends Component {
                 </Grid>
                 
                 <Grid item xs={12}>
-                <ul>
                     {SIGN_IN_METHODS.map( (signInMethod) => {
                         //this returns true if there is only one sign in method in the state
                         const onlyOneLeft = activeSignInMethods.length === 1; 
@@ -175,8 +174,7 @@ class LoginManagementBase extends Component {
                              * <SocialLoginToggle /> instead, we pass the handlers of each kind of signIn method to those
                              * components.
                              */
-                            <li key={signInMethod.id}>
-                                <Box my={1}>
+                                <Box my={1} key={signInMethod.id}>
                                     {
                                         signInMethod.id === 'password' ? (
                                         <DefaultLoginToggle 
@@ -196,10 +194,9 @@ class LoginManagementBase extends Component {
                                         )
                                     }
                                 </Box>
-                            </li> 
                         );
                     } )}
-                </ul>
+                
                 </Grid> {/* grid item closing tag */}
                 {error && error.message}
 

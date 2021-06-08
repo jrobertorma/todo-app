@@ -84,7 +84,13 @@ class TodoListBase extends Component {
             <AuthUserContext.Consumer>
                 {authUser => (
                     <div>
-                        { loading && <div>Loading ...</div> }
+                        { loading && 
+                            <div>
+                                <Typography variant="body1" gutterBottom>
+                                    Loading ...
+                                </Typography>
+                            </div>
+                        }
 
                         { 
                             todoListItems ? (

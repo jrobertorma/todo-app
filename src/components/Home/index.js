@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 const HomePage = () => {
     return ( 
@@ -129,12 +130,24 @@ class TodoListBase extends Component {
                 { authUser => (
                     <div>
                         {!loading && todoListItems && (
-                            <button type="button" onClick={this.onNextPage}>
+                            // <button type="button" onClick={this.onNextPage}>
+                            //     More
+                            // </button>
+
+                            <Button 
+                                type="button" 
+                                onClick={this.onNextPage}
+                                color="primary" 
+                                variant="contained"
+                            >
                                 More
-                            </button>
+                            </Button>
                         )}
 
-                        {loading && <div>Loading ...</div>}
+                        {loading && <div>
+                            <Typography variant="body1" gutterBottom>
+                                Loading ...
+                            </Typography></div>}
 
                         {
                             todoListItems ? (

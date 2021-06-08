@@ -8,6 +8,7 @@ import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 const AdminPage = () => (
   <Box mt={8}>
@@ -61,7 +62,12 @@ class UserListBase extends Component {
     return (
       <div>
         <h2>Users</h2>
-        {loading && <div>Loading ...</div> /*conditional rendering: 'logicExpression && TODO if logicExpression returns true'*/}
+        {loading && 
+          <div>
+            <Typography variant="body1" gutterBottom>
+                Loading ...
+            </Typography>
+          </div> /*conditional rendering: 'logicExpression && TODO if logicExpression returns true'*/}
         <ul>
           {//Mapping the users array to create one list item for each user and its data 
           users.map(user => (

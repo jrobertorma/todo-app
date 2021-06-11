@@ -142,7 +142,12 @@ class UserItemBase extends Component {
     return (
       <div>
         <h2>User ({this.props.match.params.id})</h2>
-        {loading && <div>Loading ...</div>}
+        {loading && 
+          <div>
+            <Typography variant="body1" gutterBottom>
+                Loading ...
+            </Typography>
+          </div>}
 
         {user && (
           <div>

@@ -18,8 +18,13 @@ import Typography from '@material-ui/core/Typography';
 const HomePage = () => {
     return ( 
         <Box mt={8}>
-            <h1>Home Page</h1>
-            <p>The Home Page is accessible by every signed in user.</p>
+            <Typography variant="h4" gutterBottom>
+                Home Page
+            </Typography>
+            
+            <Typography variant="body1" gutterBottom>
+                The Home Page is accessible by every signed in user.
+            </Typography>
             
             <TodoList />
         </Box>
@@ -158,7 +163,11 @@ class TodoListBase extends Component {
                                     onRemoveItem={this.onRemoveItem}
                                 />
                             ) : (
-                                <div>There are no To-do list items...</div>
+                                <div>
+                                    <Typography variant="body1" gutterBottom>
+                                        There are no To-do list items...
+                                    </Typography>
+                                </div>
                             )
                         }
                         
@@ -172,7 +181,7 @@ class TodoListBase extends Component {
                                 <Grid item xs={2}>
                                     <TextField  
                                         id="filled-name"
-                                        label="Text"
+                                        label="New note"
                                         value={text}
                                         onChange={this.onChangeText}
                                         required
@@ -192,24 +201,31 @@ class TodoListBase extends Component {
 
 const ItemsList = ({ authUser, todoListItems, onEditItem, onRemoveItem }) => {
     return (
-        <ul>
-            {   /*the map is important, as it is to get the todoListItems as a function param, not
-                * using this.props, every listItem object (todoListItems is an array of objects)
-                * has the 'text', 'userId' and 'uid' keys.
-                */
-                todoListItems.map( listItem => {
-                    return(
-                        <ListItem
-                            authUser={authUser}
-                            key={listItem.uid}
-                            listItem={listItem}
-                            onEditItem={onEditItem}
-                            onRemoveItem={onRemoveItem}
-                        />
-                    )
-                })
-            }
-        </ul>
+        <Grid 
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-end"
+        >
+            <ul>
+                {   /*the map is important, as it is to get the todoListItems as a function param, not
+                    * using this.props, every listItem object (todoListItems is an array of objects)
+                    * has the 'text', 'userId' and 'uid' keys.
+                    */
+                    todoListItems.map( listItem => {
+                        return(
+                            <ListItem
+                                authUser={authUser}
+                                key={listItem.uid}
+                                listItem={listItem}
+                                onEditItem={onEditItem}
+                                onRemoveItem={onRemoveItem}
+                            />
+                        )
+                    })
+                }
+            </ul>
+        </Grid>
     );
 }
 
@@ -246,40 +262,71 @@ class ListItem extends Component {
 
         return ( 
             <li>
-                { editMode ? (
-                    <input
-                        type="text"
-                        value={editText}
-                        onChange={this.onChangeEditText}
-                    />
-                ) : (
-                    <span>
-                        <strong>{listItem.uid}</strong> {listItem.text}
-                        {listItem.editedAt && <span>(Edited)</span>}
-                    </span>
-                )}
+                <Grid item xs={12} my="1">
+                    { editMode ? (
+                        <TextField  
+                            id="editText"
+                            name="editText"
+                            value={editText}
+                            onChange={this.onChangeEditText}
+                            type="text"
+                        />
+                        // <input
+                        //     type="text"
+                        //     value={editText}
+                        //     onChange={this.onChangeEditText}
+                        // />
+                    ) : (
+                        <span>
+                            {/* <strong>{listItem.uid}</strong>*/} {listItem.text}
+                            {listItem.editedAt && <span> (Edited) </span>}
+                        </span>
+                    )}
+                
                 
                 {authUser.uid === listItem.userId && ( 
                     <span>
                         { editMode ? (
                             <span>
-                                <button onClick={this.onSaveEditText}>Save</button>
-                                <button onClick={this.onToggleEditMode}>Reset</button>
+                                    <Button 
+                                        color="primary" 
+                                        variant="contained"
+                                        onClick={this.onSaveEditText}
+                                    > Save </Button>
+                                    {/* <button onClick={this.onSaveEditText}>Save</button> */}
+
+                                    <Button 
+                                        color="primary" 
+                                        variant="contained"
+                                        onClick={this.onToggleEditMode}
+                                    > Reset </Button>
+                                    {/* <button onClick={this.onToggleEditMode}>Reset</button> */}
                             </span>
                         ) : (
-                            <button onClick={this.onToggleEditMode}>Edit</button>
+                            <Button 
+                                color="primary" 
+                                variant="contained"
+                                onClick={this.onToggleEditMode}
+                            > Edit </Button>
+                            // <button onClick={this.onToggleEditMode}>Edit</button>
                         )}
 
                         { !editMode && (
-                            <button
-                                type="button"
+                            <Button 
+                                color="primary" 
+                                variant="contained"
                                 onClick={ () => onRemoveItem(listItem.uid) }
-                            >
-                                Delete
-                            </button>
+                            > Delete </Button>
+                            // <button
+                            //     type="button"
+                            //     onClick={ () => onRemoveItem(listItem.uid) }
+                            // >
+                            //     Delete
+                            // </button>
                         )}
                     </span>
                 )}
+                </Grid>
             </li>
         );
     }

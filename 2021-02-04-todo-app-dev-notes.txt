@@ -1318,6 +1318,8 @@ https://material-ui.com/components/text-fields/
 https://material-ui.com/components/buttons/
 https://material-ui.com/components/grid/
 
+VAS EN src\components\Home\index.js
+
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

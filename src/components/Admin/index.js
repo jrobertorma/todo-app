@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
@@ -7,13 +7,20 @@ import { withAuthorization, withEmailVerification } from '../Session';
 import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 
+import UserCard from './UserCard';
+
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
 const AdminPage = () => (
   <Box mt={8}>
-    <h1>Admin</h1>
-    <p>The Admin Page is accessible by every signed in admin user.</p>
+    <Typography variant="h4" gutterBottom>
+      Admin
+    </Typography>
+
+    <Typography variant="body1" gutterBottom>
+      The Admin Page is accessible by every signed in admin user.
+    </Typography>
 
     <Switch>
       <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
@@ -61,39 +68,44 @@ class UserListBase extends Component {
 
     return (
       <div>
-        <h2>Users</h2>
+        <Typography variant="h5" gutterBottom>
+          Users
+        </Typography>
         {loading && 
           <div>
             <Typography variant="body1" gutterBottom>
                 Loading ...
             </Typography>
           </div> /*conditional rendering: 'logicExpression && TODO if logicExpression returns true'*/}
-        <ul>
+        {/* <ul> */}
           {//Mapping the users array to create one list item for each user and its data 
           users.map(user => (
-            <li key={user.uid}>
-              <span>
-                <strong>ID:</strong> {user.uid}
-              </span>
-              <span>
-                <strong>E-Mail:</strong> {user.email}
-              </span>
-              <span>
-                <strong>Username:</strong> {user.username}
-              </span>
-              <span>
-                <Link
-                  to={{
-                    pathname: `${ROUTES.ADMIN}/${user.uid}`,
-                    state: { user },
-                  }}
-                >
-                  Details
-                </Link>
-              </span>
-            </li>
+            // <li key={user.uid}>
+            //   <span>
+            //     <strong>ID:</strong> {user.uid}
+            //   </span>
+            //   <span>
+            //     <strong>E-Mail:</strong> {user.email}
+            //   </span>
+            //   <span>
+            //     <strong>Username:</strong> {user.username}
+            //   </span>
+            //   <span>
+            //     <Link
+            //       to={{
+            //         pathname: `${ROUTES.ADMIN}/${user.uid}`,
+            //         state: { user },
+            //       }}
+            //     >
+            //       Details
+            //     </Link>
+            //   </span>
+            // </li>
+
+            <UserCard key={user.uid} user={user} />
+
           ))}
-        </ul>
+        {/* </ul> */}
       </div>
     );
   }

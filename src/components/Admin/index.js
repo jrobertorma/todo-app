@@ -11,6 +11,7 @@ import UserCard from './UserCard';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 const AdminPage = () => (
   <Box mt={8}>
@@ -77,6 +78,13 @@ class UserListBase extends Component {
                 Loading ...
             </Typography>
           </div> /*conditional rendering: 'logicExpression && TODO if logicExpression returns true'*/}
+          <Grid 
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-end"
+            spacing={3}
+          >
         {/* <ul> */}
           {//Mapping the users array to create one list item for each user and its data 
           users.map(user => (
@@ -101,11 +109,13 @@ class UserListBase extends Component {
             //     </Link>
             //   </span>
             // </li>
-
-            <UserCard key={user.uid} user={user} />
+            <Grid item xs={4}>
+              <UserCard key={user.uid} user={user} />
+            </Grid>
 
           ))}
         {/* </ul> */}
+        </Grid>
       </div>
     );
   }

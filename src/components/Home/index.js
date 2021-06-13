@@ -278,7 +278,10 @@ class ListItem extends Component {
                         // />
                     ) : (
                         <span>
-                            {/* <strong>{listItem.uid}</strong>*/} {listItem.text}
+                            {/* <strong>{listItem.uid}</strong>*/}  
+                            <Typography variant="body1" gutterBottom> 
+                                {listItem.text} 
+                            </Typography>
                             {listItem.editedAt && <span> (Edited) </span>}
                         </span>
                     )}

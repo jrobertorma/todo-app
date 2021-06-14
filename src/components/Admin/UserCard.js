@@ -62,6 +62,22 @@ export default function UserCard({user}) {
   );
 }
 /**
+ * This component is called by is called in the render method of the UserListBase component in the src\components\Admin\index.js file. 
+ * It gets a 'user' object and uses it to render a mui-card.
+ * 
+ * Note the react-router <Link /> in the mui <Button /> component. As you may see, is embedded within the Button using
+ * the mui 'composition', that lets us use mui and a routing solution, in this case with the 'component' and 'to' props.
+ * 
+ *    <Button 
+          size="small" 
+          component={Link} 
+          to={{
+            pathname: `${ROUTES.ADMIN}/${user.uid}`,
+            state: { user },
+          }}>
+            Details
+        </Button>
+ * 
  * https://material-ui.com/components/cards/
  * https://material-ui.com/guides/composition/#button
  */

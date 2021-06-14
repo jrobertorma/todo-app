@@ -12,6 +12,7 @@ import UserCard from './UserCard';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 const AdminPage = () => (
   <Box mt={8}>
@@ -109,8 +110,8 @@ class UserListBase extends Component {
             //     </Link>
             //   </span>
             // </li>
-            <Grid item xs={4}>
-              <UserCard key={user.uid} user={user} />
+            <Grid item xs={4} key={user.uid}>
+              <UserCard user={user} />
             </Grid>
 
           ))}
@@ -163,7 +164,9 @@ class UserItemBase extends Component {
 
     return (
       <div>
-        <h2>User ({this.props.match.params.id})</h2>
+        <Typography variant="h6" gutterBottom>
+          User ({this.props.match.params.id})
+        </Typography>
         {loading && 
           <div>
             <Typography variant="body1" gutterBottom>
@@ -172,25 +175,44 @@ class UserItemBase extends Component {
           </div>}
 
         {user && (
-          <div>
-            <span>
-              <strong>ID:</strong> {user.uid}
-            </span>
-            <span>
-              <strong>E-Mail:</strong> {user.email}
-            </span>
-            <span>
-              <strong>Username:</strong> {user.username}
-            </span>
-            <span>
-              <button
+          <Grid 
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-end"
+          >
+            <Grid item xs={12}>
+              <Typography variant="body1" gutterBottom>
+                <strong>ID:</strong> {user.uid}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="body1" gutterBottom>
+                <strong>E-Mail:</strong> {user.email}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Username:</strong> {user.username}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Button 
+                color="primary" 
+                variant="contained" 
                 type="button"
                 onClick={this.onSendPasswordResetEmail}
               >
                 Send Password Reset
-              </button>
-            </span>
-          </div>
+              </Button>
+              {/* <button
+                type="button"
+                onClick={this.onSendPasswordResetEmail}
+              >
+                Send Password Reset
+              </button> */}
+            </Grid>
+          </Grid>
         )}
       </div>
     );

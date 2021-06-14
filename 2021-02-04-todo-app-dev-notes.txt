@@ -115,6 +115,9 @@ Adding Admin dashboard
 07/05/2021 - 25/05/2021
 Adding Core functionalities
 
+26/05/2021 - 14/05/2021
+Improving ui with material-ui
+
 PRIMARY GOALS
 Build a todo-app from scratch, using react, redux and firebase.
 
@@ -214,6 +217,7 @@ What do you need to create the app?
 		3.3.8 Add social login functions, including merging accounts and email verification
 		3.3.9 Update admin dashboard to edit users from the front-end
 		3.3.10 Add the core functionalities
+		3.3.11 Improve UI to the final version
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * * * * * * * * * * * * * * * N O T E S * * * * * * * * * * * * * * *
@@ -1140,7 +1144,7 @@ ListItem displays the list item and some buttons (with a lot of conditional rend
 And that's it, we still can add some color and improve the UI but the basic functionalities are working :). 
 
 ---------------------- UI IMPROVEMENTS ----------------------
-Installed 
+Installed libraries
 	yarn add @material-ui/core
 	npm install @fontsource/roboto
 	yarn add @material-ui/icons
@@ -1312,13 +1316,20 @@ We have several forms in the app.
 		Again, we can add a Grid based layout and use the mui fields and button with the same props and handlers of the original form.
 
 	Login management section
-		It's a <ul> with a button that links or unlinks a new auth method to the user (there are three methods: password/email, google account and facebook account), we can add a mui <Button /> component and pass the existing handlers to this section, wich is rendered by the <LoginManagementBase /> component at the src\components\Account\index.js file.
+		It's an <ul> wich <li> has a button that links or unlinks a new auth method to the user (there are three methods: password/email, google account and facebook account), we can add a mui <Button /> component and pass the existing handlers to this section, wich is rendered by the <LoginManagementBase /> component at the src\components\Account\index.js file.
+
+CARDS
+	The Admin route displayed an <ul> with every user as a <li>, the <li> also shows a link to a 'detail' route for the user, we can render that <li> as a material ui card, in order to do that the src\components\Admin\UserCard.js component was created, it gets a 'user' object and renders it as a card.
+
+	This component is called in the render method of the UserListBase component in the src\components\Admin\index.js file. 
 
 https://material-ui.com/components/text-fields/
 https://material-ui.com/components/buttons/
 https://material-ui.com/components/grid/
+https://material-ui.com/components/cards/
+https://material-ui.com/guides/composition/#button
 
-VAS EN src\components\Home\index.js
+IMPORTANT: We need to fix the lateral menu resize, because it uses a lot of space in the mobile view.
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial
@@ -1332,5 +1343,6 @@ https://firebase.google.com/docs/database/admin/save-data
 https://developers.facebook.com/
 
 https://material-ui.com/getting-started/installation/
+https://material-ui.com/guides/composition/#button
 
 https://reactjs.org/docs/hooks-state.html

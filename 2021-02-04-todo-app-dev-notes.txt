@@ -1329,7 +1329,16 @@ https://material-ui.com/components/grid/
 https://material-ui.com/components/cards/
 https://material-ui.com/guides/composition/#button
 
-IMPORTANT: We need to fix the lateral menu resize, because it uses a lot of space in the mobile view.
+IMPORTANT: We need to fix the lateral menu resize, because it uses a lot of space in the mobile view. Done, I substracted 200 units to the drawer width in the css section in the src\components\App\index.js file.
+
+	drawer: {
+		width: drawerWidth-200,
+		flexShrink: 0,
+	},
+
+It looks good but, it the drawer doesn't automatically close when clicking a link. Also there are some components that doesn't shirnk correctly in the mobile view.
+
+But besides that, we're done :). 
 
 COOL LINKS:
 https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial

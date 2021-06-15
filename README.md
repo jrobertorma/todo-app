@@ -1,3 +1,8 @@
+# To-do list app with React and Firebase
+This is a small app that connects to a firebase instance to allow the users to create a todo list with it's correspondant list items.
+
+This project was created with Yarn and Create React App, so I will left the links and notes to the Yarn docs.
+----------
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

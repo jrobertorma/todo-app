@@ -1336,7 +1336,7 @@ IMPORTANT: We need to fix the lateral menu resize, because it uses a lot of spac
 		flexShrink: 0,
 	},
 
-It looks good but, it the drawer doesn't automatically close when clicking a link. Also there are some components that doesn't shirnk correctly in the mobile view.
+It looks good but, the drawer doesn't automatically close when clicking a link. Also there are some components that doesn't shrink correctly in the mobile view.
 
 But besides that, we're done :). 
 

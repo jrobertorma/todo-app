@@ -26,3 +26,5 @@ yarn-error.log*
 /src/components/Firebase/firebase.js
 
 .eslintcache
+
+/to-do-app-screenshots

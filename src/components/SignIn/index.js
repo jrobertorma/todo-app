@@ -9,6 +9,10 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const ERROR_CODE_ACCOUNT_EXISTS = 
     'auth/account-exists-with-different-credential';
@@ -23,12 +27,46 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 const SingInPage = () => {
     return(
         <Box mt={8}>
-            <h1>SignIn</h1>
-            <SignInForm />
-            <SignInGoogle />
-            <SignInFacebook />
-            <PasswordForgetLink />
-            <SignUpLink />
+            <Grid 
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-end"
+            >
+                <Grid item xs={12}>
+                    <Box my={1}>
+                        <Typography variant="h4" gutterBottom>
+                            Sign In
+                        </Typography>
+                    </Box>
+                </Grid>
+                <Grid item xs={12}>
+                    <Box my={1}>
+                        <SignInForm />
+                    </Box>
+                </Grid>
+                <Grid item xs={12}>
+                    <Box my={1}>
+                        <SignInGoogle />
+                    </Box>
+                </Grid>
+                <Grid item xs={12}>
+                    <Box my={1}>
+                        <SignInFacebook />
+                    </Box>
+                    
+                </Grid>
+                <Grid item xs={12}>
+                    <Box my={1}>
+                        <PasswordForgetLink />
+                    </Box>
+                </Grid>
+                <Grid item xs={12}>
+                    <Box my={1}>
+                        <SignUpLink />
+                    </Box>
+                </Grid>
+            </Grid>
         </Box>
     );
 }
@@ -72,26 +110,72 @@ class SignInFormBase extends Component {
 
         return(
             <form onSubmit={this.onSubmit}>
-                <input 
-                    name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
-                <input
-                    name="password"
-                    value={password}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Password"
-                />
+                <Grid 
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="flex-end"
+                >
+                    <Grid item xs={2}>
+                    {/* <input 
+                            name="email"
+                            value={email}
+                            onChange={this.onChange}
+                            type="text"
+                            placeholder="Email Address"
+                        /> */}
+                        <TextField  
+                            id="email"
+                            name="email"
+                            value={email}
+                            onChange={this.onChange}
+                            type="text"
+                            label="Email Address"
+                        />
+                    </Grid>
+                    
+                    <Grid item xs={2}>
+                    {/* <input
+                            name="password"
+                            value={password}
+                            onChange={this.onChange}
+                            type="password"
+                            placeholder="Password"
+                        /> */}
 
-                <button disabled={isInvalid} type="submit">
-                    Sign In
-                </button>
+                        <TextField  
+                            id="password"
+                            name="password"
+                            value={password}
+                            onChange={this.onChange}
+                            type="password"
+                            label="Password"
+                        />
+                    </Grid>
+                    
+                    <Grid item xs={2}>
+                        {/* <button disabled={isInvalid} type="submit">
+                            Sign In
+                        </button> */}
 
-                {error && <p>{error.message}</p>}
+                        <Button
+                            disabled={isInvalid}
+                            color="primary" 
+                            variant="contained" 
+                            type="submit"
+                        >
+                            Sign In
+                        </Button>
+                    </Grid>
+                    
+                    <Grid item xs={12}>
+                        {error && 
+                            <Typography variant="body1" gutterBottom>
+                                {error.message}
+                            </Typography>}
+                    </Grid>
+                    
+                </Grid>
             </form>
         );
     }
@@ -145,9 +229,19 @@ class SignInGoogleBase extends Component {
 
         return (
             <form onSubmit={this.onSubmit}>
-                <button type="submit">Sign In with Google</button>
+                {/* <button type="submit">Sign In with Google</button> */}
+                <Button
+                    color="primary" 
+                    variant="contained" 
+                    type="submit"
+                >
+                    Sign In with Google
+                </Button>
 
-                {error && <p>{error.message}</p>}
+                {error && 
+                    <Typography variant="body1" gutterBottom>
+                        {error.message}
+                    </Typography>}
             </form>
         );
     }
@@ -199,8 +293,22 @@ class SignInFacebookBase extends Component {
         const { error } = this.state;
         return ( 
             <form onSubmit={this.onSubmit}>
-                <button type="submit" >Sign In with Facebook</button>
-                { error && <p>{error.message}</p> }
+                {/* <button type="submit" >
+                    Sign In with Facebook
+                </button> */}
+
+                <Button
+                    color="primary" 
+                    variant="contained" 
+                    type="submit"
+                >
+                    Sign In with Facebook
+                </Button>
+
+                { error && 
+                    <Typography variant="body1" gutterBottom>
+                        {error.message}
+                    </Typography>}
             </form>
          );
     }

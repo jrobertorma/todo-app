@@ -1,7 +1,25 @@
 # To-do list app with React and Firebase
 This is a small app that connects to a firebase instance to allow the users to create a todo list with it's correspondant list items.
 
+## Pages
+The app hast six 'root' pages, that call all the components needed to provide the to-do list functionalities.
+
+### Landing page
+It is accesible to all the users, even when they are not logged in, it only displays a text, you could add anything that you want all the people to see in this section.
+
+![landing](https://user-images.githubusercontent.com/37276129/122223287-a7b53480-ce78-11eb-9d4c-c3635d968d8d.PNG)
+
+### Sign In page
+
+### Home page
+
+
+### Account page
+
+### Admin page
+
 This project was created with Yarn and Create React App, so I will left the links and notes to the Yarn docs.
+
 ----------
 # Getting Started with Create React App
 

@@ -6,6 +6,10 @@ import * as ROLES from '../../constants/roles';
 import { withFirebase } from '../Firebase';
 
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const INITIAL_STATE = {
     username: '',
@@ -28,8 +32,26 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 const SignUpPage = () => {
     return ( 
         <Box mt={8}>
-            <h1>SignUp</h1>
-            <SignUpForm />
+            <Grid 
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-end"
+            >
+                <Grid item xs={12}>
+                    <Box my={1}>
+                        <Typography variant="h4" gutterBottom>
+                            Sign Up
+                        </Typography>
+                    </Box>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Box my={1}>
+                        <SignUpForm />
+                    </Box>
+                </Grid>
+            </Grid>
         </Box>
     );
 }
@@ -116,53 +138,121 @@ class SignUpFormBase extends Component {
 
         return(
             <form onSubmit={this.onSubmit}>
-                <input
-                    name="username"
-                    value={username}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Full Name"
-                />
-                
-                <input
-                    name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
-                
-                <input
-                    name="passwordOne"
-                    value={passwordOne}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Password"
-                />
-                
-                <input
-                    name="passwordTwo"
-                    value={passwordTwo}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Confirm Password"
-                />
+                <Grid 
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="flex-end"
+                >
+                    <Grid item xs={12}>
+                        {/* <input
+                            name="username"
+                            value={username}
+                            onChange={this.onChange}
+                            type="text"
+                            placeholder="Full Name"
+                        /> */}
+                        <TextField  
+                            id="username"
+                            name="username"
+                            value={username}
+                            onChange={this.onChange}
+                            type="text"
+                            label="Full Name"
+                        />
+                    </Grid>
+                    
+                    <Grid item xs={12}>
+                        {/* <input
+                            name="email"
+                            value={email}
+                            onChange={this.onChange}
+                            type="text"
+                            placeholder="Email Address"
+                        /> */}
+                        <TextField  
+                            id="email"
+                            name="email"
+                            value={email}
+                            onChange={this.onChange}
+                            type="text"
+                            label="Email Address"
+                        />
+                    </Grid>
+                    
+                    <Grid item xs={12}>
+                        {/* <input
+                            name="passwordOne"
+                            value={passwordOne}
+                            onChange={this.onChange}
+                            type="password"
+                            placeholder="Password"
+                        /> */}
+                        <TextField  
+                            id="passwordOne"
+                            name="passwordOne"
+                            value={passwordOne}
+                            onChange={this.onChange}
+                            type="password"
+                            label="Password"
+                        />
+                    </Grid>
+                    
+                    <Grid item xs={12}>
+                        {/* <input
+                            name="passwordTwo"
+                            value={passwordTwo}
+                            onChange={this.onChange}
+                            type="password"
+                            placeholder="Confirm Password"
+                        /> */}
+                        <TextField  
+                            id="passwordTwo"
+                            name="passwordTwo"
+                            value={passwordTwo}
+                            onChange={this.onChange}
+                            type="password"
+                            label="Confirm Password"
+                        />
+                    </Grid>
 
-                <label>
-                    Admin:
-                    <input
-                        name="isAdmin"
-                        type="checkbox"
-                        checked={isAdmin}
-                        onChange={this.onChangeCheckbox}
-                    />
-                </label>
-                
-                <button disabled={isInvalid} type="submit">
-                    Sign Up
-                </button>
+                    <Grid item xs={12}>
+                        <label>
+                            Admin:
+                            <input
+                                name="isAdmin"
+                                type="checkbox"
+                                checked={isAdmin}
+                                onChange={this.onChangeCheckbox}
+                            />
+                        </label>
+                    </Grid>
+                    
+                    <Grid item xs={12}>
+                        {/* <button disabled={isInvalid} type="submit">
+                            Sign Up
+                        </button> */}
+                        <Box my={1}>
+                            <Button
+                                disabled={isInvalid}
+                                color="primary" 
+                                variant="contained" 
+                                type="submit"
+                            >
+                                Sign Up
+                            </Button>
+                        </Box>
+                    </Grid>
 
-                {error && <p>{error.message}</p> /*conditional rendering*/}
+                    <Grid item xs={12}>
+                        <Box my={1}>
+                            {error && 
+                                    <Typography variant="body1" gutterBottom>
+                                        {error.message}
+                                    </Typography> /*conditional rendering*/}
+                        </Box>
+                    </Grid>
+                </Grid>
             </form>
         );
     }

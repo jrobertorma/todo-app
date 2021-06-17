@@ -10,6 +10,13 @@ It is accesible to all the users, even when they are not logged in, it only disp
 ![landing](https://user-images.githubusercontent.com/37276129/122223287-a7b53480-ce78-11eb-9d4c-c3635d968d8d.PNG)
 
 ### Sign In page
+This page allows the user to sign in or create a new account. It uses the firebase auth API so aditional sign up methos can be used, such as a Google or Facebook account.
+
+![sign-in](https://user-images.githubusercontent.com/37276129/122400592-7a808900-cf41-11eb-8423-8cfe768be5f6.PNG)
+
+It also has links to a create account page. In this versión of the app the user can choose to be an 'Admin' by activating the checkbox field, you should remove this and add it to other components, e.g. the admin page.
+
+
 
 ### Home page
 
@@ -21,7 +28,7 @@ It is accesible to all the users, even when they are not logged in, it only disp
 This project was created with Yarn and Create React App, so I will left the links and notes to the Yarn docs.
 
 ----------
-# Getting Started with Create React App
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

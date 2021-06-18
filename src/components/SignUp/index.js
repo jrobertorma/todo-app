@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const INITIAL_STATE = {
     username: '',
@@ -217,7 +219,7 @@ class SignUpFormBase extends Component {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <label>
+                        {/* <label>
                             Admin:
                             <input
                                 name="isAdmin"
@@ -225,7 +227,20 @@ class SignUpFormBase extends Component {
                                 checked={isAdmin}
                                 onChange={this.onChangeCheckbox}
                             />
-                        </label>
+                        </label> */}
+                        <Box my={1}>
+                            <FormControlLabel
+                                label="Admin"
+                                control={
+                                    <Checkbox
+                                        checked={isAdmin}
+                                        onChange={this.onChangeCheckbox}
+                                        name="isAdmin"
+                                        color="primary"
+                                    />
+                                }
+                            />
+                        </Box>
                     </Grid>
                     
                     <Grid item xs={12}>

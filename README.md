@@ -28,7 +28,7 @@ The home page is a protected component that is only visible to logged in users, 
 ### Account page
 Another protected component, it allows the user to reset the password by sending an email with a link or by setting the password manually. This page also lets the user link or unlink other authentication methods.
 
-![account](https://user-images.githubusercontent.com/37276129/122565806-82592f80-d00c-11eb-81f5-b024fc262e89.PNG)
+![account](https://user-images.githubusercontent.com/37276129/122566525-3bb80500-d00d-11eb-9650-18e560bb87a6.PNG)
 
 ### Admin page
 

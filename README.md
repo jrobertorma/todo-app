@@ -31,10 +31,17 @@ Another protected component, it allows the user to reset the password by sending
 ![account](https://user-images.githubusercontent.com/37276129/122566525-3bb80500-d00d-11eb-9650-18e560bb87a6.PNG)
 
 ### Admin page
+This page displays all the app users and has a link to a detail component that also allows to send a reset password link.
 
+![admin](https://user-images.githubusercontent.com/37276129/122653913-8e78e600-d10d-11eb-8bc8-5019ebcd3d18.PNG)
+
+![user_detail](https://user-images.githubusercontent.com/37276129/122654023-2545a280-d10e-11eb-8aa2-8980348e199e.PNG)
+
+----------
 This project was created with Yarn and Create React App, so I will left the links and notes to the Yarn docs.
 
 ----------
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

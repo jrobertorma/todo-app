@@ -2,6 +2,15 @@
 This is a small app that connects to a firebase instance to allow the users to create a todo list with it's correspondant list items.
 
 ## Initial configuration
+To install the project you need to follow the next steps:
+
+1. Clone the repository
+2. Configure your firebase realtime database and auth settings in the firebase console
+3. Copy the connection object into a new file at src\components\Firebase\firebase.js, you can copy src\components\Firebase\firebase-connection-template.js and rename it to firebase.js with your firebase connection object
+4. Run 'yarn install', to install the project dependencies
+5. Run 'yarn start', to start the development deploy
+
+There are more yarn notes at the end of this file.
 
 ## Pages
 The app hast six 'root' pages, that call all the components needed to provide the to-do list functionalities.
